@@ -1,13 +1,9 @@
 <script setup>
-import { RouterLink, RouterView } from 'vue-router'
 import HelloWorld from './components/HelloWorld.vue'
 </script>
 
 <template>
-        
-  
-        <!-- <RouterLink to="/">home</RouterLink> -->
-    <RouterView />
+  <router-view></router-view>
 </template>
 
 <style scoped>

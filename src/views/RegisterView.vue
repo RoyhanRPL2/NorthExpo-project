@@ -27,7 +27,7 @@ import { ref } from 'vue'
                     <input type="password" placeholder="Password" />
                 </div>
                 <button id="Sign-Up">Daftar</button>
-                <p id="message">Sudah Mempunyai Akun? <a href="/login">Masuk</a></p>
+                <p id="message">Sudah Mempunyai Akun? <router-link :to="{name: 'login'}">Masuk</router-link></p>
             </form>
         </div>
     </div>

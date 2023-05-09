@@ -24,8 +24,10 @@
                     </div>
                     <a href="#">Forgot Password?</a>
                 </div>
-                <button id="Sign-Up">Masuk</button>
-                <p id="message">Sudah Mempunyai Akun? <a href="/register">Masuk</a></p>
+                <router-link :to="{name: 'home'}">
+                    <p>Masuk</p>
+                </router-link>
+                <p id="message">Belum Mempunyai Akun? <router-link :to="{name: 'register'}">Daftar</router-link></p>
             </form>
         </div>
     </div>
@@ -119,18 +121,26 @@
     color: #667085;
 }   
 
-.login-form button {
+.login-form form > a {
     width: 100%;
     height: 2.8rem;
     border: none;
     border-radius: 0.5rem;
     background-color: #15ACC5;
-    color: #fff;
+    margin-bottom: 1.3rem;
+    cursor: pointer;
+    text-decoration: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.login-form form > a > p {
     font-family: 'Poppins', sans-serif;
     font-size: 1rem;
     font-weight: 500;
-    margin-bottom: 1.3rem;
-    cursor: pointer;
+    color: #fff;
+    text-decoration: none;
 }
 
 .login-form form .help-service {
