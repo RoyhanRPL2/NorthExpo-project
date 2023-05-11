@@ -3,6 +3,12 @@ import footerComponent from '../components/footer.vue'
 </script>
 
 <template>
+  <header>
+    <router-link :to="{name: 'destinasi'}">
+      <p>destinasi</p>
+    </router-link>
+  </header>
+  
   <main>
     <h1>Home Page</h1>
   </main>
@@ -10,6 +16,11 @@ import footerComponent from '../components/footer.vue'
 </template>
 
 <style>
+header {
+  padding: 20px;
+}
+
+
 main {
   height: 100vh;
   width: 100%;
