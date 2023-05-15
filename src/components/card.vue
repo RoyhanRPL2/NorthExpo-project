@@ -10,7 +10,7 @@
             </div>
 
             <div class="lokasi">
-                <font-awesome-icon class="icon" icon="fa-solid fa-location-dot" size="lg" />
+                <font-awesome-icon class="icon" icon="fa-solid fa-location-dot" size="xl" />
                 <p>Ds. Ketapang, Kec. Dawe</p>
             </div>
         </div>
@@ -19,8 +19,8 @@
 
 <style scoped>
 .container {
-    width: 300px;
-    height: 300px;
+    width: 400px;
+    height: 400px;
     background-size: cover;
     border-radius: 10px;
     display: flex;
@@ -29,14 +29,21 @@
     box-shadow: 20px 20px 60px #d9d9d9,
         -20px -20px 60px #ffffff;
     position: relative;
+    overflow: hidden;
+    margin: 1rem;
 }
 
 .container img {
     width: 100%;
     height: 100%;
-    object-fit: cover;
-    border-radius: 10px;
+    transition: 0.5s all ease-out;
 }
+
+.container:hover img {
+    transform: scale(1.5);
+}
+
+
 
 .category {
     width: 100%;
@@ -58,8 +65,10 @@
 
 .card-title {
     width: 100%;
+    height: 25%;
     display: flex;
     flex-direction: column;
+    justify-content: space-around;
     padding: 0.5rem 0.8rem;
     position: absolute;
     bottom: 0;
@@ -67,7 +76,7 @@
 
 .card-title p {
     font-family: 'Poppins', sans-serif;
-    font-size: 25px;
+    font-size: 1.7rem;
     font-weight: 600;
     color: #fff;
 }
@@ -84,8 +93,8 @@
 
 .card-title .lokasi p {
     font-family: 'Poppins', sans-serif;
-    font-size: 16px;
-    font-weight: normal;
+    font-size: 1rem;
+    font-weight: 300;
     color: #fff;
     background-color: transparent;
 }
