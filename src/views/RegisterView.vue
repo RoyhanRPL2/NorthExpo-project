@@ -1,6 +1,7 @@
 <script setup>
 import { RouterLink, RouterView } from 'vue-router'
 import { ref } from 'vue'
+
 </script>
 
 <template>
@@ -13,25 +14,61 @@ import { ref } from 'vue'
                 <h1>Selamat Datang di NorthExpo</h1>
                 <p>Silahkan Daftar Terlebih Dahulu</p>
             </div>
-            <form>
+            <form class="form-input" v-on:submit.prevent="register">
                 <div class="form-group">
                     <label for="Username">Username</label>
-                    <input type="text" placeholder="Nama" />
+                    <input type="text" placeholder="Nama" v-model="name"/>
                 </div>
                 <div class="form-group">
                     <label for="Email">Email</label>
-                    <input type="text" placeholder="Email" />
+                    <input type="email" placeholder="Email" v-model="email"/>
                 </div>
                 <div class="form-group">
                     <label for="Password">Password</label>
-                    <input type="password" placeholder="Password" />
+                    <input type="password" placeholder="Password" v-model="password"/>
                 </div>
-                <button id="Sign-Up">Daftar</button>
+                <button type="submit" class="button-register">Daftar</button>
                 <p id="message">Sudah Mempunyai Akun? <a href="/login">Masuk</a></p>
-            </form>
+                </form>
         </div>
     </div>
 </template>
+<script>
+import axios from 'axios';
+
+export default {
+    name: 'Register',
+    data() {
+      return {
+        name: '',
+        email: '',
+        password: '',
+   
+      }
+    },
+    
+    methods: {
+        async register(){
+            let result = await axios.post('https://admin.api.northexpokudus.com/api/auth/register',{
+                name: this.name,
+                email: this.email,
+                password: this.password,
+            });
+            console.warn(result);
+            if(result.status == 201 && result.data){
+                alert('Register Sukses');
+                localStorage.setItem('user-info', JSON.stringify(result.data));
+                this.$router.push('/login');
+            }
+        },
+        tes(){
+            console.log('Register Sukses');
+            alert('Register Sukses');
+        }
+        },
+}
+</script>
+
 
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
@@ -80,7 +117,7 @@ import { ref } from 'vue'
     color: #667085;
 }
 
-.register-form form {
+.register-form .form-input {
     width: 100%;
     display: flex;
     flex-direction: column;
@@ -88,7 +125,7 @@ import { ref } from 'vue'
     align-items: center;
 }
 
-.register-form form .form-group {
+.register-form .form-input .form-group {
     width: 100%;
     display: flex;
     flex-direction: column;
@@ -96,7 +133,7 @@ import { ref } from 'vue'
     margin-bottom: 1rem;
 }
 
-.register-form form .form-group label {
+.register-form .form-input .form-group label {
     font-family: 'Poppins', sans-serif;
     font-size: 1rem;
     font-weight: 500;
@@ -104,7 +141,7 @@ import { ref } from 'vue'
     color: var(--color-theme-950);;
 }
 
-.register-form > form > .form-group input {
+.register-form > .form-input > .form-group input {
     height: 3rem;
     padding-right: 0.2rem;
     border: 1px solid #667085;
@@ -133,7 +170,7 @@ import { ref } from 'vue'
     cursor: pointer;
 }
 
-.register-form form .help-service {
+.register-form .form-input .help-service {
     width: 100%;
     display: flex;
     flex-direction: row;
@@ -142,20 +179,20 @@ import { ref } from 'vue'
     margin-bottom: 1rem;
 }
 
-.register-form form .help-service .remember-me {
+.register-form .form-input .help-service .remember-me {
     display: flex;
     flex-direction: row;
     justify-content: center;
     align-items: center;
 }
 
-.register-form form .help-service .remember-me input {
+.register-form .form-input .help-service .remember-me input {
     width: 1rem;
     height: 1rem;
     margin-right: 0.5rem;
 }
 
-.register-form form .help-service .remember-me label {
+.register-form .form-input .help-service .remember-me label {
     font-family: 'Poppins', sans-serif;
     font-size: 0.9rem;
     font-weight: 500;
@@ -163,7 +200,7 @@ import { ref } from 'vue'
     cursor: pointer;
 }
 
-.register-form form .help-service a {
+.register-form .form-input .help-service a {
     font-family: 'Poppins', sans-serif;
     font-size: 0.9rem;
     font-weight: 500;
@@ -171,14 +208,14 @@ import { ref } from 'vue'
     text-decoration: none;
 }
 
-.register-form form #message {
+.register-form .form-input #message {
     font-family: 'Poppins', sans-serif;
     font-size: 0.9rem;
     font-weight: 500;
     color: #667085;
 }
 
-.register-form form #message > a {
+.register-form .form-input #message > a {
     font-family: 'Poppins', sans-serif;
     font-size: 0.9rem;
     font-weight: 500;
@@ -232,6 +269,8 @@ import { ref } from 'vue'
         text-align: center;
     }
 }
+
+
 
 @media screen and (max-width: 425px) {
     .register-form {
