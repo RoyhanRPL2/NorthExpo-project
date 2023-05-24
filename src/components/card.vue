@@ -1,5 +1,6 @@
 <template>
-    <div class="container">
+    <router-link :to="{name: 'detail-destinasi'}">
+        <div class="container">
         <img src="https://images.unsplash.com/photo-1571863478861-395857be5e07?crop=entropy&cs=srgb&fm=jpg&ixid=M3wzMjM4NDZ8MHwxfHJhbmRvbXx8fHx8fHx8fDE2ODM3NzMyMTZ8&ixlib=rb-4.0.3&q=85" alt="">
         <div class="category">
             <p>Nature Tourism</p>
@@ -15,6 +16,8 @@
             </div>
         </div>
     </div>
+    </router-link>
+    
 </template>
 
 <style scoped>

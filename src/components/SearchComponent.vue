@@ -54,7 +54,7 @@ const filteredPlaces = computed(() => {
     <div class="search-container">
         <div>
             <select id="category-filter" v-model="selectedCategory">
-                <option value="">Filter Kategori</option>
+                <option value="">Kategori</option>
                 <option v-for="category in categories" :key="category.id" :value="category.name" class="option">{{
                     category.name }}</option>
             </select>
@@ -62,7 +62,7 @@ const filteredPlaces = computed(() => {
         <span class="line"></span>
         <div>
             <select id="region-filter" v-model="selectedRegion">
-                <option value="">Filter Wilayah</option>
+                <option value="">Wilayah</option>
                 <option v-for="region in regions" :key="region.id" :value="region.name" class="option">{{ region.name }}
                 </option>
             </select>
