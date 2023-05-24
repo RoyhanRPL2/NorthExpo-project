@@ -8,14 +8,15 @@
                 <h1>Selamat Datang Kembali di NorthExpo</h1>
                 <p>Silahkan Login Terlebih Dahulu</p>
             </div>
-            <form>
+
+            <form v-on:submit.prevent="Login">
                 <div class="form-group">
                     <label for="Email">Email</label>
-                    <input type="text" placeholder="Email" />
+                    <input type="text" placeholder="Email" v-model="email">
                 </div>
                 <div class="form-group">
                     <label for="Password">Password</label>
-                    <input type="password" placeholder="Password" />
+                    <input type="password" placeholder="Password" v-model="password">
                 </div>
                 <div class="help-service">
                     <div class="remember-me">
@@ -24,15 +25,43 @@
                     </div>
                     <a href="#">Forgot Password?</a>
                 </div>
-                <router-link :to="{name: 'home'}">
-                    <p>Masuk</p>
-                </router-link>
-                <p id="message">Belum Mempunyai Akun? <router-link :to="{name: 'register'}">Daftar</router-link></p>
+
+                <button id="Sign-Up" >Masuk</button>
+                <p id="message">Belum Mempunyai Akun? <a href="/register">Daftar</a></p>
             </form>
         </div>
     </div>
 </template>
 
+<script>
+import axios from 'axios'
+export default {
+    name: 'Login',
+	data() {
+        return {
+            email: '',
+			password: '',
+		}
+	},
+	methods: {
+        async Login() {
+			let result = await axios.post('https://admin.api.northexpokudus.com/api/auth/login', {
+				email: this.email,
+				password: this.password,
+			});
+			console.warn(result);     
+			if (result.status == 200 && result.data) {
+				alert('Login Sukses');
+				localStorage.setItem('user-info', JSON.stringify(result.data));
+				this.$router.push('/home');
+			}
+		}
+	}
+}
+
+
+
+</script>
 <style>
 
 @import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
@@ -121,7 +150,8 @@
     color: #667085;
 }   
 
-.login-form form > a {
+.login-form button {
+
     width: 100%;
     height: 2.8rem;
     border: none;
@@ -239,17 +269,6 @@
 
     .login-form {
         width: 80%;
-    }
-
-    .login-form .title h1 {
-        font-size: 1.5rem;
-    }
-}
-
-@media screen and (max-width: 375px) {
-
-    .login-form {
-        width: 85%;
     }
 
     .login-form .title h1 {

@@ -12,6 +12,15 @@
   },
   "dependencies": {
     "swiper": "^8.4.7",
+
+    "@fortawesome/fontawesome-svg-core": "^6.4.0",
+    "@fortawesome/free-brands-svg-icons": "^6.4.0",
+    "@fortawesome/free-regular-svg-icons": "^6.4.0",
+    "@fortawesome/free-solid-svg-icons": "^6.4.0",
+    "@fortawesome/vue-fontawesome": "^3.0.3",
+
+    "axios": "^1.4.0",
+
     "vue": "^3.2.47",
     "vue-awesome-swiper": "^5.0.1",
     "vue-router": "^4.1.6"
