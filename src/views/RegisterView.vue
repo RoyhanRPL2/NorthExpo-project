@@ -29,7 +29,7 @@ import { ref } from 'vue'
                     <input type="password" placeholder="Password" v-model="password"/>
                 </div>
                 <button type="submit" class="button-register">Daftar</button>
-                <p id="message">Sudah Mempunyai Akun? <a href="/login">Masuk</a></p>
+                <p id="message">Sudah Mempunyai Akun? <a href="/">Masuk</a></p>
                 </form>
         </div>
     </div>
@@ -59,7 +59,7 @@ export default {
             if(result.status == 201 && result.data){
                 alert('Register Sukses');
                 localStorage.setItem('user-info', JSON.stringify(result.data));
-                this.$router.push('/login');
+                this.$router.push('/');
             }
         },
         tes(){
