@@ -11,6 +11,6 @@ import TitleMain from '../components/TitleMain.vue'
 <style scoped>
 .main-section {
     width: 100%;
-    overflow-x: hidden;
+    overflow-y: hidden;
 }
 </style>
