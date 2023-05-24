@@ -1,5 +1,6 @@
 @import './base.css';
 
+
 *::-webkit-scrollbar {
     display: none;
 }
@@ -37,3 +38,4 @@ a,
     padding: 0 2rem;
   }
 } */
+

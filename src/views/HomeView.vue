@@ -10,12 +10,15 @@ import footerComponent from '../components/footer.vue'
   </header>
   
   <main>
+
     <h1>Home Page</h1>
+
   </main>
   <footerComponent/>
 </template>
 
 <style>
+
 header {
   padding: 20px;
 }
@@ -29,4 +32,12 @@ main {
   justify-content: center;
   align-items: center;
 }
+
+h1 {
+  font-size: 3rem;
+  text-align: center;
+  margin-top: 2rem;
+  color: var(--color-theme-950);
+}
 </style>
+
