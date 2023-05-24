@@ -87,8 +87,6 @@ import searchComponent from '../components/SearchComponent.vue'
     transform: translate(-50%, -50%);
 }
 
-
-
 .main {
     height: 100%;
     width: 100%;
