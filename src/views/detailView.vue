@@ -5,7 +5,7 @@ import router from '../router/index.js'
 import { ref, computed } from 'vue';
 
 const Muria = ref({
-    nama: 'Makam Sunan Muria',
+    nama: 'Gunung Muria',
     img: ['https://images.unsplash.com/photo-1518070588484-2b53926cba76?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80', 'https://images.unsplash.com/photo-1536077891673-5a03ebcd8ebe?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80', 'https://images.unsplash.com/photo-1585357214259-f977cc7d73a4?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80', 'https://images.unsplash.com/photo-1588668214407-6ea9a6d8c272?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1171&q=80', 'https://images.unsplash.com/photo-1616813387346-12ffa5dc5e5b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1169&q=80']
 });
 
@@ -21,11 +21,11 @@ const changeImage = (img) => {
     <br>
     <div id="detail" class="container">
         <div class="header">
-            <p class="category">Wisata Religi</p>
-            <h1>Makam Sunan Muria</h1>
+            <p class="category">Wisata Alam</p>
+            <h1>Gunung Muria</h1>
             <div class="lokasi">
                 <font-awesome-icon class="icon" icon="fa-solid fa-location-dot" size="xl" />
-                <p>Ds. Ketapang, Kec. Dawe</p>
+                <p> Desa Tempur, Keling, Kabupaten Jepara, Jawa Tengah</p>
             </div>
         </div>
 
@@ -39,20 +39,16 @@ const changeImage = (img) => {
         <div class="description-container">
             <h1>Deskripsi Wisata</h1>
             <p>
-                Makam Sunan Muria merupakan salah satu bukti arkeologis yang berkenaan dengan masa awal perkembangan Islam
-                di
-                Jawa khususnya di wilayah Kudus, Pati dan sekitarnya. Makam Sunan Muria berada di puncak Gunung Muria,
-                tepatnya
-                Desa Colo, Kecamatan Dawe, sekitar 1600 m dpl dan selalu ramai peziarah.
+                Gunung Muria adalah sebuah gunung yang terletak di Jawa Tengah, Indonesia. Gunung ini memiliki ketinggian sekitar 1.602 meter di atas permukaan laut dan terletak di sebelah barat laut Kota Kudus. Gunung Muria termasuk dalam kawasan Taman Nasional Gunung Muria, yang memiliki luas sekitar 62.000 hektar.
+
+Gunung Muria memiliki lanskap yang indah dan beragam. Di puncak gunung ini terdapat hutan dengan berbagai jenis flora dan fauna endemik. Selain itu, terdapat juga beberapa air terjun yang cantik dan mata air yang jernih di sekitar gunung ini.
             </p>
         </div>
 
         <div class="map-container">
             <h1>Lokasi</h1>
             <div class="map">
-                <iframe
-                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3959.740742821301!2d110.868748314776!3d-6.804999995065897!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1e3!2sMakam%20Sunan%20Muria!5e0!3m2!1sid!2sid!4v1630763898989!5m2!1sid!2sid"
-                    width="100%" height="450" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d15852.973195984625!2d110.88053354993292!3d-6.616666344038223!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e7127ef4fe437b5%3A0x27448829466e8cbc!2sMount%20Muria!5e0!3m2!1sen!2sid!4v1684898339474!5m2!1sen!2sid" width="100%" height="450" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
             </div>
         </div>
 
