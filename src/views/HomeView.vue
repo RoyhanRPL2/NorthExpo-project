@@ -1,43 +1,19 @@
 <script setup>
-import footerComponent from '../components/footer.vue'
+// import TheWelcome from '../components/TheWelcome.vue'
+// import TitleMain from '../components/TitleMain.vue'
+import MainSection from '../components/MainSection.vue';
+import AboutSection from '../components/AboutSection.vue';
+import footerComponent from '../components/footer.vue';
+import KulinerSection from '../components/KulinerSection.vue';
 </script>
 
 <template>
-  <header>
-    <router-link :to="{name: 'destinasi'}">
-      <p>destinasi</p>
-    </router-link>
-  </header>
-  
   <main>
-
-    <h1>Home Page</h1>
-
+    <MainSection />
+    <!-- <TitleMain /> -->
+    <!-- <TheWelcome /> -->
   </main>
+  <AboutSection />
+  <KulinerSection />
   <footerComponent/>
 </template>
-
-<style>
-
-header {
-  padding: 20px;
-}
-
-
-main {
-  height: 100vh;
-  width: 100%;
-  background-color: var(--color-primary-600);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-h1 {
-  font-size: 3rem;
-  text-align: center;
-  margin-top: 2rem;
-  color: var(--color-theme-950);
-}
-</style>
-

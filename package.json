@@ -11,6 +11,7 @@
     "format": "prettier --write src/"
   },
   "dependencies": {
+    "swiper": "^8.4.7",
 
     "@fortawesome/fontawesome-svg-core": "^6.4.0",
     "@fortawesome/free-brands-svg-icons": "^6.4.0",
@@ -21,6 +22,7 @@
     "axios": "^1.4.0",
 
     "vue": "^3.2.47",
+    "vue-awesome-swiper": "^5.0.1",
     "vue-router": "^4.1.6"
   },
   "devDependencies": {

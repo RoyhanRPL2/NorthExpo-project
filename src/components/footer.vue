@@ -59,6 +59,7 @@ footer {
     flex-direction: row;
     justify-content: center;
     align-items: center;
+    position: relative;
 }
 
 
