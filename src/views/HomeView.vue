@@ -4,6 +4,7 @@
 import MainSection from '../components/MainSection.vue';
 import AboutSection from '../components/AboutSection.vue';
 import footerComponent from '../components/footer.vue';
+import KulinerSection from '../components/KulinerSection.vue';
 </script>
 
 <template>
@@ -13,5 +14,6 @@ import footerComponent from '../components/footer.vue';
     <!-- <TheWelcome /> -->
   </main>
   <AboutSection />
+  <KulinerSection />
   <footerComponent/>
 </template>
