@@ -14,6 +14,7 @@ import { ref } from 'vue'
                 <h1>Selamat Datang di NorthExpo</h1>
                 <p>Silahkan Daftar Terlebih Dahulu</p>
             </div>
+
             <form class="form-input" v-on:submit.prevent="register">
                 <div class="form-group">
                     <label for="Username">Username</label>
@@ -70,6 +71,7 @@ export default {
 </script>
 
 
+
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
 
@@ -117,6 +119,7 @@ export default {
     color: #667085;
 }
 
+
 .register-form .form-input {
     width: 100%;
     display: flex;
@@ -124,6 +127,7 @@ export default {
     justify-content: center;
     align-items: center;
 }
+
 
 .register-form .form-input .form-group {
     width: 100%;
@@ -133,6 +137,7 @@ export default {
     margin-bottom: 1rem;
 }
 
+
 .register-form .form-input .form-group label {
     font-family: 'Poppins', sans-serif;
     font-size: 1rem;
@@ -140,6 +145,7 @@ export default {
     margin-bottom: 0.5rem;
     color: var(--color-theme-950);;
 }
+
 
 .register-form > .form-input > .form-group input {
     height: 3rem;
@@ -170,7 +176,9 @@ export default {
     cursor: pointer;
 }
 
+
 .register-form .form-input .help-service {
+
     width: 100%;
     display: flex;
     flex-direction: row;
@@ -186,11 +194,13 @@ export default {
     align-items: center;
 }
 
+
 .register-form .form-input .help-service .remember-me input {
     width: 1rem;
     height: 1rem;
     margin-right: 0.5rem;
 }
+
 
 .register-form .form-input .help-service .remember-me label {
     font-family: 'Poppins', sans-serif;
@@ -200,6 +210,7 @@ export default {
     cursor: pointer;
 }
 
+
 .register-form .form-input .help-service a {
     font-family: 'Poppins', sans-serif;
     font-size: 0.9rem;
@@ -208,12 +219,14 @@ export default {
     text-decoration: none;
 }
 
+
 .register-form .form-input #message {
     font-family: 'Poppins', sans-serif;
     font-size: 0.9rem;
     font-weight: 500;
     color: #667085;
 }
+
 
 .register-form .form-input #message > a {
     font-family: 'Poppins', sans-serif;
@@ -270,20 +283,4 @@ export default {
     }
 }
 
-
-
-@media screen and (max-width: 425px) {
-    .register-form {
-        width: 85%;
-    }
-
-    .register-form img {
-        width: 100px;
-        height: 40px;
-    }
-
-    .register-form .title h1 {
-        font-size: 1.5rem;
-    }
-}
 </style>

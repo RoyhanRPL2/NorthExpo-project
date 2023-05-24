@@ -8,6 +8,7 @@
                 <h1>Selamat Datang Kembali di NorthExpo</h1>
                 <p>Silahkan Login Terlebih Dahulu</p>
             </div>
+
             <form v-on:submit.prevent="Login">
                 <div class="form-group">
                     <label for="Email">Email</label>
@@ -24,12 +25,15 @@
                     </div>
                     <a href="#">Forgot Password?</a>
                 </div>
+
                 <button id="Sign-Up" >Masuk</button>
                 <p id="message">Belum Mempunyai Akun? <a href="/register">Daftar</a></p>
+
             </form>
         </div>
     </div>
 </template>
+
 <script>
 import axios from 'axios'
 export default {
@@ -59,6 +63,7 @@ export default {
 
 
 </script>
+
 <style>
 
 @import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
@@ -153,13 +158,14 @@ export default {
     border: none;
     border-radius: 0.5rem;
     background-color: #15ACC5;
-    color: #fff;
-    font-family: 'Poppins', sans-serif;
-    font-size: 1rem;
-    font-weight: 500;
     margin-bottom: 1.3rem;
     cursor: pointer;
+    text-decoration: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
+
 
 .login-form form .help-service {
     width: 100%;
@@ -274,4 +280,5 @@ export default {
         font-size: 1.5rem;
     }
 }
+
 </style>
