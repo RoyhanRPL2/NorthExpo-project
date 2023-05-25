@@ -7,14 +7,15 @@
 
 <template>
     <div class="navbar">
-        <img :src="NorthExpoLogo" alt="North Expo Logo" id="logo">
-
+        <router-link :to="{name: 'home'}">
+            <img :src="NorthExpoLogo" alt="North Expo Logo" id="logo">
+        </router-link>
         <nav class="nav-links">
             <ul>
                 <li><a href="#" class="underline">Beranda</a></li>
                 <li><a href="#about-us" class="underline">Tentang Kami</a></li>
-                <li><a href="/destination" class="underline">Destinasi</a></li>
-                <li><a href="/tourist-map" class="underline">Peta Wisata</a></li>
+                <li><a href="/destinasi" class="underline">Destinasi</a></li>
+                <li><a href="/map" class="underline">Peta Wisata</a></li>
             </ul>
         </nav>
 
