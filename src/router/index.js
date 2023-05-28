@@ -25,6 +25,11 @@ const routes = [
     path: '/detail',
     name: 'detail-destinasi',
     component: () => import('../views/detailView.vue')
+  },
+  {
+    path: '/map',
+    name: 'map',
+    component: () => import('../views/mapTourist.vue')
   }
 ]
 

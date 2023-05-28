@@ -3,6 +3,7 @@ import App from './App.vue'
 import login from './views/LoginView.vue'
 import router from './router'
 
+
 import './assets/main.css'
 
 import { library } from '@fortawesome/fontawesome-svg-core'

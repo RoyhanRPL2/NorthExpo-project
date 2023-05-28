@@ -11,16 +11,15 @@
     "format": "prettier --write src/"
   },
   "dependencies": {
-    "swiper": "^8.4.7",
-
     "@fortawesome/fontawesome-svg-core": "^6.4.0",
     "@fortawesome/free-brands-svg-icons": "^6.4.0",
     "@fortawesome/free-regular-svg-icons": "^6.4.0",
     "@fortawesome/free-solid-svg-icons": "^6.4.0",
     "@fortawesome/vue-fontawesome": "^3.0.3",
-
     "axios": "^1.4.0",
-
+    "leaflet.smooth_marker_bouncing": "^3.0.2",
+    "maplibre-gl": "^3.0.0",
+    "swiper": "^8.4.7",
     "vue": "^3.2.47",
     "vue-awesome-swiper": "^5.0.1",
     "vue-router": "^4.1.6"
@@ -28,11 +27,13 @@
   "devDependencies": {
     "@rushstack/eslint-patch": "^1.2.0",
     "@vitejs/plugin-vue": "^4.0.0",
+    "@vue-leaflet/vue-leaflet": "^0.9.0",
     "@vue/eslint-config-prettier": "^7.1.0",
     "@vue/test-utils": "^2.3.0",
     "eslint": "^8.34.0",
     "eslint-plugin-vue": "^9.9.0",
     "jsdom": "^21.1.0",
+    "leaflet": "^1.9.4",
     "prettier": "^2.8.4",
     "vite": "^4.1.4",
     "vitest": "^0.29.1"
