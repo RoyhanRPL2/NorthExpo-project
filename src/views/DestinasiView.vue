@@ -21,11 +21,6 @@ import searchComponent from '../components/SearchComponent.vue'
     </div>
     <div class="main">
         <card />
-        <card />
-        <card />
-        <card />
-        <card />
-        <card />
     </div>
     <div class="pagination">
 
@@ -88,12 +83,12 @@ import searchComponent from '../components/SearchComponent.vue'
 }
 
 .main {
-    height: 100%;
     width: 100%;
+    height: 100%;
     display: flex;
+    flex-wrap: wrap;
     justify-content: space-evenly;
     align-items: center;
-    flex-wrap: wrap;
     padding: 5rem 0;
 }
 </style>
