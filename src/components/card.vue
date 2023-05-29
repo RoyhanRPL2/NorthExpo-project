@@ -1,27 +1,53 @@
 <template>
-    <router-link :to="{name: 'detail-destinasi'}">
-        <div class="container">
-        <img src="https://images.unsplash.com/photo-1571863478861-395857be5e07?crop=entropy&cs=srgb&fm=jpg&ixid=M3wzMjM4NDZ8MHwxfHJhbmRvbXx8fHx8fHx8fDE2ODM3NzMyMTZ8&ixlib=rb-4.0.3&q=85" alt="">
-        <div class="category">
-            <p>Nature Tourism</p>
-        </div>
-        <div class="card-title">
-            <div class="wrapper">
-                <p id="title">Gunung Muria</p>
+    <div class="container" v-for="(wisata, index) in destinasi.data" :key="index">
+        <router-link :to="{ name: 'detail-destinasi' }">
+            <img :src="'https://admin.api.northexpokudus.com/foto/' + wisata.foto" alt="gambar">
+            <div class="category">
+                <p>{{ wisata.jenis }}</p>
             </div>
+            <div class="card-title">
+                <div class="wrapper">
+                    <p id="title">{{ wisata.nama }}</p>
+                </div>
 
-            <div class="lokasi">
-                <font-awesome-icon class="icon" icon="fa-solid fa-location-dot" size="xl" />
-                <p>Ds. Ketapang, Kec. Dawe</p>
+                <div class="lokasi">
+                    <font-awesome-icon class="icon" icon="fa-solid fa-location-dot" size="xl" />
+                    <p>{{ wisata.alamat }}</p>
+                </div>
             </div>
-        </div>
+            <div class="black-liner"></div>
+        </router-link>
     </div>
-    </router-link>
-    
 </template>
 
+<script>
+import { onMounted, ref } from 'vue';
+import axios from 'axios';
+
+export default {
+    setup() {
+        let destinasi = ref([]);
+
+        onMounted(async () => {
+            axios.get('https://admin.api.northexpokudus.com/api/destinasi')
+                .then((response) => {
+                    destinasi.value = response.data;
+                })
+                .catch((error) => {
+                    console.log(error);
+                });
+        });
+
+        return {
+            destinasi
+        }
+    }
+}
+
+</script>
+
 <style scoped>
-.container {
+.container a {
     width: 400px;
     height: 400px;
     background-size: cover;
@@ -29,20 +55,18 @@
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    box-shadow: 20px 20px 60px #d9d9d9,
-        -20px -20px 60px #ffffff;
     position: relative;
     overflow: hidden;
     margin: 1rem;
 }
 
-.container img {
+.container a img {
     width: 100%;
     height: 100%;
     transition: 0.5s all ease-out;
 }
 
-.container:hover img {
+.container a:hover  img {
     transform: scale(1.5);
 }
 
@@ -75,6 +99,7 @@
     padding: 0.5rem 0.8rem;
     position: absolute;
     bottom: 0;
+    z-index: 2;
 }
 
 .card-title p {
@@ -100,5 +125,15 @@
     font-weight: 300;
     color: #fff;
     background-color: transparent;
+    white-space: nowrap;
+}
+
+.black-liner {
+    width: 100%;
+    height: 40%;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    background: linear-gradient(180deg, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 1) 100%);
 }
 </style>
