@@ -13,15 +13,15 @@
                 </div>
             </li> 
             <li>
-                <div class="category-item sejarah">
-                    <font-awesome-icon icon="fa-solid fa-location-dot" />
-                    <p>Wisata Sejarah</p>
-                </div>
-            </li>
-            <li>
                 <div class="category-item hiburan">
                     <font-awesome-icon icon="fa-solid fa-location-dot" />
                     <p>Wisata Hiburan</p>
+                </div>
+            </li>
+            <li>
+                <div class="category-item religi">
+                    <font-awesome-icon icon="fa-solid fa-location-dot" />
+                    <p>Wisata Religi</p>
                 </div>
             </li>
         </ul>
@@ -57,17 +57,22 @@
 }
 
 .alam {
-    color: #2ecc71;
-    border: 1px solid #2ecc71;
+    color: limegreen;
+    border: 1px solid limegreen;
 }
 
-.sejarah {
-    color: #3498db;
-    border: 1px solid #3498db;
+.budaya {
+    color: blue;
+    border: 1px solid blue;
 }
 
 .hiburan {
-    color: #f1c40f;
+    color: burlywood;
     border: 1px solid #f1c40f;
+}
+
+.religi {
+    color: lightcoral;
+    border: 1px solid lightcoral;
 }
 </style>
