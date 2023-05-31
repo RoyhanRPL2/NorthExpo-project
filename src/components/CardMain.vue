@@ -1,64 +1,14 @@
 <script setup>
 import { ref, onMounted } from 'vue'
+import axios from 'axios'
 import LocationIcon from './icons/IconLocation.vue'
 
-const destination = ref([
-    {
-        id: 1,
-        name: 'Gunung Muria',
-        description:
-            'Gunung Muria adalah sebuah gunung yang terletak di Jawa Tengah, Indonesia. Gunung ini memiliki ketinggian 1.602 mdpl. Gunung ini terletak di perbatasan Kabupaten Kudus, Kabupaten Pati, dan Kabupaten Jepara.',
-        link: 'https://id.wikipedia.org/wiki/Gunung_Muria',
-        // image: 'https://d.top4top.io/p_2683odzq93.png'
-        // image: 'https://k.top4top.io/p_2689vj2u31.png'
-        // image: 'https://d.top4top.io/p_2689utbyb1.jpg'
-        image: 'https://f.top4top.io/p_2689r82561.png'
-    },
-    {
-        id: 2,
-        name: 'Waterpark Mulia Wisata',
-        description:
-            'Waterpark Mulia Wisata adalah sebuah tempat wisata yang terletak di Desa Kedungrejo, Kecamatan Dawe, Kabupaten Kudus, Jawa Tengah. Tempat wisata ini memiliki luas sekitar 2 hektar dan memiliki berbagai macam wahana permainan.',
-        link: 'https://id.wikipedia.org/wiki/Waterpark_Mulia_Wisata',
-        image: 'https://c.top4top.io/p_2683716gn2.png'
-    },
-    {
-        id: 3,
-        name: 'The Hills Vaganza',
-        description:
-            'The Hills Vaganza adalah sebuah tempat wisata yang terletak di Desa Kedungrejo, Kecamatan Dawe, Kabupaten Kudus, Jawa Tengah. Tempat wisata ini memiliki luas sekitar 2 hektar dan memiliki berbagai macam wahana permainan.',
-        link: 'https://id.wikipedia.org/wiki/The_Hills_Vaganza',
-        image: 'https://b.top4top.io/p_2683npv2g1.png'
-    },
-    {
-        id: 4,
-        name: 'Desa Japan',
-        description:
-            'Desa Japan adalah sebuah desa di kecamatan Dawe, Kudus, Jawa Tengah, Indonesia. Desa ini berjarak sekitar 5 Km dari pusat kecamatan Dawe atau 15 Km dari pusat kota Kudus ke arah barat. Desa ini terkenal dengan kerajinan anyaman bambu dan kerajinan rotan.',
-        link: 'https://id.wikipedia.org/wiki/Desa_Japan,_Dawe,_Kudus',
-        image: 'https://d.top4top.io/p_2683odzq93.png'
-    },
-    {
-        id: 5,
-        name: 'Makam Sunan Muria',
-        description:
-            'Makam Sunan Muria adalah makam yang terletak di lereng Gunung Muria, tepatnya di Desa Kembang, Kecamatan Dawe, Kabupaten Kudus, Jawa Tengah. Makam ini merupakan makam dari Sunan Muria, salah satu wali Songo yang menyebarkan agama Islam di Pulau Jawa.',
-        link: 'https://id.wikipedia.org/wiki/Makam_Sunan_Muria',
-        image: 'https://c.top4top.io/p_2683716gn2.png'
-    },
-    {
-        id: 6,
-        name: 'Susu Moeria',
-        description:
-            'Susu Moeria adalah sebuah perusahaan susu yang berdiri sejak tahun 1958 di Kudus, Jawa Tengah. Susu Moeria merupakan salah satu perusahaan susu tertua di Indonesia.',
-        link: 'https://id.wikipedia.org/wiki/Susu_Moeria',
-        image: 'https://b.top4top.io/p_2683npv2g1.png'
-    }
-])
-
+const destination = ref([])
+const dataFoto = ref([])
+const dataNama = ref([])
+const dataAlamat = ref([])
+const dataKategori = ref([])
 const currentIndex = ref(0)
-
-// create change card size function for card-container currentIndex
 const changeCardSize = () => {
     const card = document.querySelectorAll('.card')
     card.forEach((item, index) => {
@@ -72,35 +22,14 @@ const changeCardSize = () => {
     })
 }
 
-// onmounted all
-onMounted(() => {
-// set interval all 6000
-    setInterval(() => {
-        if (currentIndex.value === 0) {
-            moveCardWrapper1()
-            currentIndex.value = 1
-            changeCardSize()
-        } else if (currentIndex.value === 1) {
-            moveCardWrapper2()
-            currentIndex.value = 2
-            changeCardSize()
-        } else if (currentIndex.value === 2) {
-            moveCardWrapperDefault()
-            moveCardWrapper3()
-            currentIndex.value = 0
-            changeCardSize()
-        }
-    }, 6000)
-})
-
 const moveCardWrapper1 = () => {
     const cardWrapper = document.querySelectorAll('.card-wrapper')
     cardWrapper.forEach((item, index) => {
         if (index === 1) {
-            item.style.transform = 'translateX(-500px)'
+            item.style.transform = 'translateX(-450px)'
             item.style.transition = '.5s'
         } else {
-            item.style.transform = 'translateX(-500px)'
+            item.style.transform = 'translateX(-450px)'
             item.style.transition = '.5s'
         }
     })
@@ -110,10 +39,10 @@ const moveCardWrapper2 = () => {
     const cardWrapper = document.querySelectorAll('.card-wrapper')
     cardWrapper.forEach((item, index) => {
         if (index === 2) {
-            item.style.transform = 'translateX(-850px)'
+            item.style.transform = 'translateX(-800px)'
             item.style.transition = '.5s'
         } else {
-            item.style.transform = 'translateX(-850px)'
+            item.style.transform = 'translateX(-800px)'
             item.style.transition = '.5s'
         }
     })
@@ -151,6 +80,49 @@ const moveCardWrapperDefault = () => {
     })
 }
 
+onMounted(async () => {
+    const response = await axios.get('https://admin.api.northexpokudus.com/api/destinasi')
+    destination.value = response.data.data
+
+    // get data foto
+    for (let i = 0; i < destination.value.length; i++) {
+        dataFoto.value.push(destination.value[i].foto)
+    }
+
+    // get data nama
+    for (let i = 0; i < destination.value.length; i++) {
+        dataNama.value.push(destination.value[i].nama)
+    }
+
+    // get data alamat
+    for (let i = 0; i < destination.value.length; i++) {
+        dataAlamat.value.push(destination.value[i].alamat)
+    }
+
+    // get data kategori
+    for (let i = 0; i < destination.value.length; i++) {
+        dataKategori.value.push(destination.value[i].kategori.nama)
+    }
+
+    setInterval(() => {
+        if (currentIndex.value === 0) {
+            moveCardWrapper1()
+            currentIndex.value = 1
+            changeCardSize()
+        } else if (currentIndex.value === 1) {
+            moveCardWrapper2()
+            currentIndex.value = 2
+            changeCardSize()
+        } else if (currentIndex.value === 2) {
+            moveCardWrapperDefault()
+            moveCardWrapper3()
+            currentIndex.value = 0
+            changeCardSize()
+        }
+    }, 6000)
+
+})
+
 </script>
 
 <template>
@@ -158,15 +130,17 @@ const moveCardWrapperDefault = () => {
         <div v-for="index in 3" :key="index" class="card-wrapper">
             <div class="card">
                 <div class="card-bg"></div>
-                <img :src="destination[index - 1].image" alt="">
+                <img :src="'https://admin.api.northexpokudus.com/foto/'+dataFoto[index-1]" alt="destination">
                 <div class="category">
-                    <h3>wisata alam</h3>
+                    <h3>{{ dataKategori[index-1] }}</h3>
                 </div>
                 <div class="card-title">
-                    <h1>{{ destination[index - 1].name }}</h1>
+                    <h1>{{ dataNama[index-1] }}</h1>
                     <div class="location">
                         <LocationIcon />
-                        <p>Ds. Ketapang</p>
+                        <div class="loc">
+                            <p>{{ dataAlamat[index-1] }}</p>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -174,15 +148,17 @@ const moveCardWrapperDefault = () => {
         <div v-for="index in 3" :key="index" class="card-wrapper">
             <div class="card">
                 <div class="card-bg"></div>
-                <img :src="destination[index - 1].image" alt="">
+                <img :src="'https://admin.api.northexpokudus.com/foto/'+dataFoto[index-1]" alt="destination">
                 <div class="category">
-                    <h3>wisata alam</h3>
+                    <h3>{{ dataKategori[index-1] }}</h3>
                 </div>
                 <div class="card-title">
-                    <h1>{{ destination[index - 1].name }}</h1>
+                    <h1>{{ dataNama[index-1] }}</h1>
                     <div class="location">
                         <LocationIcon />
-                        <p>Ds. Ketapang</p>
+                        <div class="loc">
+                            <p>{{ dataAlamat[index-1] }}</p>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -259,6 +235,7 @@ const moveCardWrapperDefault = () => {
     left: 0;
     z-index: 1;
     padding: 20px;
+    width: 100%;
 }
 
 .card-title h1 {
@@ -266,13 +243,47 @@ const moveCardWrapperDefault = () => {
     font-size: 22px;
     line-height: 1.3;
     margin-bottom: 10px;
+    width: 100%;
 }
 
 .card-title .location {
     display: flex;
 }
 
+.card-title .location .loc {
+    overflow: hidden;
+}
+
+.card-title .location .loc p {
+    white-space: nowrap;
+    transform: translateX(0);
+    animation: marqueeLocation 30s linear infinite;
+}
+
 .card-title .location svg {
     margin-right: 10px;
+    width: 100px;
+}
+
+@keyframes marqueeLocation {
+    0% {
+        transform: translateX(0);
+    }
+
+    10% {
+        transform: translateX(0);
+    }
+
+    60% {
+        transform: translateX(-250%);
+    }
+
+    70% {
+        transform: translateX(-250%);
+    }
+
+    100% {
+        transform: translateX(0);
+    }
 }
 </style>
