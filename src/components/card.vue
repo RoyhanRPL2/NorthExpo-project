@@ -1,9 +1,9 @@
 <template>
     <div class="container" v-for="(wisata, index) in destinasi.data" :key="index">
-        <router-link :to="{ name: 'detail-destinasi' }">
+        <router-link :to="{ name: 'detail-destinasi', params: { id: wisata.id } }">
             <img :src="'https://admin.api.northexpokudus.com/foto/' + wisata.foto" alt="gambar">
             <div class="category">
-                <p>{{ wisata.jenis }}</p>
+                <p>{{ wisata.kategori.nama }}</p>
             </div>
             <div class="card-title">
                 <div class="wrapper">
