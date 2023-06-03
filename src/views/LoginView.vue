@@ -8,6 +8,7 @@
                 <h1>Selamat Datang Kembali di NorthExpo</h1>
                 <p>Silahkan Login Terlebih Dahulu</p>
             </div>
+
             <form v-on:submit.prevent="Login">
                 <div class="form-group">
                     <label for="Email">Email</label>
@@ -24,12 +25,14 @@
                     </div>
                     <a href="#">Forgot Password?</a>
                 </div>
+
                 <button id="Sign-Up" >Masuk</button>
                 <p id="message">Belum Mempunyai Akun? <a href="/register">Daftar</a></p>
             </form>
         </div>
     </div>
 </template>
+
 <script>
 import axios from 'axios'
 export default {
@@ -50,8 +53,7 @@ export default {
 			if (result.status == 200 && result.data) {
 				alert('Login Sukses');
 				localStorage.setItem('user-info', JSON.stringify(result.data));
-                
-				this.$router.push('/');
+				this.$router.push('/home');
 			}
 		}
 	}
@@ -60,7 +62,7 @@ export default {
 
 
 </script>
-<style>
+<style scoped>
 
 @import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
 
@@ -149,17 +151,26 @@ export default {
 }   
 
 .login-form button {
+
     width: 100%;
     height: 2.8rem;
     border: none;
     border-radius: 0.5rem;
     background-color: #15ACC5;
-    color: #fff;
+    margin-bottom: 1.3rem;
+    cursor: pointer;
+    text-decoration: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.login-form form > a > p {
     font-family: 'Poppins', sans-serif;
     font-size: 1rem;
     font-weight: 500;
-    margin-bottom: 1.3rem;
-    cursor: pointer;
+    color: #fff;
+    text-decoration: none;
 }
 
 .login-form form .help-service {
@@ -258,17 +269,6 @@ export default {
 
     .login-form {
         width: 80%;
-    }
-
-    .login-form .title h1 {
-        font-size: 1.5rem;
-    }
-}
-
-@media screen and (max-width: 375px) {
-
-    .login-form {
-        width: 85%;
     }
 
     .login-form .title h1 {

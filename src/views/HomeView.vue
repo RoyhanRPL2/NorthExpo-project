@@ -1,18 +1,19 @@
 <script setup>
-import TheWelcome from '../components/TheWelcome.vue'
+// import TheWelcome from '../components/TheWelcome.vue'
+// import TitleMain from '../components/TitleMain.vue'
+import MainSection from '../components/MainSection.vue';
+import AboutSection from '../components/AboutSection.vue';
+import footerComponent from '../components/footer.vue';
+import KulinerSection from '../components/KulinerSection.vue';
 </script>
 
 <template>
   <main>
-    <h1>Home</h1>
+    <MainSection />
+    <!-- <TitleMain /> -->
+    <!-- <TheWelcome /> -->
   </main>
+  <AboutSection />
+  <KulinerSection />
+  <footerComponent/>
 </template>
-
-<style>
-h1 {
-  font-size: 3rem;
-  text-align: center;
-  margin-top: 2rem;
-  color: var(--color-theme-950);
-}
-</style>

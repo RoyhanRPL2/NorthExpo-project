@@ -1,6 +1,5 @@
-# North-Expo
-
-This template should help get you started developing with Vue 3 in Vite.
+![](https://b.top4top.io/p_2707e212q1.png)
+Website ini merupakan website project TA 2023 yang dibuat dengan menggunakan Vue JS 3
 
 ## Recommended IDE Setup
 

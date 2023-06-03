@@ -1,0 +1,426 @@
+<template>
+    <HeaderComponent />
+    <br>
+    <div id="Detail" class="container">
+        <div class="header">
+            <div class="category">{{ destinasi.data.kategori.nama }}</div>
+            <h1>{{ destinasi.data.nama }}</h1>
+            <div class="lokasi">
+                <font-awesome-icon class="icon" icon="fa-solid fa-location-dot" size="xl" />
+                <p>{{ destinasi.data.alamat }}</p>
+            </div>
+        </div>
+
+        <div class="img-wrapper">
+            <img id="img-box" :src="'https://admin.api.northexpokudus.com/foto/' + destinasi.data.foto" alt="">
+            <div class="img-list">
+                <img :src="'https://admin.api.northexpokudus.com/foto/' + destinasi.data.foto2"   alt="">
+                <img :src="'https://admin.api.northexpokudus.com/foto/' + destinasi.data.foto3"   alt="">
+                <img :src="'https://admin.api.northexpokudus.com/foto/' + destinasi.data.foto4"   alt="">
+            </div>
+        </div>
+
+        <div class="description-container">
+            <h1>Deskripsi Wisata</h1>
+            <p>{{ destinasi.data.deskripsi }}</p>
+        </div>
+
+        <div class="map-container">
+            <h1>Lokasi</h1>
+            <div class="map">
+                <iframe :src="destinasi.data.maps" width="100%" height="450" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+            </div>
+        </div>
+
+        <div class="additional-data">
+            <div class="nearest-destination">
+                <h2>Destinasi Terdekat</h2>
+                <ul class="destination-list">
+                    <li>
+                        <h3>Waterboom Lau</h3>
+                        <h3>0.3 KM</h3>
+                    </li>
+                    <li>
+                        <h3>Waterboom Lau</h3>
+                        <h3>0.3 KM</h3>
+                    </li>
+                    <li>
+                        <h3>Waterboom Lau</h3>
+                        <h3>0.3 KM</h3>
+                    </li>
+                </ul>
+            </div>
+            <span class="separator-line"></span>
+            <div class="nearest-restaurant">
+                <h2>Warung Terdekat</h2>
+                <ul class="restaurant-list">
+                    <li>
+                        <h3>Ayam Pak Gembus</h3>
+                        <h3>0.3 KM</h3>
+                    </li>
+                    <li>
+                        <h3>Ayam Pak Gembus</h3>
+                        <h3>0.3 KM</h3>
+                    </li>
+                    <li>    
+                        <h3>Ayam Pak Gembus</h3>
+                        <h3>0.3 KM</h3>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="review-form">
+            <h2>Ulasan</h2>
+            <div class="rate">
+                <p>Penilaian :</p>
+                <div class="star-rate">
+                    <font-awesome-icon class="icon" icon="fa-solid fa-star" size="xl" />
+                    <font-awesome-icon class="icon" icon="fa-solid fa-star" size="xl" />
+                    <font-awesome-icon class="icon" icon="fa-solid fa-star" size="xl" />
+                    <font-awesome-icon class="icon" icon="fa-solid fa-star" size="xl" />
+                    <font-awesome-icon class="icon" icon="fa-solid fa-star" size="xl" />
+                </div>
+            </div>
+            <div class="form">
+                <form action="">
+                    <div class="user-data">
+                        <div class="form-group">
+                            <label for="name">Nama</label>
+                            <input type="text" name="name" id="name">
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Email</label>
+                            <input type="text" name="email" id="email">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="review">Ulasan</label>
+                        <textarea name="review" id="review" cols="30" rows="10"></textarea>
+                    </div>
+                    <button type="submit">Kirim</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    <footer>
+        <footerComponent />
+    </footer>
+</template>
+
+
+<script setup>
+import axios from 'axios';
+import HeaderComponent from '../components/HeaderComponent.vue';
+import footerComponent from '../components/footer.vue';
+import { ref, onMounted } from 'vue';
+import { useRoute } from 'vue-router';
+
+const destinasi = ref({
+    data: {
+        kategori: {
+            nama: ''
+        },
+        nama: '',
+        alamat: '',
+        foto: '',
+        foto2: '',
+        foto3: '',
+        foto4: '',
+        deskripsi: '',
+        maps: ''
+    }
+});
+
+const route = useRoute();
+
+onMounted(async () => {
+    const response = await axios.get(`https://admin.api.northexpokudus.com/api/destinasi/${route.params.id}`);
+    destinasi.value = response.data;
+});
+</script>
+
+<style scoped>
+.container {
+    width: 100%;
+    padding: 5rem 8.5rem;
+}
+
+.container .header {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    padding: 0 1rem;
+}
+
+.container .header .category {
+    font-size: 1rem;
+    color: var(--color-primary-500);
+}
+
+.container .header h1 {
+    font-size: 4rem;
+    font-weight: 700;
+    margin: 0;
+    color: var(--color-theme-950);
+}
+
+.container .header .lokasi {
+    display: flex;
+    align-items: center;
+}
+
+.container .header .lokasi .icon {
+    width: 1.5rem;
+    height: 1.5rem;
+    margin-right: 0.5rem;
+    color: var(--color-primary-500);
+}
+
+.container .header .lokasi p {
+    font-size: 1rem;
+    color: var(--color-theme-950);
+}
+
+.container .img-wrapper {
+    width: 100%;
+    padding: 2rem 1rem;
+    position: relative;
+}
+
+.container .img-wrapper img {
+    width: 100%;
+    height: 30rem;
+    object-fit: cover;
+    border-radius: 10px;
+}
+
+.container .img-wrapper #img-box {
+    box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+}
+
+.container .img-wrapper .img-list {
+    display: flex;
+    justify-content: center;
+    padding: 1rem 0;
+}
+
+.container .img-wrapper .img-list img {
+    width: 15%;
+    height: 6rem;
+    object-fit: cover;
+    margin-right: 0.7rem;
+    cursor: pointer;
+}
+
+.container .description-container {
+    width: 100%;
+    padding: 2rem 3rem;
+}
+
+.container .description-container h1 {
+    font-size: 2rem;
+    font-weight: 700;
+    margin: 0;
+    color: var(--color-theme-950);
+}
+
+.container .description-container p {
+    font-size: 1rem;
+    color: var(--color-theme-950);
+    margin: 0.3rem 0;
+    text-align: justify;
+}
+
+.container .map-container {
+    width: 100%;
+    padding: 2rem 3rem;
+}
+
+.container .map-container h1 {
+    font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+    color: var(--color-theme-950);
+}
+
+.container .map-container .map {
+    width: 100%;
+    height: 30rem;
+}
+
+.container .additional-data {
+    width: 100%;
+    padding: 2rem 3rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.container .additional-data .nearest-destination {
+    width: 40%;
+}
+
+.container .additional-data .nearest-destination h2 {
+    font-size: 2rem;
+    font-weight: 700;
+    margin: 0;
+    color: var(--color-theme-950);
+}
+
+.container .additional-data .nearest-destination .destination-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.container .additional-data .nearest-destination .destination-list li {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 1rem 0;
+}
+
+.container .additional-data .nearest-destination .destination-list li h3 {
+    font-size: 1rem;
+    color: var(--color-theme-950);
+    margin: 0;
+}
+
+.container .additional-data .separator-line {
+    width: 1px;
+    height: 12rem;
+    border: 2px solid var(--color-theme-950);
+}
+
+.container .additional-data .nearest-restaurant {
+    width: 40%;
+}
+
+.container .additional-data .nearest-restaurant h2 {
+    font-size: 2rem;
+    font-weight: 700;
+    margin: 0;
+    color: var(--color-theme-950);
+}
+
+.container .additional-data .nearest-restaurant .restaurant-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.container .additional-data .nearest-restaurant .restaurant-list li {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 1rem 0;
+}
+
+.container .additional-data .nearest-restaurant .restaurant-list li h3 {
+    font-size: 1rem;
+    color: var(--color-theme-950);
+    margin: 0;
+}
+
+.container .review-form {
+    width: 100%;
+    padding: 2rem 3rem;
+}
+
+.container .review-form h2 {
+    font-size: 2rem;
+    font-weight: 700;
+    margin: 0;
+    color: var(--color-theme-950);
+}
+
+.container .review-form .rate {
+    display: flex;
+    align-items: center;
+    margin: 1rem 0;
+}
+
+.container .review-form .rate p {
+    font-size: 1rem;
+    color: var(--color-theme-950);
+    margin: 0;
+}
+
+.container .review-form .rate .icon {
+    width: 1.5rem;
+    height: 1.5rem;
+    margin-left: 0.5rem;
+    color: var(--color-primary-500);
+}
+
+
+.container .review-form .form {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    padding: 1rem 0;
+}
+
+.container .review-form .form .user-data {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 0;
+}
+
+.container .review-form .form .user-data .form-group {
+    width: 48%;
+    display: flex;
+    flex-direction: column;
+    margin: 1rem 0;
+}
+
+.container .review-form .form .user-data .form-group label {
+    font-size: 1rem;
+    color: var(--color-theme-950);
+    margin: 0;
+}
+
+.container .review-form .form .user-data .form-group input {
+    width: 100%;
+    height: 3rem;
+    border: 1px solid var(--color-theme-950);
+    padding: 0 0.5rem;
+    font-size: 1rem;
+    color: var(--color-theme-950);
+    margin-top: 1rem;
+}
+
+.container .review-form .form .form-group label {
+    font-size: 1rem;
+    color: var(--color-theme-950);
+    margin: 0;
+}
+
+.container .review-form .form .form-group textarea {
+    width: 100%;
+    height: 10rem;
+    border: 1px solid var(--color-theme-950);
+    padding: 0.5rem;
+    font-size: 1rem;
+    color: var(--color-theme-950);
+    margin-top: 1rem;
+}
+
+.container .review-form .form form button {
+    width: 15%;
+    height: 3rem;
+    padding: 0 0.5rem;
+    font-size: 1rem;
+    font-weight: 500;
+    color: var(--color-theme-50);
+    margin-top: 1rem;
+    background-color: var(--color-primary-500);
+    cursor: pointer;
+    border: none;
+    border-radius: 5px;
+}
+</style>
