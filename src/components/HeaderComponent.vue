@@ -1,13 +1,32 @@
 <script setup>
-    import NorthExpoLogo from '../assets/images/logo.png'
-    // import GunungMuria from '../assets/images/gunung-muria.png'
-    import { ref } from 'vue'
-    const isLoggedIn = ref(false)
+import NorthExpoLogo from '../assets/images/logo.png'
+import { ref, onMounted } from 'vue'
+const isLoggedIn = ref(false)
+const username = ref('')
+
+onMounted(() => {
+    isLoggedIn.value = checkUserloginStatus()
+
+    function checkUserloginStatus() {
+        // get token
+        const token = localStorage.getItem('token')
+        return token ? true : false
+    }
+
+    if (isLoggedIn.value) {
+        const userInfo = localStorage.getItem('user-info')
+        const { name } = JSON.parse(userInfo)
+
+        username.value = name
+    }
+
+    console.log(isLoggedIn.value)
+})
 </script>
 
 <template>
     <div class="navbar">
-        <router-link :to="{name: 'home'}">
+        <router-link :to="{ name: 'home' }">
             <img :src="NorthExpoLogo" alt="North Expo Logo" id="logo">
         </router-link>
         <nav class="nav-links">
@@ -20,7 +39,7 @@
         </nav>
 
         <div class="nav-action">
-            <div class="user-profile" v-if="isLoggedIn">Hello, User</div>
+            <div class="user-profile" v-if="isLoggedIn">Hello, {{ username }}</div>
             <div class="action" v-else>
                 <a href="#" class="underline">Masuk</a>
                 <button @click="showRegister">Daftar</button>
@@ -34,81 +53,89 @@
 </template>
 
 <style scoped>
-    .navbar {
-        width: 100%;
-        height: 80px;
-        display: flex;
-        padding: 0 150px;
-        justify-content: space-between;
-        align-items: center;
-        position: fixed;
-        z-index: 100;
-        background-color: rgba(255, 255, 255, 1);
-        backdrop-filter: blur(30px);
-    }
+.navbar {
+    width: 100%;
+    height: 80px;
+    display: flex;
+    padding: 0 150px;
+    justify-content: space-between;
+    align-items: center;
+    position: fixed;
+    z-index: 100;
+    background-color: rgba(255, 255, 255, 1);
+    backdrop-filter: blur(30px);
+}
 
-    .navbar #logo {
-        width: 80px;
-        height: 80px;
-        object-fit: cover;
-        cursor: pointer;
-        filter: invert(1);
-    }
+.navbar #logo {
+    width: 80px;
+    height: 80px;
+    object-fit: cover;
+    cursor: pointer;
+    filter: invert(1);
+}
 
-    .navbar .nav-links ul {
-        display: flex;
-        align-items: center;
-    }
+.navbar .nav-links ul {
+    display: flex;
+    align-items: center;
+}
 
-    .nav-links ul li {
-        list-style: none;
-        margin: 0 25px;
-    }
+.nav-links ul li {
+    list-style: none;
+    margin: 0 25px;
+}
 
-    .nav-links ul li a, a {
-        text-decoration: none;
-        color: var(--color-theme-950);
-        font-size: 16px;
-        font-weight: 500;
-    }
+.nav-links ul li a,
+a {
+    text-decoration: none;
+    color: var(--color-theme-950);
+    font-size: 16px;
+    font-weight: 500;
+}
 
-    a {
-        background: linear-gradient(0deg, var(--color-primary-500), var(--color-primary-500)) no-repeat right bottom / 0 var(--bg-h);
-        transition: background-size 350ms;
-        line-height: 1;
-        --bg-h: 100%;
-    }
+a {
+    background: linear-gradient(0deg, var(--color-primary-500), var(--color-primary-500)) no-repeat right bottom / 0 var(--bg-h);
+    transition: background-size 350ms;
+    line-height: 1;
+    --bg-h: 100%;
+}
 
-    a:where(:hover, :focus-visible) {
-        background-size: 100% var(--bg-h);
-        background-position-x: left;
-    }
+a:where(:hover, :focus-visible) {
+    background-size: 100% var(--bg-h);
+    background-position-x: left;
+}
 
-    .underline, .nav-action .action {
-        padding-bottom: 3px;
-        --bg-h: 2px;
-    }
+.underline,
+.nav-action .action {
+    padding-bottom: 3px;
+    --bg-h: 2px;
+}
 
-    .navbar .nav-action .action {
-        width: 150px;
-        display: flex;
-        justify-content: space-between; 
-        align-items: center;
-        /* background-color: var(--color-theme-950); */
-    }
+.navbar .nav-action .action {
+    width: 150px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    /* background-color: var(--color-theme-950); */
+}
 
-    .nav-action .action button {
-        padding: 8px 18px;
-        font-size: 16px;
-        color: var(--color-theme-50);
-        background-color: var(--color-primary-500);
-        border-radius: 5px;
-        border: none;
-        cursor: pointer;
-        transition: 600ms;
-    }
+.navbar .nav-action .user-profile {
+    font-size: 16px;
+    font-weight: 500;
+    color: var(--color-theme-950);
+}
 
-    .nav-action .action button:hover {
-        background-color: var(--color-primary-600);
-    }
+.nav-action .action button {
+    padding: 8px 18px;
+    font-size: 16px;
+    color: var(--color-theme-50);
+    background-color: var(--color-primary-500);
+    border-radius: 5px;
+    border: none;
+    cursor: pointer;
+    transition: 600ms;
+}
+
+.nav-action .action button:hover {
+    background-color: var(--color-primary-600);
+}
 </style>
