@@ -50,6 +50,7 @@ export default {
 			if (result.status == 200 && result.data) {
 				alert('Login Sukses');
 				localStorage.setItem('user-info', JSON.stringify(result.data));
+                
 				this.$router.push('/');
 			}
 		}
