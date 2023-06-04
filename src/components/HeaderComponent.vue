@@ -3,6 +3,12 @@ import NorthExpoLogo from '../assets/images/logo.png'
 import { ref, onMounted } from 'vue'
 const isLoggedIn = ref(false)
 const username = ref('')
+const useravatar = ref('')
+
+function showProfileOverlay () {
+    const profileOverlay = document.querySelector('.profile-overlay')
+    profileOverlay.classList.toggle('show')
+}
 
 onMounted(async () => {
     isLoggedIn.value = checkUserloginStatus()
@@ -14,9 +20,10 @@ onMounted(async () => {
     }
 
     const userInfo = localStorage.getItem('user-info')
-      if (userInfo) {
+    if (userInfo) {
         username.value = JSON.parse(userInfo)
-      }
+        useravatar.value = JSON.parse(userInfo)
+    }
 
     console.log(isLoggedIn.value)
 })
@@ -37,7 +44,20 @@ onMounted(async () => {
         </nav>
 
         <div class="nav-action">
-            <div class="user-profile" v-if="isLoggedIn">Hello, {{ username.user.name }}</div>
+            <div class="user-profile" v-if="isLoggedIn">
+                <div class="profile">
+                    <p>Halo, {{ username.user.name }}</p>
+                    <!-- get img avatar from username.user.avatar -->
+                    <img :src="'https://admin.api.northexpokudus.com/assets/img/avatar/' + useravatar.user.avatar"
+                        alt="user avatar" @click="showProfileOverlay()">
+                </div>
+                <div class="profile-overlay">
+                    <ul>
+                        <li><a href="/profile">Profile</a></li>
+                        <li><a href="/logout">Logout</a></li>
+                    </ul>
+                </div>
+            </div>
             <div class="action" v-else>
                 <a href="#" class="underline">Masuk</a>
                 <button @click="showRegister">Daftar</button>
@@ -116,11 +136,72 @@ a:where(:hover, :focus-visible) {
     /* background-color: var(--color-theme-950); */
 }
 
-.navbar .nav-action .user-profile {
+.nav-action .user-profile .profile {
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.nav-action .user-profile .profile p {
     font-size: 16px;
     font-weight: 500;
     color: var(--color-theme-950);
     text-transform: capitalize;
+    margin-right: 20px;
+}
+
+.nav-action .user-profile .profile img {
+    width: 30px;
+    height: 30px;
+    border-radius: 100%;
+    object-fit: cover;
+    object-position: center;
+    cursor: pointer;
+}
+
+.nav-action .user-profile .profile-overlay {
+    position: absolute;
+    top: 150%;
+    right: 0;
+    width: 130px;
+    height: 100px;
+    background-color: var(--color-theme-900);
+    border-radius: 5px;
+    display: none;
+    justify-content: center;
+    align-items: center;
+    transition: 600ms;
+}
+
+.nav-action .user-profile .profile-overlay.show {
+    display: flex;
+    flex-direction: column;
+}
+
+.user-profile .profile-overlay ul {
+    position: absolute;
+    left: 0;
+}
+
+.user-profile .profile-overlay ul li {
+    list-style: none;
+    margin-bottom: 5px;
+}
+
+.user-profile .profile-overlay ul li a {
+    text-decoration: none;
+    color: var(--color-theme-50);
+    font-size: 16px;
+    background: linear-gradient(0deg, var(--color-primary-500), var(--color-primary-500)) no-repeat right bottom / 0 var(--bg-h);
+    transition: background-size 350ms;
+    line-height: 1;
+    --bg-h: 2px;
+}
+
+.user-profile .profile-overlay ul li a:where(:hover, :focus-visible) {
+    background-size: 100% var(--bg-h);
+    background-position-x: left;
 }
 
 .nav-action .action button {
