@@ -17,6 +17,11 @@ const routes = [
     component: () => import('../views/RegisterView.vue')
   },
   {
+    path: '/tiket',
+    name: 'tiket',
+    component: () => import('../views/TicketView.vue')
+  },
+  {
     path: '/destinasi',
     name: 'destinasi',
     component: () => import('../views/DestinasiView.vue')
