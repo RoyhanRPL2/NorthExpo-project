@@ -4,7 +4,7 @@ import { ref, onMounted } from 'vue'
 const isLoggedIn = ref(false)
 const username = ref('')
 
-onMounted(() => {
+onMounted(async () => {
     isLoggedIn.value = checkUserloginStatus()
 
     function checkUserloginStatus() {
@@ -13,12 +13,10 @@ onMounted(() => {
         return token ? true : false
     }
 
-    if (isLoggedIn.value) {
-        const userInfo = localStorage.getItem('user-info')
-        const { name } = JSON.parse(userInfo)
-
-        username.value = name
-    }
+    const userInfo = localStorage.getItem('user-info')
+      if (userInfo) {
+        username.value = JSON.parse(userInfo)
+      }
 
     console.log(isLoggedIn.value)
 })
@@ -31,15 +29,15 @@ onMounted(() => {
         </router-link>
         <nav class="nav-links">
             <ul>
-                <li><a href="#" class="underline">Beranda</a></li>
-                <li><a href="#about-us" class="underline">Tentang Kami</a></li>
+                <li><a href="/home" class="underline">Beranda</a></li>
+                <li><a href="/tiket" class="underline">Pesan Tiket</a></li>
                 <li><a href="/destinasi" class="underline">Destinasi</a></li>
                 <li><a href="/map" class="underline">Peta Wisata</a></li>
             </ul>
         </nav>
 
         <div class="nav-action">
-            <div class="user-profile" v-if="isLoggedIn">Hello, {{ username }}</div>
+            <div class="user-profile" v-if="isLoggedIn">Hello, {{ username.user.name }}</div>
             <div class="action" v-else>
                 <a href="#" class="underline">Masuk</a>
                 <button @click="showRegister">Daftar</button>
@@ -122,6 +120,7 @@ a:where(:hover, :focus-visible) {
     font-size: 16px;
     font-weight: 500;
     color: var(--color-theme-950);
+    text-transform: capitalize;
 }
 
 .nav-action .action button {

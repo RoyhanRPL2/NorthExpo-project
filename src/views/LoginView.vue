@@ -53,6 +53,7 @@ export default {
 			if (result.status == 200 && result.data) {
 				alert('Login Sukses');
 				localStorage.setItem('user-info', JSON.stringify(result.data));
+                localStorage.setItem('token', result.data.token);
 				this.$router.push('/home');
 			}
 		}
