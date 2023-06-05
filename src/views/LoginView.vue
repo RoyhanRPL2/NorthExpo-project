@@ -16,7 +16,10 @@
                 </div>
                 <div class="form-group">
                     <label for="Password">Password</label>
-                    <input type="password" placeholder="Password" v-model="password">
+                    <div>
+                        <input :type="passwordVisible ? 'text' : 'password'" placeholder="Password" v-model="password">
+                        <font-awesome-icon :icon="passwordVisible ? 'fa fa-eye' : 'fa fa-eye-slash'" class="eye-icon" v-on:click="togglePasswordVisible"/>
+                    </div>
                 </div>
                 <div class="help-service">
                     <div class="remember-me">
@@ -41,11 +44,13 @@ export default {
         return {
             email: '',
 			password: '',
+            passwordVisible: false,
 		}
 	},
 	methods: {
         async Login() {
-			let result = await axios.post('https://admin.api.northexpokudus.com/api/auth/login', {
+			try {
+                let result = await axios.post('https://admin.api.northexpokudus.com/api/auth/login', {
 				email: this.email,
 				password: this.password,
 			});
@@ -54,9 +59,17 @@ export default {
 				alert('Login Sukses');
 				localStorage.setItem('user-info', JSON.stringify(result.data));
                 localStorage.setItem('token', result.data.token);
-				this.$router.push('/home');
-			}
-		}
+				this.$router.push('/');
+			} else {
+                alert('Terjadi Kesalahan, Silahkan Coba Lagi!');
+            }
+            } catch (e) {
+                alert('Terjadi Kesalahan, Silahkan Coba Lagi!');
+            }
+		},
+        togglePasswordVisible() {
+            this.passwordVisible = !this.passwordVisible;
+        },
 	}
 }
 
@@ -149,7 +162,23 @@ export default {
     font-size: 0.9rem;
     font-weight: 300;
     color: #667085;
-}   
+}
+
+.login-form .form-group {
+    width: 100%;
+}
+
+.login-form .form-group div input {
+    width: 100%;
+}
+
+.login-form .form-group .eye-icon {
+    position: absolute;
+    right: 5%;
+    top: 35%;
+    color: var(--color-theme-950);
+    cursor: pointer;
+}
 
 .login-form button {
 
@@ -164,6 +193,7 @@ export default {
     display: flex;
     justify-content: center;
     align-items: center;
+    color: var(--color-theme-50);
 }
 
 .login-form form > a > p {

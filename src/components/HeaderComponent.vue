@@ -10,6 +10,16 @@ function showProfileOverlay () {
     profileOverlay.classList.toggle('show')
 }
 
+function showRegister () {
+    window.location.href = '/register'
+}
+
+function logout () {
+    localStorage.removeItem('token')
+    localStorage.removeItem('user-info')
+    window.location.href = '/'
+}
+
 onMounted(async () => {
     isLoggedIn.value = checkUserloginStatus()
 
@@ -36,7 +46,7 @@ onMounted(async () => {
         </router-link>
         <nav class="nav-links">
             <ul>
-                <li><a href="/home" class="underline">Beranda</a></li>
+                <li><a href="/" class="underline">Beranda</a></li>
                 <li><a href="/tiket" class="underline">Pesan Tiket</a></li>
                 <li><a href="/destinasi" class="underline">Destinasi</a></li>
                 <li><a href="/map" class="underline">Peta Wisata</a></li>
@@ -54,12 +64,12 @@ onMounted(async () => {
                 <div class="profile-overlay">
                     <ul>
                         <li><a href="/profile">Profile</a></li>
-                        <li><a href="/logout">Logout</a></li>
+                        <li><a v-on:click="logout()">Logout</a></li>
                     </ul>
                 </div>
             </div>
             <div class="action" v-else>
-                <a href="#" class="underline">Masuk</a>
+                <a href="/login" class="underline">Masuk</a>
                 <button @click="showRegister">Daftar</button>
             </div>
         </div>
@@ -197,6 +207,7 @@ a:where(:hover, :focus-visible) {
     transition: background-size 350ms;
     line-height: 1;
     --bg-h: 2px;
+    cursor: pointer;
 }
 
 .user-profile .profile-overlay ul li a:where(:hover, :focus-visible) {

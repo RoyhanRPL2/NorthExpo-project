@@ -11,11 +11,11 @@ const places = ref([
     { id: 6, name: "Susu Moeria", category: "Wisata Edukasi", region: "Muria" }
 ]);
 const categories = ref([
-    { id: 1, name: "Wisata Budaya" },
+`   { id: 1, name: "Wisata Budaya" },
     { id: 2, name: "Wisata Alam" },
     { id: 3, name: "Wisata Religi" },
     { id: 4, name: "Desa Wisata" },
-    { id: 5, name: "Outdoor" }
+    { id: 5, name: "Outdoor" }`
 ]);
 const regions = ref([
     { id: 1, name: "Muria" },
