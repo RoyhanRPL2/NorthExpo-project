@@ -2,12 +2,17 @@
     <HeaderComponent />
     <br>
     <div id="Detail" class="container">
+
         <div class="header">
             <div class="category">{{ destinasi.data.kategori.nama }}</div>
             <h1>{{ destinasi.data.nama }}</h1>
             <div class="lokasi">
                 <font-awesome-icon class="icon" icon="fa-solid fa-location-dot" size="xl" />
                 <p>{{ destinasi.data.alamat }}</p>
+            </div>
+            <div class="operasional">
+                <font-awesome-icon class="icon" icon="fa-solid fa-clock" size="xl" />
+                <p>{{ destinasi.data.operasional }}</p>
             </div>
         </div>
 
@@ -158,6 +163,22 @@ onMounted(() => {
 }
 
 .container .header .lokasi p {
+    font-size: 1rem;
+    color: var(--color-theme-950);
+}
+
+.container .header .operasional {
+    display: flex;
+    align-items: center;
+    margin-top: 1rem;
+}
+
+.container .header .operasional .icon {
+    margin-right: 0.5rem;
+    color: var(--color-primary-500);
+}
+
+.container .header .operasional p {
     font-size: 1rem;
     color: var(--color-theme-950);
 }
