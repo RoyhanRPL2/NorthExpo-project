@@ -1,9 +1,25 @@
+<script setup>
+import { ref, onMounted } from 'vue'
+
+const userAvatar = ref('')
+const userName = ref('')
+const userEmail = ref('')
+
+onMounted(async () => {
+    const userInfo = localStorage.getItem('user-info')
+    if (userInfo) {
+        userName.value = JSON.parse(userInfo).user.name
+        userEmail.value = JSON.parse(userInfo).user.email
+        userAvatar.value = JSON.parse(userInfo).user.avatar
+    }
+})
+</script>
 <template>
     <div class="profile-container">
-        <!-- show random image from internet -->
-        <img src="https://picsum.photos/200" alt="random image">
-        <h3>Mavis</h3>
-        <h5>mavis@gmail.com</h5>
+        <!-- get userAvatar -->
+        <img :src="'https://admin.api.northexpokudus.com/assets/img/avatar/'+userAvatar" alt="user avatar">
+        <h3>{{ userName }}</h3>
+        <h5>{{ userEmail }}</h5>
         <div class="btn-edit">
             <button class="btn btn-primary">Edit Profile</button>
         </div>

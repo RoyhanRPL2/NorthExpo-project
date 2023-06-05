@@ -12,6 +12,7 @@ const dataNama = ref([])
 const dataDeskripsi = ref([])
 const dataMaps = ref([])
 const currentIndex = ref(0)
+const destinasiId = ref([])
 
 onMounted(async () => {
     const response = await axios.get('https://admin.api.northexpokudus.com/api/destinasi')
@@ -35,6 +36,11 @@ onMounted(async () => {
     // get data maps
     for (let i = 0; i < 3; i++) {
         dataMaps.value.push(destination.value[i].maps)
+    }
+
+    // get destinasi  id
+    for (let i = 0; i < 3; i++) {
+        destinasiId.value.push(destination.value[i].id)
     }
 
     // only show max 3 index
@@ -78,7 +84,7 @@ onMounted(async () => {
         <div class="destination-title">
             <h1>{{ dataNama[currentIndex] }}</h1>
             <p>{{ dataDeskripsi[currentIndex] }}</p>
-            <a :href="dataMaps[currentIndex]" target="_blank">Jelajahi Sekarang</a>
+            <a :href="'/detail/'+destinasiId[currentIndex]">Jelajahi Sekarang</a>
         </div>
     </div>
 </template>
