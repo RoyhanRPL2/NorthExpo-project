@@ -1,70 +1,47 @@
 <script setup>
-import SearchIcon from './icons/IconSearch.vue'
-import { ref, computed } from 'vue';
+import SearchIcon from '../components/icons/IconSearch.vue'
+import { ref, onMounted } from 'vue';
+import axios from 'axios';
 
-const places = ref([
-    { id: 1, name: "Gunung Muria", category: "Wisata Alam", region: "Muria" },
-    { id: 2, name: "Makam Sunan Muria", category: "Wisata Religi", region: "Muria" },
-    { id: 3, name: "The Hills Vaganza", category: "Outdoor", region: "Dawe" },
-    { id: 4, name: "Desa Japan", category: "Desa Wisata", region: "Japan" },
-    { id: 5, name: "Waterpark Mulia Wisata", category: "Outdoor", region: "Dawe" },
-    { id: 6, name: "Susu Moeria", category: "Wisata Edukasi", region: "Muria" }
-]);
-const categories = ref([
-    { id: 1, name: "Wisata Budaya" },
-    { id: 2, name: "Wisata Alam" },
-    { id: 3, name: "Wisata Religi" },
-    { id: 4, name: "Desa Wisata" },
-    { id: 5, name: "Outdoor" }
-]);
-const regions = ref([
-    { id: 1, name: "Muria" },
-    { id: 2, name: "Japan" },
-    { id: 3, name: "Dawe" }
-]);
-const selectedCategory = ref("");
-const selectedRegion = ref("");
+const kategori = ref([]);
+const destinasi = ref([]);
 const searchQuery = ref("");
+const selectedCategory = ref("");
 
-const filteredPlaces = computed(() => {
-    return places.value.filter(place => {
-        let categoryMatch = true;
-        let regionMatch = true;
-        let searchMatch = true;
-
-        if (selectedCategory.value) {
-            categoryMatch = place.category === selectedCategory.value;
-        }
-
-        if (selectedRegion.value) {
-            regionMatch = place.region === selectedRegion.value;
-        }
-
-        if (searchQuery.value) {
-            const searchRegex = new RegExp(searchQuery.value, "i");
-            searchMatch = Object.values(place).some(value => searchRegex.test(value));
-        }
-
-        return categoryMatch && regionMatch && searchMatch;
-    });
+onMounted(async () => {
+    axios.get('https://admin.api.northexpokudus.com/api/destinasi')
+        .then((response) => {
+            destinasi.value = response.data;
+            kategori.value = response.data; 
+        })
+        .catch((error) => {
+            console.log(error);
+        });
 });
+
+function handleSearch(){
+    alert(selectedCategory.value + " " + searchQuery.value);
+}
+
+
 </script>
 
 <template>
+    <!-- <h1 v-for="(wisata, index) in destinasi.data" :key="index">{{ wisata.nama }}</h1>
+    <h1 v-for="(wisata, index) in kategori.data" :key="index">{{ wisata.kategori.nama }}</h1> -->
     <div class="search-container">
         <div>
             <select id="category-filter" v-model="selectedCategory">
                 <option value="">Kategori</option>
-                <option v-for="category in categories" :key="category.id" :value="category.name" class="option">{{
-                    category.name }}</option>
+                <option v-for="(wisata, index) in kategori.data" :key="index" :value="wisata.kategori.nama" class="option">{{
+                    wisata.kategori.nama }}</option>
             </select>
         </div>
         <span class="line"></span>
         <div>
-            <select id="region-filter" v-model="selectedRegion">
+            <select id="region-filter">
                 <option value="">Wilayah</option>
-                <option v-for="region in regions" :key="region.id" :value="region.name" class="option">{{ region.name }}
-                </option>
+                <option value="Wilayah" class="option"></option>
             </select>
         </div>
         <span class="line"></span>
@@ -72,7 +49,7 @@ const filteredPlaces = computed(() => {
             <input type="text" v-model="searchQuery" placeholder="Cari destinasi wisata...">
         </div>
         <!-- add search icon -->
-        <div class="btn-search">
+        <div class="btn-search" @click="handleSearch()">
             <SearchIcon />
         </div>
     </div>
@@ -83,6 +60,9 @@ const filteredPlaces = computed(() => {
 </template>
 
 <style scoped>
+h1 {
+    color: red;
+}
 .search-container {
     display: flex;
     flex-direction: row;
