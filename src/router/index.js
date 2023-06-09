@@ -1,4 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router'
+// import Vue from 'vue'
+// Vue.component('loading', { template: '<div>Loading...</div>' })
+import NProgress from 'vue-nprogress'
 
 const routes = [
   {
@@ -40,6 +43,11 @@ const routes = [
     path: '/profile',
     name: 'profile',
     component: () => import('../views/ProfileView.vue')
+  },
+  {
+    path: '/ticket/:id',
+    name: 'ticket',
+    component: () => import('../views/TicketFormView.vue')
   }
 ]
 

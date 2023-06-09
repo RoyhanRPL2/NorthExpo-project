@@ -16,6 +16,10 @@
             </div>
         </div>
 
+        <div>
+
+        </div>
+
         <div class="img-wrapper">
             <img id="img-box" :src="'https://admin.api.northexpokudus.com/foto/' + destinasi.data.foto" alt="">
             <div class="img-list">
@@ -40,6 +44,10 @@
 
         <!-- additional data -->
         <additionalComponent></additionalComponent>
+
+        <div class="ticket-wrapper">
+            <DropdownTime :id="destinasi.data.id"></DropdownTime>
+        </div>
 
         <div class="review-form">
             <h2>Ulasan</h2>
@@ -86,6 +94,7 @@ import axios from 'axios';
 import HeaderComponent from '../components/HeaderComponent.vue';
 import footerComponent from '../components/footer.vue';
 import additionalComponent from '../components/AdditionalData.vue'
+import DropdownTime from '../components/DropdownTime.vue';
 import { ref, onMounted } from 'vue';
 import { useRoute } from 'vue-router';
 
@@ -101,7 +110,7 @@ const destinasi = ref({
         foto3: '',
         foto4: '',
         deskripsi: '',
-        maps: ''
+        maps: '',
     }
 });
 
@@ -183,6 +192,7 @@ onMounted(() => {
     color: var(--color-theme-950);
 }
 
+
 .container .img-wrapper {
     width: 100%;
     padding: 2rem 1rem;
@@ -248,6 +258,11 @@ onMounted(() => {
 .container .map-container .map {
     width: 100%;
     height: 30rem;
+}
+
+.container .ticket-wrapper {
+    width: 100%;
+    padding: 2rem 3rem;
 }
 
 .container .review-form {
