@@ -62,8 +62,8 @@
                 </div>
             </div>
             <div class="form">
-                <form action="">
-                    <div class="user-data">
+                <form action="" @submit.prevent="postKomentar()">
+                    <!-- <div class="user-data">
                         <div class="form-group">
                             <label for="name">Nama</label>
                             <input type="text" name="name" id="name">
@@ -72,14 +72,35 @@
                             <label for="email">Email</label>
                             <input type="text" name="email" id="email">
                         </div>
-                    </div>
+                    </div> -->
 
                     <div class="form-group">
                         <label for="review">Ulasan</label>
-                        <textarea name="review" id="review" cols="30" rows="10"></textarea>
+                        <div class="form-nama">
+                            <textarea name="review" id="review" cols="30" rows="10"  v-model="komentar"></textarea>
+                        </div>
                     </div>
-                    <button type="submit">Kirim</button>
+                    <button type="submit" class="btn btn-outline-warning">Kirim</button>
                 </form>
+            </div>
+        </div>
+
+        <div class="review">
+            <h2>Ulasan Pengunjung</h2>
+            <div class="review-item" v-for="komentar in komentars" :key="komentar">
+                <div class="user">
+                    <img :src="`https://admin.api.northexpokudus.com/assets/img/avatar/` + komentar.user_id.avatar" alt="" >
+                    <div class="user-data">
+                        <h3>{{ komentar.user_id.name }}</h3>
+                    </div>
+                </div>
+                <div class="review-content">
+                    <p>{{ komentar.komentar }}</p>
+                </div>
+            </div>
+
+            <div class="no-comment" v-if="komentars.length == 0">
+                <p>Belum ada ulasan</p>
             </div>
         </div>
     </div>
@@ -114,13 +135,58 @@ const destinasi = ref({
     }
 });
 
+const komentar = ref('');
+const komentars = ref([]);
+
 const destinasi2 = ref([])
 
 const route = useRoute();
 
+// get komentars
+async function getKomentars() {
+    axios.get(`https://admin.api.northexpokudus.com/api/destinasi/komentar/${route.params.id}`)
+        .then(response => {
+            komentars.value = response.data.data;
+            console.log(komentars.value);
+        })
+        .catch(error => {
+            console.log(error);
+        })
+}
+
+// post komentars
+async function postKomentar() {
+    const getUserInfo = localStorage.getItem('user-info');
+    const userInfo = JSON.parse(getUserInfo);
+
+    const token = userInfo.token;
+
+    const config = {
+        headers: { Authorization: "Bearer " + token }
+    };
+    console.log(config);
+    const data = {
+        komentar: komentar.value
+    };
+    axios.post(`https://admin.api.northexpokudus.com/api/destinasi/komentar/${route.params.id}`,  
+        data, config
+    )
+    .then(response => {
+        console.log(response.data);
+        this.komentar = '';
+        this.getKomentars();
+    })
+    .catch(error => {
+        console.log(error.response.data);
+    });
+}
+
 onMounted(async () => {
     const response = await axios.get(`https://admin.api.northexpokudus.com/api/destinasi/${route.params.id}`);
     destinasi.value = response.data;
+    
+    postKomentar();
+    getKomentars();
 });
 
 onMounted(() => {
@@ -363,5 +429,60 @@ onMounted(() => {
     cursor: pointer;
     border: none;
     border-radius: 5px;
+}
+
+.review {
+    padding: 0 50px;
+}
+
+.review h2 {
+    font-size: 2rem;
+    font-weight: 700;
+    margin: 0;
+    color: var(--color-theme-950);
+}
+
+.review .review-item {
+    margin: 10px 0;
+    border-bottom: 1px solid #E6E6E6;
+    padding: 20px 0;
+}
+
+.review-item .user {
+    display: flex;
+    align-items: flex-start;
+}
+
+.review-item .user img {
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    object-fit: cover;
+    object-position: center;
+    margin-right: 10px;
+}
+
+.review-item .review-content {
+    margin-left: 45px;
+}
+
+.user-data h3 {
+    font-size: 1rem;
+    font-weight: 700;
+    margin: 0;
+    color: var(--color-theme-950);
+}
+
+.review-content p {
+    font-size: 1rem;
+    color: var(--color-theme-950);
+    margin: 0;
+}
+
+.review .no-comment p {
+    font-size: 1rem;
+    color: var(--color-theme-500);
+    margin: 0;
+    padding: 2rem 0;
 }
 </style>
