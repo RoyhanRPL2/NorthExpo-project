@@ -217,7 +217,7 @@ export default {
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: var(--color-primary-950);
+    background-color: var(--color-primary-700);
     border-radius: 10px;
 }
 
@@ -243,7 +243,7 @@ export default {
     justify-content: center;
     align-items: center;
     border: 1px solid var(--color-primary-950);
-    margin: 0.5rem;
+    margin: 0.3rem;
     padding: 0.7rem;
 }
 
@@ -255,6 +255,6 @@ export default {
 }
 
 .information-text .warn-icon {
-    color: var(--color-primary-950);
+    color: var(--color-primary-600);
 }
 </style>
