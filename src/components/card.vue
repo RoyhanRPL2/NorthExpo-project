@@ -25,10 +25,15 @@ import { onMounted, ref } from 'vue';
 import axios from 'axios';
 
 export default {
+    methods: {
+        scrollToTop() {
+            window.scrollTo(0, 0);
+        }
+    },
     setup() {
         let destinasi = ref([]);
 
-        onMounted(async () => {
+        onMounted(async () => { 
             axios.get('https://admin.api.northexpokudus.com/api/destinasi')
                 .then((response) => {
                     destinasi.value = response.data;

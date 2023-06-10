@@ -25,10 +25,13 @@ import { ref } from 'vue'
                 </div>
                 <div class="form-group">
                     <label for="Password">Password</label>
-                    <input type="password" placeholder="Password" v-model="password"/>
+                    <div>
+                        <input :type="passwordVisible ? 'text' : 'password'" placeholder="Password" v-model="password">
+                        <font-awesome-icon :icon="passwordVisible ? 'fa fa-eye' : 'fa fa-eye-slash'" class="eye-icon" v-on:click="togglePasswordVisible"/>
+                    </div>
                 </div>
                 <button type="submit" class="button-register">Daftar</button>
-                <p id="message">Sudah Mempunyai Akun? <a href="/">Masuk</a></p>
+                <p id="message">Sudah Mempunyai Akun? <a href="/login">Masuk</a></p>
                 </form>
         </div>
     </div>
@@ -43,7 +46,7 @@ export default {
         name: '',
         email: '',
         password: '',
-   
+        passwordVisible: false,
       }
     },
     
@@ -64,6 +67,9 @@ export default {
         tes(){
             console.log('Register Sukses');
             alert('Register Sukses');
+        },
+        togglePasswordVisible(){
+            this.passwordVisible = !this.passwordVisible;
         }
         },
 }
@@ -154,6 +160,22 @@ export default {
     font-weight: 300;
     color: #667085;
 }   
+
+.register-form .form-group {
+    width: 100%;
+}
+
+.register-form .form-group div input {
+    width: 100%;
+}
+
+.register-form .form-group .eye-icon {
+    position: absolute;
+    right: 5%;
+    top: 35%;
+    color: var(--color-theme-950);
+    cursor: pointer;
+}
 
 .register-form button {
     width: 100%;

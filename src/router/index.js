@@ -1,13 +1,16 @@
 import { createRouter, createWebHistory } from 'vue-router'
+// import Vue from 'vue'
+// Vue.component('loading', { template: '<div>Loading...</div>' })
+import NProgress from 'vue-nprogress'
 
 const routes = [
   {
-    path: '/',
+    path: '/login',
     name: 'login',
     component: () => import('../views/LoginView.vue')
   },
   {
-    path: '/home',
+    path: '/',
     name: 'home',
     component: () => import('../views/HomeView.vue')
   },
@@ -39,18 +42,21 @@ const routes = [
   {
     path: '/profile',
     name: 'profile',
-    component: () => import('../views/NewProfileView.vue')
+    component: () => import('../views/ProfileView.vue')
   },
   {
-    path: '/profile/edit',  
-    name: 'edit-profile',
-    component: () => import('../views/ProfileEdit.vue')
+    path: '/ticket/:id',
+    name: 'ticket',
+    component: () => import('../views/TicketFormView.vue')
   }
 ]
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
-  routes
+  routes,
+  scrollBehavior(to, from, savedPosition) {
+    return { top: 0 }
+  }
 })
 
 export default router

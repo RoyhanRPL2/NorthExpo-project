@@ -17,13 +17,16 @@
     "@fortawesome/free-solid-svg-icons": "^6.4.0",
     "@fortawesome/vue-fontawesome": "^3.0.3",
     "axios": "^1.4.0",
+    "dayjs": "^1.11.8",
     "leaflet.smooth_marker_bouncing": "^3.0.2",
     "maplibre-gl": "^3.0.0",
     "swiper": "^8.4.7",
     "vue": "^3.2.47",
     "vue-awesome-swiper": "^5.0.1",
     "vue-axios": "^3.5.2",
-    "vue-router": "^4.1.6"
+    "vue-nprogress": "^0.2.0",
+    "vue-router": "^4.1.6",
+    "vuex": "^4.1.0"
   },
   "devDependencies": {
     "@rushstack/eslint-patch": "^1.2.0",
