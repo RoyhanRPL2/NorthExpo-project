@@ -226,6 +226,7 @@ export default {
 .select-container .order-detail .capacity .online-cap p {
     color: var(--color-theme-950);
     font-size: 1rem;
+    font-weight: normal;
 }
 
 .select-container .order-detail .capacity .rest-capacity {
@@ -238,7 +239,17 @@ export default {
     font-weight: 600;
 }
 
-.select-container .order-detail .order-button {
+.select-container .order-detail .capacity .rest-capacity p {
+    color: var(--color-theme-950);
+    font-size: 1rem;
+    font-weight: normal;
+}
+
+.select-container .order-detail a {
+    text-decoration: none;
+}
+
+.select-container .order-detail a .order-button {
     display: flex;
     justify-content: center;
     align-items: center;

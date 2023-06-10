@@ -9,24 +9,34 @@
             <div class="form-group">
                 <label for="name">Jumlah Orang</label>
                 <input type="number" name="name" id="name">
+                <p>*jumlah orang dalam rombongan</p>
             </div>
             <div class="form-group">
                 <label for="name">Email</label>
                 <input type="text" name="name" id="name">
+                <p>*Untuk menerima link unduh bukti</p>
             </div>
         </form>
-        <div class="payment-method-container">
-            <div class="payment-method-item">
-                <font-awesome-icon class="bill-icon" icon="fa-solid fa-money-bill" />
-                <h3>Tunai</h3>
-                <input type="radio">
-            </div>
-            <div class="payment-method-item">
-                <img src="../assets/qris.svg" alt="">
-                <h3>QRIS</h3>
-                <input type="radio">
+        <div class="payment">
+            <h2>Pilih Metode Pembayaran</h2>
+            <div class="payment-method-container">
+                <div class="payment-method-item" :class="{ active: selectedMethod === 'transferBank' }"
+                    @click="selectPaymentMethod('transferBank')">
+                    <font-awesome-icon class="bill-icon" icon="fa-solid fa-money-bill"
+                        :style="{ color: selectedMethod === 'transferBank' ? activeColor : defaultColor }" />
+                    <h3>Transfer Bank</h3>
+                    <p>Transfer melalui ATM, m-Banking, atau e-wallet</p>
+                </div>
+                <div class="payment-method-item" :class="{ active: selectedMethod === 'qris' }"
+                    @click="selectPaymentMethod('qris')">
+                    <img src="../assets/qris.svg" class="qris-icon" alt=""
+                        :style="{ color: selectedMethod === 'qris' ? activeColor : defaultColor }">
+                    <h3>QRIS </h3>
+                    <p>Scan QRIS dengan m-Banking/e-wallet</p>
+                </div>
             </div>
         </div>
+
         <div class="term-condition">
             <div class="first-term">
                 <p>1. Syarat dan ketentuan berkunjung</p>
@@ -37,7 +47,8 @@
                 </ul>
             </div>
             <div class="second-term">
-                <p>2. Saya dan/atau rombongan telah memahami, setuju dan bertanggung jawab dengan segala resiko apabila tidak mematuhi syarat & ketentuan yang telah ditetapkan di atas.</p>
+                <p>2. Saya dan/atau rombongan telah memahami, setuju dan bertanggung jawab dengan segala resiko apabila
+                    tidak mematuhi syarat & ketentuan yang telah ditetapkan di atas.</p>
             </div>
         </div>
         <div class="confirm-text">
@@ -52,13 +63,19 @@
 
 <script>
 export default {
-    name: 'TicketForm',
     data() {
         return {
-
+            selectedMethod: null,
+            defaultColor: '#000',
+            activeColor: '#fff'
+        };
+    },
+    methods: {
+        selectPaymentMethod(method) {
+            this.selectedMethod = method;
         }
     }
-}
+};
 </script>
 
 <style scoped>
@@ -73,7 +90,7 @@ export default {
 .ticket-form-container h2 {
     text-align: center;
     color: var(--color-theme-950);
-    font-size:  1.5rem;
+    font-size: 1.5rem;
     font-weight: 700;
     margin-bottom: 1.5rem;
 }
@@ -101,6 +118,23 @@ export default {
     border-radius: 5px;
 }
 
+.ticket-form-container .form-group p {
+    font-size: 0.8rem;
+    color: var(--color-theme-950);
+    margin-top: 0.5rem;
+}
+
+.ticket-form-container .payment {
+    margin-top: 1.5rem;
+}
+
+.ticket-form-container .payment h2 {
+    text-align: center;
+    color: var(--color-theme-950);
+    font-size: 1.3rem;
+    font-weight: 700;
+    margin-bottom: 1.5rem;
+}
 .ticket-form-container .payment-method-container {
     display: flex;
     justify-content: space-between;
@@ -117,6 +151,13 @@ export default {
     border: 1px solid #000;
     border-radius: 5px;
     padding: 1rem;
+    transition: background-color 0.2s ease;
+    cursor: pointer;
+}
+
+.payment-method-item.active {
+    background-color: var(--color-primary-500);
+    border: none;
 }
 
 .ticket-form-container .payment-method-item .bill-icon {
@@ -125,19 +166,44 @@ export default {
     color: var(--color-theme-950);
 }
 
-.ticket-form-container .payment-method-item img {
+.ticket-form-container .payment-method-item.active .bill-icon {
+    fill: #fff;
+}
+
+.ticket-form-container .payment-method-item .qris-icon {
     width: 50%;
     margin-bottom: 0.5rem;
 }
+
+.qris-icon {
+    transition: filter 0.2s ease;
+}
+
+.ticket-form-container .payment-method-item.active .qris-icon {
+    filter: invert(100%);
+}
+
 
 .ticket-form-container .payment-method-item h3 {
     font-size: 1rem;
     color: var(--color-theme-950);
     margin-bottom: 0.5rem;
+    font-weight: 700;
+    text-align: center;
 }
 
-.ticket-form-container .payment-method-item input {
-    margin-bottom: 0.5rem;
+.ticket-form-container .payment-method-item.active h3 {
+    color: #fff;
+}
+
+.ticket-form-container .payment-method-item p {
+    font-size: 0.8rem;
+    color: var(--color-theme-950);
+    text-align: center;
+}
+
+.ticket-form-container .payment-method-item.active p {
+    color: #fff;
 }
 
 .ticket-form-container .term-condition {
@@ -146,13 +212,13 @@ export default {
 
 .ticket-form-container .term-condition .first-term {
     margin-bottom: 0.7rem;
-    padding:  0.5rem;
+    padding: 0.5rem;
 }
 
 .ticket-form-container .term-condition .first-term p {
     font-size: 1rem;
     color: var(--color-theme-950);
-    margin-bottom: 0.5rem   ;
+    margin-bottom: 0.5rem;
 }
 
 .ticket-form-container .term-condition .first-term ul {
@@ -173,13 +239,14 @@ export default {
     font-size: 1rem;
     color: var(--color-theme-950);
     margin-bottom: 0.5rem;
-    padding:  0.5rem;
+    padding: 0.5rem;
 }
 
 .ticket-form-container .confirm-text {
     display: flex;
     align-items: center;
     margin-bottom: 1rem;
+    padding: 0.5rem;
 }
 
 .ticket-form-container .confirm-text input {
@@ -199,12 +266,11 @@ export default {
 .ticket-form-container .button-container button {
     width: 50%;
     padding: 0.5rem 1rem;
-    border: 1px solid #000;
     border-radius: 5px;
-    background-color: var(--color-theme-950);
+    border: none;
+    background-color: var(--color-primary-500);
     color: #fff;
     font-size: 1rem;
     font-weight: 700;
     cursor: pointer;
-}
-</style>
+}</style>
