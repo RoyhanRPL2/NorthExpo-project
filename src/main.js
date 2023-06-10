@@ -10,10 +10,10 @@ import { library } from '@fortawesome/fontawesome-svg-core'
 
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 
-import { faStar, faUserSecret, faArrowRight } from '@fortawesome/free-solid-svg-icons'
+import { faStar, faUserSecret, faArrowRight, faArrowRightFromBracket } from '@fortawesome/free-solid-svg-icons'
 import { faLocationDot } from '@fortawesome/free-solid-svg-icons'
 
-library.add(faUserSecret, faLocationDot, faStar, faArrowRight)
+library.add(faUserSecret, faLocationDot, faStar, faArrowRight, faArrowRightFromBracket)
 
 const app = createApp(App)
 

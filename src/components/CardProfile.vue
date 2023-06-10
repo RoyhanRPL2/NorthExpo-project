@@ -21,7 +21,9 @@ onMounted(async () => {
         <h3>{{ userName }}</h3>
         <h5>{{ userEmail }}</h5>
         <div class="btn-edit">
-            <button class="btn btn-primary">Edit Profile</button>
+            <router-link :to="{ name: 'edit-profile' }">
+                <button class="btn btn-primary">Edit Profile</button>
+            </router-link>
         </div>
     </div>
 </template>
