@@ -1,8 +1,29 @@
-<script setup>
+<script>
 import card from '../components/card.vue'
 import footerComponent from '../components/footer.vue'
-import headerComponent from '../components/HeaderComponent.vue' 
+import headerComponent from '../components/HeaderComponent.vue'
 import searchComponent from '../components/SearchComponent.vue'
+import DestinationCardSkeleton from '../components/skeleton-component/DestinationCardSkeleton.vue'
+import { Suspense, defineAsyncComponent } from 'vue'
+
+const AsyncComponent = defineAsyncComponent(() => import('../components/card.vue'))
+
+export default {
+    components: {
+        card,
+        footerComponent,
+        headerComponent,
+        searchComponent,
+        DestinationCardSkeleton,
+        Suspense,
+        AsyncComponent
+    },
+    methods: {
+        scrollToTop() {
+            window.scrollTo(0, 0);
+        }
+    }
+}
 </script>
 
 <template>
@@ -20,7 +41,14 @@ import searchComponent from '../components/SearchComponent.vue'
         </div>
     </div>
     <div class="main">
-        <card />
+        <Suspense>
+            <template #default>
+                <card />
+            </template>
+            <template #fallback>
+                <DestinationCardSkeleton />
+            </template>
+        </Suspense>
     </div>
     <div class="pagination">
 
@@ -28,7 +56,6 @@ import searchComponent from '../components/SearchComponent.vue'
     <footer>
         <footerComponent />
     </footer>
-    
 </template>
 
 <style scoped>

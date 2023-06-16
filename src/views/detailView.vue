@@ -1,88 +1,95 @@
 <template>
     <HeaderComponent />
     <br>
-    <div id="Detail" class="container">
 
-        <div class="header">
-            <div class="category">{{ destinasi.data.kategori.nama }}</div>
-            <h1>{{ destinasi.data.nama }}</h1>
-            <div class="lokasi">
-                <font-awesome-icon class="icon" icon="fa-solid fa-location-dot" size="xl" />
-                <p>{{ destinasi.data.alamat }}</p>
-            </div>
-            <div class="operasional">
-                <font-awesome-icon class="icon" icon="fa-solid fa-clock" size="xl" />
-                <p>{{ destinasi.data.operasional }}</p>
-            </div>
-        </div>
-
-        <div>
-
-        </div>
-
-        <div class="img-wrapper">
-            <img id="img-box" :src="'https://admin.api.northexpokudus.com/foto/' + destinasi.data.foto" alt="">
-            <div class="img-list">
-                <img :src="'https://admin.api.northexpokudus.com/foto/' + destinasi.data.foto2" alt="">
-                <img :src="'https://admin.api.northexpokudus.com/foto/' + destinasi.data.foto3" alt="">
-                <img :src="'https://admin.api.northexpokudus.com/foto/' + destinasi.data.foto4" alt="">
-            </div>
-        </div>
-
-        <div class="description-container">
-            <h1>Deskripsi Wisata</h1>
-            <p>{{ destinasi.data.deskripsi }}</p>
-        </div>
-
-        <div class="map-container">
-            <h1>Lokasi</h1>
-            <div class="map">
-                <iframe :src="destinasi.data.maps" width="100%" height="450" style="border:0;" allowfullscreen=""
-                    loading="lazy"></iframe>
-            </div>
-        </div>
-
-        <!-- additional data -->
-        <additionalComponent></additionalComponent>
-
-        <div class="ticket-wrapper">
-            <DropdownTime :id="destinasi.data.id"></DropdownTime>
-        </div>
-
-        <div class="review-form">
-            <h2>Ulasan</h2>
-            <div class="rate">
-                <p>Penilaian :</p>
-                <div class="star-rate">
-                    <font-awesome-icon class="icon" icon="fa-solid fa-star" size="xl" />
-                    <font-awesome-icon class="icon" icon="fa-solid fa-star" size="xl" />
-                    <font-awesome-icon class="icon" icon="fa-solid fa-star" size="xl" />
-                    <font-awesome-icon class="icon" icon="fa-solid fa-star" size="xl" />
-                    <font-awesome-icon class="icon" icon="fa-solid fa-star" size="xl" />
+    <div v-if="loading">
+        <DetailViewSkeleton />
+    </div>
+    <div v-else>
+        <div id="Detail" class="container">
+            <div class="header">
+                <div class="category">{{ destinasi.data.kategori.nama }}</div>
+                <h1>{{ destinasi.data.nama }}</h1>
+                <div class="lokasi">
+                    <font-awesome-icon class="icon" icon="fa-solid fa-location-dot" size="xl" />
+                    <p>{{ destinasi.data.alamat }}</p>
+                </div>
+                <div class="operasional">
+                    <font-awesome-icon class="icon" icon="fa-solid fa-clock" size="xl" />
+                    <p>{{ destinasi.data.operasional }}</p>
                 </div>
             </div>
-            <div class="form">
-                <form action="">
-                    <div class="user-data">
-                        <div class="form-group">
-                            <label for="name">Nama</label>
-                            <input type="text" name="name" id="name">
-                        </div>
-                        <div class="form-group">
-                            <label for="email">Email</label>
-                            <input type="text" name="email" id="email">
-                        </div>
-                    </div>
 
-                    <div class="form-group">
-                        <label for="review">Ulasan</label>
-                        <textarea name="review" id="review" cols="30" rows="10"></textarea>
+            <div>
+
+            </div>
+
+            <div class="img-wrapper">
+                <img id="img-box" :src="'https://admin.api.northexpokudus.com/foto/' + destinasi.data.foto" alt="">
+                <div class="img-list">
+                    <img v-for="image in [destinasi.data.foto, destinasi.data.foto2, destinasi.data.foto3, destinasi.data.foto4]"
+                        :src="'https://admin.api.northexpokudus.com/foto/' + image" :key="image" @click="selectImage(image)"
+                        alt="">
+                </div>
+            </div>
+
+            <div class="description-container">
+                <h1>Deskripsi Wisata</h1>
+                <p>{{ destinasi.data.deskripsi }}</p>
+            </div>
+
+            <div class="map-container">
+                <h1>Lokasi</h1>
+                <div class="map">
+                    <iframe :src="destinasi.data.maps" width="100%" height="450" style="border:0;" allowfullscreen=""
+                        loading="lazy"></iframe>
+                </div>
+            </div>
+
+            <!-- additional data -->
+            <additionalComponent></additionalComponent>
+
+            <div class="ticket-wrapper">
+                <DropdownTime :id="destinasi.data.id"></DropdownTime>
+            </div>
+
+            <div class="review-form">
+                <h2>Ulasan</h2>
+                <div class="rate">
+                    <p>Penilaian :</p>
+                    <div class="star-rate">
+                        <font-awesome-icon class="icon" icon="fa-solid fa-star" size="xl" />
+                        <font-awesome-icon class="icon" icon="fa-solid fa-star" size="xl" />
+                        <font-awesome-icon class="icon" icon="fa-solid fa-star" size="xl" />
+                        <font-awesome-icon class="icon" icon="fa-solid fa-star" size="xl" />
+                        <font-awesome-icon class="icon" icon="fa-solid fa-star" size="xl" />
                     </div>
-                    <button type="submit">Kirim</button>
-                </form>
+                </div>
+                <div class="form">
+                    <form action="">
+                        <div class="user-data">
+                            <div class="form-group">
+                                <label for="name">Nama</label>
+                                <input type="text" name="name" id="name">
+                            </div>
+                            <div class="form-group">
+                                <label for="email">Email</label>
+                                <input type="text" name="email" id="email">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="review">Ulasan</label>
+                            <textarea name="review" id="review" cols="30" rows="10"></textarea>
+                        </div>
+                        <button type="submit">Kirim</button>
+                    </form>
+                </div>
             </div>
         </div>
     </div>
+
+
     <footer>
         <footerComponent />
     </footer>
@@ -95,6 +102,7 @@ import HeaderComponent from '../components/HeaderComponent.vue';
 import footerComponent from '../components/footer.vue';
 import additionalComponent from '../components/AdditionalData.vue'
 import DropdownTime from '../components/DropdownTime.vue';
+import DetailViewSkeleton from '../components/skeleton-component/DetailViewSkeleton.vue';
 import { ref, onMounted } from 'vue';
 import { useRoute } from 'vue-router';
 
@@ -115,23 +123,33 @@ const destinasi = ref({
 });
 
 const destinasi2 = ref([])
+const loading = ref(true);
 
 const route = useRoute();
 
+const selectImage = (image) => {
+    document.getElementById('img-box').src = 'https://admin.api.northexpokudus.com/foto/' + image;
+};
+
 onMounted(async () => {
-    const response = await axios.get(`https://admin.api.northexpokudus.com/api/destinasi/${route.params.id}`);
-    destinasi.value = response.data;
-});
-
-onMounted(() => {
-    var imgList = document.querySelectorAll('.img-list img');
-
-    imgList.forEach(function (img) {
-        img.addEventListener('click', function () {
-            document.getElementById('img-box').src = this.src;
-        });
+    new Promise((resolve) => {
+        setTimeout(() => {
+            resolve();
+        }, 1000);
+    }).then(() => {
+        axios.get('https://admin.api.northexpokudus.com/api/destinasi/' + route.params.id)
+            .then((response) => {
+                destinasi.value = response.data;
+            })
+            .catch((error) => {
+                console.log(error);
+            })
+            .finally(() => {
+                loading.value = false;
+            });
     });
-}); 
+});
+ 
 </script>
 
 <style scoped>

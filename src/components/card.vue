@@ -1,53 +1,71 @@
 <template>
     <div class="container" v-for="(wisata, index) in destinasi.data" :key="index">
-        <router-link :to="{ name: 'detail-destinasi', params: { id: wisata.id } }">
-            <img :src="'https://admin.api.northexpokudus.com/foto/' + wisata.foto" alt="gambar">
-            <div class="category">
-                <p>{{ wisata.kategori.nama }}</p>
-            </div>
-            <div class="card-title">
-                <div class="wrapper">
-                    <p id="title">{{ wisata.nama }}</p>
+        <div v-if="isLoading[index]">
+            <DestinationCardSkeleton />
+        </div>
+        <div v-else>
+            <router-link :to="{ name: 'detail-destinasi', params: { id: wisata.id } }">
+                <img :src="'https://admin.api.northexpokudus.com/foto/' + wisata.foto" alt="gambar">
+                <div class="category">
+                    <p>{{ wisata.kategori.nama }}</p>
                 </div>
+                <div class="card-title">
+                    <div class="wrapper">
+                        <p id="title">{{ wisata.nama }}</p>
+                    </div>
 
-                <div class="lokasi">
-                    <font-awesome-icon class="icon" icon="fa-solid fa-location-dot" size="xl" />
-                    <p>{{ wisata.alamat }}</p>
+                    <div class="lokasi">
+                        <font-awesome-icon class="icon" icon="fa-solid fa-location-dot" size="xl" />
+                        <p>{{ wisata.alamat }}</p>
+                    </div>
                 </div>
-            </div>
-            <div class="black-liner"></div>
-        </router-link>
+                <div class="black-liner"></div>
+            </router-link>
+        </div>
+
     </div>
 </template>
 
 <script>
 import { onMounted, ref } from 'vue';
 import axios from 'axios';
+import DestinationCardSkeleton from './skeleton-component/DestinationCardSkeleton.vue';
 
 export default {
+    components: {
+        DestinationCardSkeleton,
+    },
     methods: {
         scrollToTop() {
             window.scrollTo(0, 0);
-        }
+        },
     },
     setup() {
         let destinasi = ref([]);
+        let isLoading = ref([]);
 
-        onMounted(async () => { 
-            axios.get('https://admin.api.northexpokudus.com/api/destinasi')
-                .then((response) => {
-                    destinasi.value = response.data;
-                })
-                .catch((error) => {
-                    console.log(error);
-                });
+        onMounted(async () => {
+            try {
+                const response = await axios.get('https://admin.api.northexpokudus.com/api/destinasi');
+                destinasi.value = response.data;
+
+                isLoading.value = Array(destinasi.value.data.length).fill(true);
+
+                await Promise.all(destinasi.value.data.map(async (_, index) => {
+                    await new Promise((resolve) => setTimeout(resolve, index * 1000));
+                    isLoading.value[index] = false;
+                }));
+            } catch (error) {
+                console.log(error);
+            }
         });
 
         return {
-            destinasi
-        }
-    }
-}
+            destinasi,
+            isLoading,
+        };
+    },
+};
 
 </script>
 
@@ -63,6 +81,7 @@ export default {
     position: relative;
     overflow: hidden;
     margin: 1rem;
+    background-color: #e6e6e6;
 }
 
 .container a img {
@@ -71,11 +90,9 @@ export default {
     transition: 0.5s all ease-out;
 }
 
-.container a:hover  img {
+.container a:hover img {
     transform: scale(1.5);
 }
-
-
 
 .category {
     width: 100%;
