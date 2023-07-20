@@ -47,8 +47,8 @@ onMounted(async () => {
         <nav class="nav-links">
             <ul>
                 <li><a href="/" class="underline">Beranda</a></li>
-                <li><a href="/tiket" class="underline">Pesan Tiket</a></li>
                 <li><a href="/destinasi" class="underline">Destinasi</a></li>
+                <li><a href="/tiket" class="underline">Informasi Umum</a></li>
                 <li><a href="/map" class="underline">Peta Wisata</a></li>
             </ul>
         </nav>

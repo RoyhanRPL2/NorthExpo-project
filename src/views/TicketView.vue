@@ -4,7 +4,7 @@ import HeaderComponent from '../components/HeaderComponent.vue'
 <template>
     <HeaderComponent />
     <div class="container">
-        <h1>Ticket Page <br>belum tersedia</h1>
+        <h1>Informasi Umum <br>belum tersedia</h1>
     </div>
 </template>
 <style scoped>

@@ -42,13 +42,18 @@ const routes = [
   {
     path: '/profile',
     name: 'profile',
-    component: () => import('../views/ProfileView.vue')
+    component: () => import('../views/NewProfileView.vue')
   },
   {
     path: '/ticket/:id',
     name: 'ticket',
     component: () => import('../views/TicketFormView.vue')
-  }
+  },
+  {
+    path: '/profile/edit',
+    name: 'profile-edit',
+    component: () => import('../views/ProfileEdit.vue')
+  },
 ]
 
 const router = createRouter({

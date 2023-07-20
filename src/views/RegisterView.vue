@@ -61,7 +61,7 @@ export default {
             if(result.status == 201 && result.data){
                 alert('Register Sukses');
                 localStorage.setItem('user-info', JSON.stringify(result.data));
-                this.$router.push('/');
+                this.$router.push('/login');
             }
         },
         tes(){
