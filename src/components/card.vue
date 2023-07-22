@@ -3,6 +3,9 @@
         <router-link :to="{ name: 'detail-destinasi', params: { id: wisata.id } }">
             <img :src="'https://admin.api.northexpokudus.com/foto/' + wisata.foto" alt="gambar">
             <div class="category">
+                <button>
+                    <font-awesome-icon icon="fa-solid fa-plus" class="plus-icon" />
+                </button>
                 <p>{{ wisata.kategori.nama }}</p>
             </div>
             <div class="card-title">
@@ -80,11 +83,28 @@ export default {
 .category {
     width: 100%;
     display: flex;
-    justify-content: flex-end;
+    justify-content: space-between;
     padding: 0.8rem;
     position: absolute;
     top: 0;
     right: 0;
+}
+
+.category button {
+    width: 2rem;
+    height: 2rem;
+    border-radius: 10%;
+    background-color: #61832d;
+    border: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+}
+
+.category button .plus-icon {
+    color: #fff;
+    font-size: 1rem;
 }
 
 .category p {
