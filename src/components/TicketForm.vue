@@ -17,26 +17,6 @@
                 <p>*Untuk menerima link unduh bukti</p>
             </div>
         </form>
-        <div class="payment">
-            <h2>Pilih Metode Pembayaran</h2>
-            <div class="payment-method-container">
-                <div class="payment-method-item" :class="{ active: selectedMethod === 'transferBank' }"
-                    @click="selectPaymentMethod('transferBank')">
-                    <font-awesome-icon class="bill-icon" icon="fa-solid fa-money-bill"
-                        :style="{ color: selectedMethod === 'transferBank' ? activeColor : defaultColor }" />
-                    <h3>Transfer Bank</h3>
-                    <p>Transfer melalui ATM, m-Banking, atau e-wallet</p>
-                </div>
-                <div class="payment-method-item" :class="{ active: selectedMethod === 'qris' }"
-                    @click="selectPaymentMethod('qris')">
-                    <img src="../assets/qris.svg" class="qris-icon" alt=""
-                        :style="{ color: selectedMethod === 'qris' ? activeColor : defaultColor }">
-                    <h3>QRIS </h3>
-                    <p>Scan QRIS dengan m-Banking/e-wallet</p>
-                </div>
-            </div>
-        </div>
-
         <div class="term-condition">
             <div class="first-term">
                 <p>1. Syarat dan ketentuan berkunjung</p>
@@ -62,20 +42,6 @@
 </template>
 
 <script>
-export default {
-    data() {
-        return {
-            selectedMethod: null,
-            defaultColor: '#000',
-            activeColor: '#fff'
-        };
-    },
-    methods: {
-        selectPaymentMethod(method) {
-            this.selectedMethod = method;
-        }
-    }
-};
 </script>
 
 <style scoped>

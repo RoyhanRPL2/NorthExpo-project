@@ -4,7 +4,7 @@
         <div class="time-container">
             <p>Pilih Hari</p>
             <select v-model="selectedDate">
-                <option v-for="(date, index) in dates" :key="index">{{ date.format('D MMMM YYYY') }}</option>
+                <option class="option" v-for="(date, index) in dates" :key="index">{{ date.format('D MMMM YYYY') }}</option>
             </select>
         </div>
         <div class="order-detail">
@@ -82,6 +82,13 @@ export default {
         onMounted(() => {
             fetchData(route.params.id);
             selectedDate.value = dates[0];
+            let orderDetail = document.querySelector('.order-detail');
+            orderDetail.style.display = 'none';
+            let select = document.querySelector('select');
+            select.addEventListener('change', () => {
+                orderDetail.style.display = 'block';
+            });
+
         });
 
         return {
