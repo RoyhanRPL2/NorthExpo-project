@@ -54,6 +54,11 @@ const routes = [
     name: 'profile-edit',
     component: () => import('../views/ProfileEdit.vue')
   },
+  {
+    path: '/payment',
+    name: 'payment',
+    component: () => import('../components/paymentModal.vue')
+  }
 ]
 
 const router = createRouter({

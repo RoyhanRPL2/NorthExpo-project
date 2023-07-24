@@ -36,12 +36,39 @@
             <p>Saya telah membaca dan menyetujui syarat dan ketentuan berkunjung</p>
         </div>
         <div class="button-container">
-            <button class="btn btn-primary">Pesan</button>
+            <button class="btn btn-primary pay-button">Pesan</button>
         </div>
     </div>
 </template>
 
 <script>
+import axios from 'axios'
+
+export default {
+    data() {
+        return {
+            no_hp: null,
+            jumlah_orang: null,
+            email: null,
+        }
+    },
+    methods: {
+        makePayment(id) {
+            axios.post('https://admin.api.northexpokudus.com/api/order/tr', {
+                no_hp: this.no_hp,
+                jumlah_orang: this.jumlah_orang,
+                email: this.email,
+            })
+                .then((res) => {
+                    this.response = res.data;
+                    console.log(this.response);
+                })
+                .catch((error) => {
+                    console.log(error);
+                })
+        }
+    }
+}
 </script>
 
 <style scoped>
