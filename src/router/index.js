@@ -54,6 +54,11 @@ const routes = [
     name: 'profile-edit',
     component: () => import('../views/ProfileEdit.vue')
   },
+  {
+    path: '/kuliner/detail/:id',
+    name: 'detail-kuliner',
+    component: () => import('../views/detailCulinary.vue')
+  },
 ]
 
 const router = createRouter({
