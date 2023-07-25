@@ -38,6 +38,16 @@ import { useRoute } from 'vue-router';
 import { useStore } from 'vuex';
 
 export default {
+    data() {
+        return {
+            isLoggedIn: false,
+        }
+    },
+    methods: {
+        someMethod() {
+            this.isLoggedIn = checkUserLoginStatus();
+        }
+    },
     setup() {
         const route = useRoute();
         const store = useStore();
