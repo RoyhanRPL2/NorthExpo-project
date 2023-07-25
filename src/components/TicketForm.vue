@@ -1,43 +1,47 @@
 <template>
     <div class="ticket-form-container">
         <h2>Form Pemesanan Tiket</h2>
-        <form action="">
+        <form @submit.prevent="pay()">
             <div class="form-group">
-                <label for="name">No.Hp</label>
-                <input type="text" name="name" id="name">
+                <label for="tanggal">Tanggal</label>
+                <input type="date" v-model="tanggal" id="tanggal">
             </div>
             <div class="form-group">
-                <label for="name">Jumlah Orang</label>
-                <input type="number" name="name" id="name">
+                <label for="no_telp">No.Hp</label>
+                <input type="text" v-model="no_telp" id="no_telp">
+            </div>
+            <div class="form-group">
+                <label for="qty">Jumlah Orang</label>
+                <input type="number" v-model="qty" min="1" id="qty">
                 <p>*jumlah orang dalam rombongan</p>
             </div>
             <div class="form-group">
-                <label for="name">Email</label>
-                <input type="text" name="name" id="name">
+                <label for="email">Email</label>
+                <input type="text" v-model="email" id="email">
                 <p>*Untuk menerima link unduh bukti</p>
             </div>
+            <div class="term-condition">
+                <div class="first-term">
+                    <p>1. Syarat dan ketentuan berkunjung</p>
+                    <ul>
+                        <li>Menjaga kebersihan tempat wisata</li>
+                        <li>Mengikuti himbauan dan petunjuk petugas wisata</li>
+                        <li>Tiket yang sudah dibayar tidak dapat dikembalikan (non-refundable)</li>
+                    </ul>
+                </div>
+                <div class="second-term">
+                    <p>2. Saya dan/atau rombongan telah memahami, setuju dan bertanggung jawab dengan segala resiko apabila
+                        tidak mematuhi syarat & ketentuan yang telah ditetapkan di atas.</p>
+                </div>
+            </div>
+            <div class="confirm-text">
+                <input type="checkbox">
+                <p>Saya telah membaca dan menyetujui syarat dan ketentuan berkunjung</p>
+            </div>
+            <div class="button-container">
+                <button type="submit" class="btn btn-primary pay-button">Pesan</button>
+            </div>
         </form>
-        <div class="term-condition">
-            <div class="first-term">
-                <p>1. Syarat dan ketentuan berkunjung</p>
-                <ul>
-                    <li>Menjaga kebersihan tempat wisata</li>
-                    <li>Mengikuti himbauan dan petunjuk petugas wisata</li>
-                    <li>Tiket yang sudah dibayar tidak dapat dikembalikan (non-refundable)</li>
-                </ul>
-            </div>
-            <div class="second-term">
-                <p>2. Saya dan/atau rombongan telah memahami, setuju dan bertanggung jawab dengan segala resiko apabila
-                    tidak mematuhi syarat & ketentuan yang telah ditetapkan di atas.</p>
-            </div>
-        </div>
-        <div class="confirm-text">
-            <input type="checkbox">
-            <p>Saya telah membaca dan menyetujui syarat dan ketentuan berkunjung</p>
-        </div>
-        <div class="button-container">
-            <button class="btn btn-primary pay-button">Pesan</button>
-        </div>
     </div>
 </template>
 
@@ -47,25 +51,38 @@ import axios from 'axios'
 export default {
     data() {
         return {
-            no_hp: null,
-            jumlah_orang: null,
-            email: null,
+            id: null,
+            qty: 1,
+            email: '',
+            no_telp: '',
+            tanggal: '',
         }
     },
+    created() {
+        this.id = this.$route.params.id
+    },
     methods: {
-        makePayment(id) {
-            axios.post('https://admin.api.northexpokudus.com/api/order/tr', {
-                no_hp: this.no_hp,
-                jumlah_orang: this.jumlah_orang,
-                email: this.email,
-            })
-                .then((res) => {
-                    this.response = res.data;
-                    console.log(this.response);
-                })
-                .catch((error) => {
-                    console.log(error);
-                })
+        async pay() {
+            try {
+                let result = await axios.post(`https://admin.api.northexpokudus.com/api/order/transaction/${this.id}`, {
+                    qty: this.qty,
+                    email: this.email,
+                    no_telp: this.no_telp,
+                    tanggal: this.tanggal,
+                });
+                if (result.status == 200) {
+                    alert('Pay Sukses');
+                    localStorage.setItem('pembayaran', JSON.stringify(result.data));
+                    localStorage.setItem('tkn-pembayaran', result.data.token);
+                    this.$router.push(`/payment/${this.id}`);
+                    console.warn(result);
+                }
+                else {
+                    alert('Kesalahan');
+                }
+            } catch {
+                alert('Terjadi Kesalahan ');
+            }
         }
     }
 }
@@ -128,6 +145,7 @@ export default {
     font-weight: 700;
     margin-bottom: 1.5rem;
 }
+
 .ticket-form-container .payment-method-container {
     display: flex;
     justify-content: space-between;
@@ -266,4 +284,5 @@ export default {
     font-size: 1rem;
     font-weight: 700;
     cursor: pointer;
-}</style>
+}
+</style>

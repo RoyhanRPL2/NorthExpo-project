@@ -55,7 +55,7 @@ const routes = [
     component: () => import('../views/ProfileEdit.vue')
   },
   {
-    path: '/payment',
+    path: '/payment/:id',
     name: 'payment',
     component: () => import('../components/paymentModal.vue')
   }

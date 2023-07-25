@@ -1,12 +1,6 @@
 <template>
-    <div class="select-container">
+    <div v-if="showSelectContainer" class="select-container">
         <h1>Pesan Tiket</h1>
-        <div class="time-container">
-            <p>Pilih Hari</p>
-            <select v-model="selectedDate">
-                <option class="option" v-for="(date, index) in dates" :key="index">{{ date.format('D MMMM YYYY') }}</option>
-            </select>
-        </div>
         <div class="order-detail">
             <p>{{ apiData.nama }}</p>
             <div class="lokasi">
@@ -14,15 +8,6 @@
                 <p>{{ apiData.alamat }}</p>
             </div>
             <div class="seperate-line"></div>
-            <div class="time-detail">
-                <div class="date">
-                    <font-awesome-icon class="calendar-icon" icon="fa-solid fa-calendar-days" />
-                    <p>{{ selectedDateFormatted }}</p>
-                </div>
-                <div class="service-time">
-                    <p>{{ apiData.operasional }}</p>
-                </div>
-            </div>
             <div class="capacity">
                 <div class="online-cap">
                     <h4>Kuota Online</h4>
@@ -34,7 +19,7 @@
                 </div>
             </div>
             <div class="seperate-line"></div>
-            <router-link :to="{ name: 'ticket', params: { id: this.$route.params.id }, query: { date: selectedDate } }">
+            <router-link :to="{ name: 'ticket', params: { id: this.$route.params.id } }">
                 <div class="order-button">
                     <button>Pesan</button>
                 </div>
@@ -66,6 +51,10 @@ export default {
             await store.dispatch('fetchData', id);
         };
 
+        const showSelectContainer = computed(() => {
+            return apiData.value.status;
+        });
+
         // Metode untuk mendapatkan tanggal terpilih
         const selectedDate = ref('');
 
@@ -81,14 +70,6 @@ export default {
 
         onMounted(() => {
             fetchData(route.params.id);
-            selectedDate.value = dates[0];
-            let orderDetail = document.querySelector('.order-detail');
-            orderDetail.style.display = 'none';
-            let select = document.querySelector('select');
-            select.addEventListener('change', () => {
-                orderDetail.style.display = 'block';
-            });
-
         });
 
         return {
@@ -96,6 +77,7 @@ export default {
             dates,
             selectedDate,
             selectedDateFormatted,
+            showSelectContainer,
         };
     },
 };
@@ -106,10 +88,6 @@ export default {
     width: 100%;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     padding: 1rem;
-}
-
-.select-container .time-container {
-    margin: 1rem 0;
 }
 
 .select-container h1 {
@@ -143,6 +121,7 @@ export default {
     border: 1px solid var(--color-theme-950);
     border-radius: 0.5rem;
     padding: 1rem;
+    margin-top: 1rem;
 }
 
 .select-container .order-detail p {

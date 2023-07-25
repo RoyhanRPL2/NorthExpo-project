@@ -45,8 +45,8 @@
         <!-- additional data -->
         <additionalComponent></additionalComponent>
 
-        <div class="ticket-wrapper">
-            <DropdownTime :id="destinasi.data.id"></DropdownTime>
+        <div class="ticket-wrapper" v-if="destinasi.data.status">
+            <DropdownTime  :id="destinasi.data.id"></DropdownTime>
         </div>
 
         <div class="review-form">
@@ -132,6 +132,9 @@ const destinasi = ref({
         foto4: '',
         deskripsi: '',
         maps: '',
+        operasional: '',
+        harga: '',
+        status: false,
     }
 });
 
@@ -181,10 +184,11 @@ async function postKomentar() {
     });
 }
 
+
+
 onMounted(async () => {
     const response = await axios.get(`https://admin.api.northexpokudus.com/api/destinasi/${route.params.id}`);
     destinasi.value = response.data;
-    
     postKomentar();
     getKomentars();
 });
@@ -197,6 +201,7 @@ onMounted(() => {
             document.getElementById('img-box').src = this.src;
         });
     });
+
 }); 
 </script>
 

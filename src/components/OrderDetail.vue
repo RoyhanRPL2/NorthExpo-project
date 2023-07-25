@@ -14,17 +14,13 @@
                     </div>
                 </div>
                 <div class="bottom-detail">
-                    <div class="date">
-                        <h4>Tanggal</h4>
-                        <p>{{ date }}</p>
-                    </div>
                     <div class="serve-time">
                         <h4>Jam Operasional</h4>
                         <p>{{ destination ? destination.operasional : '' }}</p>
                     </div>
                     <div class="price">
                         <h4>Harga Tiket</h4>
-                        <p>Rp. 100.000/orang</p>
+                        <p>Rp.{{ destination ? destination.harga : '' }}/Orang</p>
                     </div>
                 </div>
             </div>
@@ -36,7 +32,7 @@
                 <p>{{ destination ? destination.deskripsi : '' }}</p>
             </div>
             <div class="capacity-container">
-                <h3>Total kuota: 2000</h3>
+                <h3>Total kuota: {{ destination ? destination.kuota : '' }}</h3>
             </div>
         </div>
         <div class="bottom-container">
@@ -77,7 +73,7 @@ export default {
             try {
                 const response = await axios.get(`https://admin.api.northexpokudus.com/api/destinasi/${id}`);
                 destination.value = response.data.data; // Simpan data destinasi dalam properti reactive
-                console.log(destination.value);
+                console.warn(destination.value);
                 // Lakukan manipulasi atau pengaturan data sesuai kebutuhan
             } catch (error) {
                 console.error(error);
@@ -162,8 +158,8 @@ export default {
 .bottom-detail {
     width: 100%;
     display: flex;
-    justify-content: space-between;
     margin-top: 1.8rem;
+    gap: 4rem;
 }
 
 .bottom-detail h4 {
