@@ -1,6 +1,7 @@
 <script setup>
 import SearchIcon from './icons/IconSearch.vue'
-import { ref, computed } from 'vue';
+import { ref, computed, onMounted } from 'vue';
+import axios from 'axios';
 
 const places = ref([
     { id: 1, name: "Gunung Muria", category: "Wisata Alam", region: "Muria" },
@@ -10,13 +11,7 @@ const places = ref([
     { id: 5, name: "Waterpark Mulia Wisata", category: "Outdoor", region: "Dawe" },
     { id: 6, name: "Susu Moeria", category: "Wisata Edukasi", region: "Muria" }
 ]);
-const categories = ref([
-`   { id: 1, name: "Wisata Budaya" },
-    { id: 2, name: "Wisata Alam" },
-    { id: 3, name: "Wisata Religi" },
-    { id: 4, name: "Desa Wisata" },
-    { id: 5, name: "Outdoor" }`
-]);
+const categories = ref([]);
 const regions = ref([
     { id: 1, name: "Muria" },
     { id: 2, name: "Japan" },
@@ -48,6 +43,14 @@ const filteredPlaces = computed(() => {
         return categoryMatch && regionMatch && searchMatch;
     });
 });
+
+onMounted(async() => {
+    const response = await axios.get('https://admin.api.northexpokudus.com/api/destinasi');
+    const data = response.data.data;
+    data.forEach((item) => {
+        categories.value.push(item.kategori.nama);
+    });
+});
 </script>
 
 <template>
@@ -55,8 +58,8 @@ const filteredPlaces = computed(() => {
         <div>
             <select id="category-filter" v-model="selectedCategory">
                 <option value="">Kategori</option>
-                <option v-for="category in categories" :key="category.id" :value="category.name" class="option">{{
-                    category.name }}</option>
+                <option v-for="category in categories" :key="category" :value="category" class="option">{{ category }}
+                </option>
             </select>
         </div>
         <span class="line"></span>
