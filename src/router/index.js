@@ -55,10 +55,14 @@ const routes = [
     component: () => import('../views/ProfileEdit.vue')
   },
   {
+    path: '/payment/:id',
+    name: 'payment',
+    component: () => import('../components/paymentModal.vue')
+  },
     path: '/kuliner/detail/:id',
     name: 'detail-kuliner',
     component: () => import('../views/detailCulinary.vue')
-  },
+  }
 ]
 
 const router = createRouter({
