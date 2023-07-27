@@ -63,7 +63,7 @@ export default {
     // Load the Midtrans Snap.js script dynamically
     const script = document.createElement('script');
     script.src = 'https://app.sandbox.midtrans.com/snap/snap.js';
-    script.setAttribute('data-client-key', 'SB-Mid-client-3GKYnRbz7jp7ixm_'); // Replace with your actual client key
+    script.setAttribute('data-client-key', 'SB-Mid-cli,.ent-3GKYnRbz7jp7ixm_'); // Replace with your actual client key
     document.head.appendChild(script);
   },
   methods: {

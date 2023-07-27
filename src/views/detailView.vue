@@ -141,6 +141,8 @@ const destinasi = ref({
 const komentar = ref('');
 const komentars = ref([]);
 
+const kuliner = ref([]);
+
 const destinasi2 = ref([])
 
 const route = useRoute();

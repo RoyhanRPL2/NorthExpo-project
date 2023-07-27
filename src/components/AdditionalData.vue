@@ -16,17 +16,19 @@
         <span class="separator-line"></span>
         <div class="nearest-restaurant">
             <h2>Warung Terdekat</h2>
-            <ul class="restaurant-list">
+            <ul class="restaurant-list" v-for="(wisata3, index) in kuliner" :key="index">
                 <li>
-                    <h3>Ayam Pak Gembus</h3>
+                    <h3>{{ wisata3.nama_warung }}</h3>
+                    <router-link :to="{ name: 'detail-kuliner', params: { id: wisata3.id } }">
+                        <font-awesome-icon icon="fa-solid fa-arrow-right" size="xl"/>
+                    </router-link>
+                </li>
+                <li>
+                    <h3>warung Ortega</h3>
                     <font-awesome-icon class="icon" icon="fa-solid fa-arrow-right" size="xl"/>
                 </li>
                 <li>
-                    <h3>Ayam Pak Gembus</h3>
-                    <font-awesome-icon class="icon" icon="fa-solid fa-arrow-right" size="xl"/>
-                </li>
-                <li>
-                    <h3>Ayam Pak Gembus</h3>
+                    <h3>warung Ortega</h3>
                     <font-awesome-icon class="icon" icon="fa-solid fa-arrow-right" size="xl"/>
                 </li>
             </ul>
@@ -38,11 +40,13 @@
 import { ref } from 'vue'
 import axios from 'axios';
 import { faWindows } from '@fortawesome/free-brands-svg-icons';
+import { useRoute } from 'vue-router';
 
 export default {
     data() {
         return {
-            destinasi: ref([])
+            destinasi: ref([]),
+            kuliner: ref([]),
         }
     },
     methods: {
@@ -51,7 +55,7 @@ export default {
         },
         refreshPage() {
             window.location.reload()
-        }
+        },
     },
     mounted() {
         axios.get('https://admin.api.northexpokudus.com/api/destinasi')
@@ -61,6 +65,16 @@ export default {
             .catch((error) => {
                 console.log(error)
             })
+
+            const route = useRoute();
+            axios.get(`https://admin.api.northexpokudus.com/api/kuliner`)
+                .then((response2) => {
+                    this.kuliner = response2.data.data
+                    console.log(this.kuliner)
+                })
+                .catch((error) => {
+                    console.log(error)
+                })
     }
 }
 </script>
