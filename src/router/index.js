@@ -47,15 +47,7 @@ const routes = [
   {
     path: '/ticket/:id',
     name: 'ticket',
-    component: () => import('../views/TicketFormView.vue'),
-    beforeEnter: (to, from, next) => {
-      const token = localStorage.getItem('token');
-      if (token) {
-        next();
-      } else {
-        next('/login');
-      }
-    },
+    component: () => import('../views/TicketFormView.vue')
   },
   {
     path: '/profile/edit',
