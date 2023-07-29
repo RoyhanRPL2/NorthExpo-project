@@ -35,7 +35,7 @@
                 </div>
             </div>
             <div class="confirm-text">
-                <input type="checkbox">
+                <input type="checkbox" v-model="isAgreed">
                 <p>Saya telah membaca dan menyetujui syarat dan ketentuan berkunjung</p>
             </div>
             <div class="button-container">
@@ -56,6 +56,7 @@ export default {
             email: '',
             no_telp: '',
             tanggal: '',
+            isAgreed: false,
         }
     },
     created() {
@@ -63,6 +64,16 @@ export default {
     },
     methods: {
         async pay() {
+            if (!this.tanggal || !this.no_telp || !this.qty || !this.email) {
+                alert('Harap isi semua kolom input sebelum melanjutkan.');
+                return;
+            }
+
+            if (!this.isAgreed) {
+                alert('Harap setujui syarat dan ketentuan sebelum melanjutkan.');
+                return;
+            }
+
             try {
                 let result = await axios.post(`https://admin.api.northexpokudus.com/api/order/transaction/${this.id}`, {
                     qty: this.qty,

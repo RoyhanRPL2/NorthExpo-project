@@ -46,7 +46,7 @@
         <additionalComponent></additionalComponent>
 
         <div class="ticket-wrapper">
-            <DropdownTime :id="destinasi.data.id" v-if="destinasi.data.status"></DropdownTime>
+            <DropdownTime :id="destinasi.data.id"></DropdownTime>
         </div>
 
         <div class="review-form">
