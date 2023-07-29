@@ -45,8 +45,8 @@
         <!-- additional data -->
         <additionalComponent></additionalComponent>
 
-        <div class="ticket-wrapper" v-if="destinasi.data.status">
-            <DropdownTime  :id="destinasi.data.id"></DropdownTime>
+        <div class="ticket-wrapper">
+            <DropdownTime :id="destinasi.data.id"></DropdownTime>
         </div>
 
         <div class="review-form">
@@ -77,7 +77,7 @@
                     <div class="form-group">
                         <label for="review">Ulasan</label>
                         <div class="form-nama">
-                            <textarea name="review" id="review" cols="30" rows="10"  v-model="komentar"></textarea>
+                            <textarea name="review" id="review" cols="30" rows="10" v-model="komentar"></textarea>
                         </div>
                     </div>
                     <button type="submit" class="btn btn-outline-warning">Kirim</button>
@@ -89,7 +89,7 @@
             <h2>Ulasan Pengunjung</h2>
             <div class="review-item" v-for="komentar in komentars" :key="komentar">
                 <div class="user">
-                    <img :src="`https://admin.api.northexpokudus.com/assets/img/avatar/` + komentar.user_id.avatar" alt="" >
+                    <img :src="`https://admin.api.northexpokudus.com/assets/img/avatar/` + komentar.user_id.avatar" alt="">
                     <div class="user-data">
                         <h3>{{ komentar.user_id.name }}</h3>
                     </div>
@@ -134,14 +134,11 @@ const destinasi = ref({
         maps: '',
         operasional: '',
         harga: '',
-        status: false,
     }
 });
 
 const komentar = ref('');
 const komentars = ref([]);
-
-const destinasi2 = ref([])
 
 const route = useRoute();
 
@@ -171,17 +168,17 @@ async function postKomentar() {
     const data = {
         komentar: komentar.value
     };
-    axios.post(`https://admin.api.northexpokudus.com/api/destinasi/komentar/${route.params.id}`,  
+    axios.post(`https://admin.api.northexpokudus.com/api/destinasi/komentar/${route.params.id}`,
         data, config
     )
-    .then(response => {
-        console.log(response.data);
-        this.komentar = '';
-        this.getKomentars();
-    })
-    .catch(error => {
-        console.log(error.response.data);
-    });
+        .then(response => {
+            console.log(response.data);
+            this.komentar = '';
+            this.getKomentars();
+        })
+        .catch(error => {
+            console.log(error.response.data);
+        });
 }
 
 
@@ -201,7 +198,6 @@ onMounted(() => {
             document.getElementById('img-box').src = this.src;
         });
     });
-
 }); 
 </script>
 
