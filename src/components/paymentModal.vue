@@ -75,10 +75,13 @@ export default {
       }
     },
     async payWithMidtrans() {
+
       try {
         // const response = await axios.post(`http://127.0.0.1:9099/api/order/transaction/${this.id}`); 
         // Retrieve the Snap token from the API response
         const snapToken = this.data.token;
+
+        const self = this;
 
         // Initiate the Midtrans payment using Snap.js
         snap.pay(snapToken, {
@@ -89,6 +92,7 @@ export default {
             localStorage.removeItem('pembayaran');
             localStorage.removeItem('tkn-pembayaran');
             // Redirect or show success message as needed
+            self.$router.push({ name : 'payment-success'});
           },
           onPending: function (result) {
             // Payment pending, handle pending logic here

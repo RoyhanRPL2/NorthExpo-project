@@ -59,9 +59,15 @@ const routes = [
     name: 'payment',
     component: () => import('../components/paymentModal.vue')
   },
+  {
     path: '/kuliner/detail/:id',
     name: 'detail-kuliner',
     component: () => import('../views/detailCulinary.vue')
+  },
+  {
+    path: '/payment-success',
+    name: 'payment-success',
+    component: () => import('../views/PaymentSuccessView.vue')
   }
 ]
 
