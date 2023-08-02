@@ -12,7 +12,6 @@
                 <div class="wrapper">
                     <p id="title">{{ wisata.nama }}</p>
                 </div>
-
                 <div class="lokasi">
                     <font-awesome-icon class="icon" icon="fa-solid fa-location-dot" size="xl" />
                     <p>{{ wisata.alamat }}</p>
@@ -117,14 +116,14 @@ export default {
 
 .card-title {
     width: 100%;
-    height: 25%;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-around;
-    padding: 0.5rem 0.8rem;
+    padding: 1rem;
     position: absolute;
     bottom: 0;
-    z-index: 2;
+    left: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    z-index: 1;
 }
 
 .card-title p {

@@ -22,9 +22,7 @@ import searchComponent from '../components/SearchComponent.vue'
     <div class="main">
         <card />
     </div>
-    <div class="pagination">
 
-    </div>
     <footer>
         <footerComponent />
     </footer>
@@ -43,7 +41,7 @@ import searchComponent from '../components/SearchComponent.vue'
     position: relative;
 }
 
-.hero .black-linear {
+.hero .black-linear {   
     /* more darker */
     width: 100%;
     height: 60vh;
@@ -90,5 +88,33 @@ import searchComponent from '../components/SearchComponent.vue'
     justify-content: space-evenly;
     align-items: center;
     padding: 5rem 0;
+}
+
+footer {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+@media screen and (max-width: 768px) {
+    .hero .title-wrapper {
+        top: 50%;
+    }
+
+    .hero .search-wrapper {
+        top: 90%;
+    }
+}
+
+@media screen and (max-width: 425px) {
+    .hero .title-wrapper {
+        top: 60%;
+    }
+
+    .hero .search-wrapper {
+        top: 100%;
+    }
 }
 </style>
