@@ -45,7 +45,13 @@
         <!-- additional data -->
         <additionalComponent></additionalComponent>
 
-        <div class="ticket-wrapper">
+        <!-- Jika destinasi.data.status bernilai true -->
+        <div v-if="destinasi.data.status === 'true'" class="ticket-wrapper">
+            <DropdownTime :id="destinasi.data.id"></DropdownTime>
+        </div>
+
+        <!-- Jika destinasi.data.status bernilai false -->
+        <div v-else style="display: none;">
             <DropdownTime :id="destinasi.data.id"></DropdownTime>
         </div>
 
