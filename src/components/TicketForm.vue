@@ -47,6 +47,8 @@
 
 <script>
 import axios from 'axios'
+import { useRoute } from 'vue-router';
+import { computed, onMounted, ref } from 'vue';
 
 export default {
     data() {
@@ -57,12 +59,23 @@ export default {
             no_telp: '',
             tanggal: '',
             isAgreed: false,
+            harga: null,
         }
     },
     created() {
         this.id = this.$route.params.id
+        this.fetchdata()
     },
     methods: {
+        async fetchdata() {
+            try {
+                const response = await axios.get(`https://admin.api.northexpokudus.com/api/destinasi/${this.id}`);
+                this.harga = response.data.data.harga; // Set the 'harga' value from the fetched destination data
+                console.log(this.harga)
+            } catch (error) {
+                console.error(error);
+            }
+        },
         async pay() {
             if (!this.tanggal || !this.no_telp || !this.qty || !this.email) {
                 alert('Harap isi semua kolom input sebelum melanjutkan.');
@@ -75,11 +88,27 @@ export default {
             }
 
             try {
+                const getUserInfo = localStorage.getItem('user-info');
+                const userInfo = JSON.parse(getUserInfo);
+
+                const token = userInfo.token;
+                const userId = userInfo.user.id;
+                const currentTimeInSeconds = String(Math.floor(Date.now() / 1000));
+
                 let result = await axios.post(`https://admin.api.northexpokudus.com/api/order/transaction/${this.id}`, {
+                    order_id: 'NE' + currentTimeInSeconds,
+                    destinasi_id: this.id,
+                    user_id: userId,
                     qty: this.qty,
                     email: this.email,
                     no_telp: this.no_telp,
                     tanggal: this.tanggal,
+                    total: this.qty * this.harga,
+
+                }, {
+                    headers: {
+                        Authorization: "Bearer " + token
+                    }
                 });
                 if (result.status == 200) {
                     alert('Pay Sukses');
@@ -91,9 +120,12 @@ export default {
                 else {
                     alert('Kesalahan');
                 }
+                console.log(result.status);
+                console.log(result.data);
             } catch {
                 alert('Terjadi Kesalahan ');
             }
+            console.log(this.harga)
         }
     }
 }
