@@ -4,7 +4,7 @@
         <form @submit.prevent="pay()">
             <div class="form-group">
                 <label for="tanggal">Tanggal</label>
-                <input type="date" v-model="tanggal" id="tanggal">
+                <input type="date" v-model="tanggal" id="tanggal" :min="minDate">
             </div>
             <div class="form-group">
                 <label for="no_telp">No.Hp</label>
@@ -60,6 +60,7 @@ export default {
             tanggal: '',
             isAgreed: false,
             harga: null,
+            minDate: this.getTodayISOString()
         }
     },
     created() {
@@ -67,6 +68,13 @@ export default {
         this.fetchdata()
     },
     methods: {
+        getTodayISOString() {
+            const today = new Date();
+            const year = today.getFullYear();
+            const month = String(today.getMonth() + 1).padStart(2, '0');
+            const day = String(today.getDate()).padStart(2, '0');
+            return `${year}-${month}-${day}`;
+        },
         async fetchdata() {
             try {
                 const response = await axios.get(`https://admin.api.northexpokudus.com/api/destinasi/${this.id}`);
