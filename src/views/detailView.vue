@@ -45,13 +45,19 @@
         <!-- additional data -->
         <additionalComponent></additionalComponent>
 
-        <div class="ticket-wrapper" v-if="destinasi.data.status">
-            <DropdownTime  :id="destinasi.data.id"></DropdownTime>
+        <!-- Jika destinasi.data.status bernilai true -->
+        <div v-if="destinasi.data.status === 'true'" class="ticket-wrapper">
+            <DropdownTime :id="destinasi.data.id"></DropdownTime>
+        </div>
+
+        <!-- Jika destinasi.data.status bernilai false -->
+        <div v-else style="display: none;">
+            <DropdownTime :id="destinasi.data.id"></DropdownTime>
         </div>
 
         <div class="review-form">
             <h2>Ulasan</h2>
-            <div class="rate">
+            <!-- <div class="rate">
                 <p>Penilaian :</p>
                 <div class="star-rate">
                     <font-awesome-icon class="icon" icon="fa-solid fa-star" size="xl" />
@@ -60,7 +66,7 @@
                     <font-awesome-icon class="icon" icon="fa-solid fa-star" size="xl" />
                     <font-awesome-icon class="icon" icon="fa-solid fa-star" size="xl" />
                 </div>
-            </div>
+            </div> -->
             <div class="form">
                 <form action="" @submit.prevent="postKomentar()">
                     <!-- <div class="user-data">
@@ -75,9 +81,9 @@
                     </div> -->
 
                     <div class="form-group">
-                        <label for="review">Ulasan</label>
+                        <!-- <label for="review">Ulasan</label> -->
                         <div class="form-nama">
-                            <textarea name="review" id="review" cols="30" rows="10"  v-model="komentar"></textarea>
+                            <textarea name="review" id="review" cols="30" rows="10" v-model="komentar"></textarea>
                         </div>
                     </div>
                     <button type="submit" class="btn btn-outline-warning">Kirim</button>
@@ -89,7 +95,7 @@
             <h2>Ulasan Pengunjung</h2>
             <div class="review-item" v-for="komentar in komentars" :key="komentar">
                 <div class="user">
-                    <img :src="`https://admin.api.northexpokudus.com/assets/img/avatar/` + komentar.user_id.avatar" alt="" >
+                    <img :src="`https://admin.api.northexpokudus.com/assets/img/avatar/` + komentar.user_id.avatar" alt="">
                     <div class="user-data">
                         <h3>{{ komentar.user_id.name }}</h3>
                     </div>
@@ -134,7 +140,6 @@ const destinasi = ref({
         maps: '',
         operasional: '',
         harga: '',
-        status: false,
     }
 });
 
@@ -144,7 +149,6 @@ const komentars = ref([]);
 const kuliner = ref([]);
 
 const destinasi2 = ref([])
-
 const route = useRoute();
 
 // get komentars
@@ -173,17 +177,18 @@ async function postKomentar() {
     const data = {
         komentar: komentar.value
     };
-    axios.post(`https://admin.api.northexpokudus.com/api/destinasi/komentar/${route.params.id}`,  
+    axios.post(`https://admin.api.northexpokudus.com/api/destinasi/komentar/${route.params.id}`,
         data, config
     )
-    .then(response => {
-        console.log(response.data);
-        this.komentar = '';
-        this.getKomentars();
-    })
-    .catch(error => {
-        console.log(error.response.data);
-    });
+        .then(response => {
+            console.log(response.data);
+            this.komentar = '';
+            this.getKomentars();
+            alert('Komentar berhasil dikirim');
+        })
+        .catch(error => {
+            console.log(error.response.data);
+        });
 }
 
 
@@ -203,7 +208,6 @@ onMounted(() => {
             document.getElementById('img-box').src = this.src;
         });
     });
-
 }); 
 </script>
 

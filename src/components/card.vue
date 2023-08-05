@@ -15,7 +15,9 @@
 
                 <div class="lokasi">
                     <font-awesome-icon class="icon" icon="fa-solid fa-location-dot" size="xl" />
-                    <p>{{ wisata.alamat }}</p>
+                    <div class="loc">
+                        <p>{{ wisata.alamat }}</p>
+                    </div>
                 </div>
             </div>
             <div class="black-liner"></div>
@@ -26,6 +28,7 @@
 <script>
 import { onMounted, ref } from 'vue';
 import axios from 'axios';
+import LocationIcon from './icons/IconLocation.vue'
 
 export default {
     methods: {
@@ -136,12 +139,18 @@ export default {
 
 .card-title .lokasi {
     display: flex;
-    align-items: center;
+    /* align-items: center; */
+}
+
+.card-title .lokasi .loc {
+    overflow: hidden;
+    margin-right: 20px;
 }
 
 .card-title .lokasi .icon {
     margin-right: 0.5rem;
     color: #15ACC5;
+    width: 100px;
 }
 
 .card-title .lokasi p {
@@ -151,6 +160,8 @@ export default {
     color: #fff;
     background-color: transparent;
     white-space: nowrap;
+    transform: translateX(0);
+    animation: marqueeLocation 30s linear infinite;
 }
 
 .black-liner {
@@ -160,5 +171,27 @@ export default {
     bottom: 0;
     left: 0;
     background: linear-gradient(180deg, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 1) 100%);
+}
+
+@keyframes marqueeLocation {
+    0% {
+        transform: translateX(0);
+    }
+
+    10% {
+        transform: translateX(0);
+    }
+
+    60% {
+        transform: translateX(calc(-100% - 200px));
+    }
+
+    70% {
+        transform: translateX(calc(-100% - 200px));
+    }
+
+    100% {
+        transform: translateX(0);
+    }
 }
 </style>

@@ -4,7 +4,8 @@
         <DetailUserProfile/>
     </div>
     <div v-else-if="activeTab === 'statusTiket'">
-        <h1>Status Tiket</h1>
+        <h1>Riwayat Tiket</h1>
+        <ProfileTicketStatus/>
     </div>
     <div v-else-if="activeTab === 'daftarKeinginan'">
         <h1>Daftar Keinginan</h1>
@@ -15,9 +16,11 @@
 
 <script>
 import DetailUserProfile from './DetailUserProfile.vue'
+import ProfileTicketStatus from './ProfileTicketStatus.vue';
 export default {
     components: {
-        DetailUserProfile
+        DetailUserProfile,
+        ProfileTicketStatus
     },
     props: {
         activeTab: {
@@ -32,7 +35,8 @@ export default {
 <style scoped>
 .content {
     width: 100%;
-    height: 450px;
+    max-height: fit-content;
+    min-height: 450px;
     border-radius: 20px;
     background-color: var(--color-secondary-50);
     padding: 30px 40px;

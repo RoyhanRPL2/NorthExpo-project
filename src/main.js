@@ -10,11 +10,11 @@ import { library } from '@fortawesome/fontawesome-svg-core'
 
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 
-import { faStar, faUserSecret, faArrowRight, faEye, faEyeSlash, faClock, faChevronDown, faCalendarDays, faCircleExclamation, faMoneyBillWave, faMoneyBill, faPlus } from '@fortawesome/free-solid-svg-icons'
+import { faStar, faUserSecret, faArrowRight, faEye, faEyeSlash, faClock, faChevronDown, faCalendarDays, faCircleExclamation, faMoneyBillWave, faMoneyBill, faPlus, faExclamationCircle, faPerson } from '@fortawesome/free-solid-svg-icons'
 
 import { faLocationDot } from '@fortawesome/free-solid-svg-icons'
 
-library.add(faUserSecret, faLocationDot, faStar, faArrowRight, faEye, faEyeSlash, faClock, faChevronDown, faCalendarDays, faCircleExclamation, faMoneyBillWave, faMoneyBill, faPlus)
+library.add(faUserSecret, faLocationDot, faStar, faArrowRight, faEye, faEyeSlash, faClock, faChevronDown, faCalendarDays, faCircleExclamation, faMoneyBillWave, faMoneyBill, faPlus, faExclamationCircle, faPerson)
 
 const app = createApp(App)
 

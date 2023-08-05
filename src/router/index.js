@@ -22,7 +22,7 @@ const routes = [
   {
     path: '/tiket',
     name: 'tiket',
-    component: () => import('../views/TicketView.vue')
+    component: () => import('../views/TicketPrice.vue')
   },
   {
     path: '/destinasi',
@@ -63,6 +63,11 @@ const routes = [
     path: '/kuliner/detail/:id',
     name: 'detail-kuliner',
     component: () => import('../views/detailCulinary.vue')
+  },
+  {
+    path: '/payment-success',
+    name: 'payment-success',
+    component: () => import('../views/PaymentSuccessView.vue')
   }
 ]
 

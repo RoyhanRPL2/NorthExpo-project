@@ -1,5 +1,5 @@
 <template>
-    <div v-if="showSelectContainer" class="select-container">
+    <div class="select-container">
         <h1>Pesan Tiket</h1>
         <div class="order-detail">
             <p>{{ apiData.nama }}</p>
@@ -19,12 +19,21 @@
                 </div>
             </div>
             <div class="seperate-line"></div>
-            <router-link :to="{ name: 'ticket', params: { id: this.$route.params.id } }">
-                <div class="order-button">
-                    <button>Pesan</button>
+            <div class="order-button">
+                <button @click="pesanTiket">Pesan</button>
+            </div>
+            <div v-if="isLoginModalOpen" class="modal">
+                <div class="modal-content">
+                    <div class="icon-wrapper">
+                        <font-awesome-icon class="warn-icon" icon="fa-solid fa-circle-exclamation" />
+                    </div>
+                    <p>Maaf, anda harus login terlebih dahulu untuk memesan tiket.</p>
+                    <div class="btn-wrapper">
+                        <button @click="redirectToLogin" class="login-button">Login</button>
+                        <button @click="closeModal" class="close-button">Tutup</button>
+                    </div>
                 </div>
-            </router-link>
-
+            </div>
         </div>
     </div>
 </template>
@@ -38,6 +47,35 @@ import { useRoute } from 'vue-router';
 import { useStore } from 'vuex';
 
 export default {
+    data() {
+        return {
+            isLoggedIn: false,
+            isLoginModalOpen: false,
+        }
+    },
+    methods: {
+        someMethod() {
+            this.isLoggedIn = checkUserLoginStatus();
+        },
+        pesanTiket() {
+            const token = localStorage.getItem('token');
+            if (token) {
+                // Pengguna sudah login, lakukan aksi untuk memesan tiket (contoh: arahkan ke halaman pemesanan tiket)
+                this.$router.push({ name: 'ticket', params: { id: this.$route.params.id } });
+            } else {
+                // Pengguna belum login, tampilkan modal login
+                this.isLoginModalOpen = true;
+            }
+        },
+        redirectToLogin() {
+            // Metode untuk mengarahkan ke halaman login
+            this.$router.push('/login');
+        },
+        closeModal() {
+            // Metode untuk menutup modal
+            this.isLoginModalOpen = false;
+        },
+    },
     setup() {
         const route = useRoute();
         const store = useStore();
@@ -50,10 +88,6 @@ export default {
         const fetchData = async (id) => {
             await store.dispatch('fetchData', id);
         };
-
-        const showSelectContainer = computed(() => {
-            return apiData.value.status;
-        });
 
         // Metode untuk mendapatkan tanggal terpilih
         const selectedDate = ref('');
@@ -77,7 +111,6 @@ export default {
             dates,
             selectedDate,
             selectedDateFormatted,
-            showSelectContainer,
         };
     },
 };
@@ -231,17 +264,14 @@ export default {
     font-weight: normal;
 }
 
-.select-container .order-detail a {
-    text-decoration: none;
-}
 
-.select-container .order-detail a .order-button {
+.select-container .order-detail .order-button {
     display: flex;
     justify-content: center;
     align-items: center;
 }
 
-.select-container .order-detail a .order-button button {
+.select-container .order-detail .order-button button {
     width: 100%;
     height: 3rem;
     background-color: var(--color-primary-500);
@@ -252,5 +282,99 @@ export default {
     border-radius: 0.5rem;
     outline: none;
     text-decoration: none;
+}
+
+.select-container .order-detail .order-button button:hover {
+    cursor: pointer;
+    background-color: var(--color-primary-600);
+}
+
+.select-container .order-detail .order-button button:active {
+    background-color: var(--color-primary-700);
+}
+
+.select-container .order-detail .modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.select-container .order-detail .modal .modal-content {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    width: 25%;
+}
+
+.select-container .order-detail .modal .modal-content .icon-wrapper {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+.select-container .order-detail .modal .modal-content .warn-icon {
+    color: var(--color-primary-500);
+    font-size: 4rem;
+    margin-bottom: 1rem;
+}
+
+.select-container .order-detail .modal .modal-content p {
+    font-size: 1rem;
+    color: var(--color-theme-950);
+    text-align: center;
+    margin-bottom: 1rem;
+}
+
+.select-container .order-detail .modal .modal-content .btn-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.select-container .order-detail .modal .modal-content .login-button {
+    width: 100%;
+    height: 3rem;
+    background-color: var(--color-primary-500);
+    color: #fff;
+    font-size: 1rem;
+    font-weight: 600;
+    border: none;
+    border-radius: 0.5rem;
+    outline: none;
+    text-decoration: none;
+    margin-bottom: 0.5rem;
+}
+
+.select-container .order-detail .modal .modal-content .login-button:hover {
+    cursor: pointer;
+    background-color: var(--color-primary-600);
+}
+
+.select-container .order-detail .modal .modal-content .login-button:active {
+    background-color: var(--color-primary-700);
+}
+
+.select-container .order-detail .modal .modal-content .close-button {
+    width: 100%;
+    height: 3rem;
+    background-color: var(--color-theme-950);
+    color: #fff;
+    font-size: 1rem;
+    font-weight: 600;
+    border: none;
+    border-radius: 0.5rem;
+    outline: none;
+    text-decoration: none;
+}
+
+.select-container .order-detail .modal .modal-content .close-button:hover {
+    cursor: pointer;
+    background-color: var(--color-theme-900);
 }
 </style>
