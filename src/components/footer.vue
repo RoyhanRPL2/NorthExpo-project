@@ -20,24 +20,24 @@
             </div>
             <ul class="social-media">
                 <li>
-                    <a href="https://instagram.com/disbudparkudus?igshid=MzRlODBiNWFlZA==" target="_blank">
+                    <a href="https://www.instagram.com/" target="_blank">
                         <img src="@/components/icons/instagram-icon.svg" alt="">
                     </a>
                 </li>
                 <li>
-                    <a href="https://www.facebook.com/disbudpar.kudus.1?mibextid=ZbWKwL" target="_blank">
+                    <a href="https://www.facebook.com/" target="_blank">
                         <img src="@/components/icons/facebook-icon.svg" alt="">
                     </a>
                     
                 </li>
                 <li>
-                    <a href="https://youtube.com/@disbudparkudus5626" target="_blank">
+                    <a href="https://youtube.com/" target="_blank">
                         <img src="@/components/icons/youtube-icon.svg" alt="">
                     </a>
                     
                 </li>
                 <li>
-                    <a href="https://www.tiktok.com/@disbudparkudus?_t=8ctrksGi4Cg&_r=1" target="_blank">
+                    <a href="https://www.tiktok.com/" target="_blank">
                         <img src="@/components/icons/tiktok-icon.svg" alt="">
                     </a>
                 </li>
