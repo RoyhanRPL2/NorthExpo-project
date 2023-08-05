@@ -57,7 +57,7 @@
 
         <div class="review-form">
             <h2>Ulasan</h2>
-            <div class="rate">
+            <!-- <div class="rate">
                 <p>Penilaian :</p>
                 <div class="star-rate">
                     <font-awesome-icon class="icon" icon="fa-solid fa-star" size="xl" />
@@ -66,7 +66,7 @@
                     <font-awesome-icon class="icon" icon="fa-solid fa-star" size="xl" />
                     <font-awesome-icon class="icon" icon="fa-solid fa-star" size="xl" />
                 </div>
-            </div>
+            </div> -->
             <div class="form">
                 <form action="" @submit.prevent="postKomentar()">
                     <!-- <div class="user-data">
@@ -81,7 +81,7 @@
                     </div> -->
 
                     <div class="form-group">
-                        <label for="review">Ulasan</label>
+                        <!-- <label for="review">Ulasan</label> -->
                         <div class="form-nama">
                             <textarea name="review" id="review" cols="30" rows="10" v-model="komentar"></textarea>
                         </div>
@@ -146,6 +146,9 @@ const destinasi = ref({
 const komentar = ref('');
 const komentars = ref([]);
 
+const kuliner = ref([]);
+
+const destinasi2 = ref([])
 const route = useRoute();
 
 // get komentars
@@ -181,6 +184,7 @@ async function postKomentar() {
             console.log(response.data);
             this.komentar = '';
             this.getKomentars();
+            alert('Komentar berhasil dikirim');
         })
         .catch(error => {
             console.log(error.response.data);

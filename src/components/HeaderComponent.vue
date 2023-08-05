@@ -111,6 +111,7 @@ onMounted(async () => {
     z-index: 100;
     background-color: rgba(255, 255, 255, 1);
     backdrop-filter: blur(30px);
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
 }
 
 .navbar #logo {

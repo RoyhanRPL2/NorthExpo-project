@@ -5,39 +5,39 @@
                 <div class="footer-item">
                     <img src="@/components/icons/email.svg" alt="">
                     <h3>Mail</h3>
-                    <p>disbudpar@gmail.com</p>
+                    <p>northexpo.develop@gmail.com</p>
                 </div>
                 <div class="footer-item">
                     <img src="@/components/icons/cellphone.svg" alt="">
                     <h3>Hubungi Kami</h3>
-                    <p>(0291) 435958</p>
+                    <p>+6282243460612</p>
                 </div>
                 <div class="footer-item">
                     <img src="@/components/icons/location.svg" alt="">
                     <h3>Temukan Kami</h3>
-                    <p>Jalan GOR Wergu Wetan, Kec. Kota Kab. Kudus Provinsi Jawa Tengah</p>
+                    <p>Jl Sukun Raya No.09, Besito Kulon, Besito, Kec. Gebog, Kabupaten Kudus, Jawa Tengah</p>
                 </div>
             </div>
             <ul class="social-media">
                 <li>
-                    <a href="https://instagram.com/disbudparkudus?igshid=MzRlODBiNWFlZA==" target="_blank">
+                    <a href="https://www.instagram.com/" target="_blank">
                         <img src="@/components/icons/instagram-icon.svg" alt="">
                     </a>
                 </li>
                 <li>
-                    <a href="https://www.facebook.com/disbudpar.kudus.1?mibextid=ZbWKwL" target="_blank">
+                    <a href="https://www.facebook.com/" target="_blank">
                         <img src="@/components/icons/facebook-icon.svg" alt="">
                     </a>
                     
                 </li>
                 <li>
-                    <a href="https://youtube.com/@disbudparkudus5626" target="_blank">
+                    <a href="https://youtube.com/" target="_blank">
                         <img src="@/components/icons/youtube-icon.svg" alt="">
                     </a>
                     
                 </li>
                 <li>
-                    <a href="https://www.tiktok.com/@disbudparkudus?_t=8ctrksGi4Cg&_r=1" target="_blank">
+                    <a href="https://www.tiktok.com/" target="_blank">
                         <img src="@/components/icons/tiktok-icon.svg" alt="">
                     </a>
                 </li>
@@ -50,8 +50,7 @@
 
                 <div class="copyright">
                     <div class="copyright-wrapper">
-                        <p>Copyright © 2023 | Dinas Kebudayaan dan Pariwisata Kabupaten Kudus
-                            Developed by 4ranger Team</p>
+                        <p>Copyright © 2023 | Developed by 4ranger Team</p>
                     </div>
 
                 </div>

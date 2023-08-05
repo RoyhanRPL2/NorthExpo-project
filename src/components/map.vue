@@ -4,6 +4,9 @@ import 'leaflet/dist/leaflet.css'
 import 'leaflet/dist/leaflet.js'
 import { onMounted } from 'vue'
 import axios from 'axios'
+import { useRouter } from 'vue-router'
+
+const router = useRouter();
 
 
 onMounted(() => {
@@ -44,22 +47,30 @@ onMounted(() => {
     });
 
     axios.get('https://admin.api.northexpokudus.com/api/destinasi').then((response) => {
-        const data = response.data.data
+        const data = response.data.data;
+        const self = this;
         data.forEach((item) => {
-            if (item.kategori.nama == 'Wisata Alam') {
-                L.marker([item.latitude, item.longitude], { icon: AlamIcon}).addTo(map).bindPopup(`<b>${item.nama}</b><br>${item.alamat}<br><a href="${item.link}">Lihat Detail</a>`);
-            } else if (item.kategori.nama == 'Wisata Hiburan') {
-                L.marker([item.latitude, item.longitude], { icon: hiburanIcon }).addTo(map).bindPopup(`<b>${item.nama}</b><br>${item.alamat}<br><a href="${item.link}">Lihat Detail</a>`)
-            } else if (item.kategori.nama == 'Wisata Religi') {
-                L.marker([item.latitude, item.longitude], { icon: religiIcon }).addTo(map).bindPopup(`<b>${item.nama}</b><br>${item.alamat}<br><a href="${item.link}">Lihat Detail</a>`)
-            } else {
-                L.marker([item.latitude, item.longitude]).addTo(map).bindPopup(`<b>${item.nama}</b><br>${item.alamat}<br><a href="${item.link}">Lihat Detail</a>`)
-            }
-        })
+            const link = `<a href="#" data-id="${item.id}">Lihat Detail</a>`;
+
+            const marker = L.marker([item.latitude, item.longitude]);
+            marker.setIcon(item.kategori.nama == 'Wisata Alam' ? AlamIcon : item.kategori.nama == 'Wisata Hiburan' ? hiburanIcon : item.kategori.nama == 'Wisata Religi' ? religiIcon : null);
+
+            marker.addTo(map).bindPopup(`<b>${item.nama}</b><br>${item.alamat}<br>${link}`);
+
+            marker.on('popupopen', function (event) {
+                const clickedLink = event.popup._contentNode.querySelector('a');
+                const id = clickedLink.getAttribute('data-id');
+                clickedLink.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    router.push({ name: 'detail-destinasi', params: { id: id } });
+                });
+            });
+        });
     })
-    .catch((error) => {
-        console.log(error)
-    })
+        .catch((error) => {
+            console.log(error);
+        });
+
 });
 </script>
 
@@ -70,7 +81,7 @@ onMounted(() => {
 
 <style>
 #map {
-    width: 1000px;    
+    width: 1000px;
     height: 500px;
     z-index: 1;
     border-radius: 10px;
