@@ -30,6 +30,11 @@ const routes = [
     component: () => import('../views/DestinasiView.vue')
   },
   {
+    path: '/destinasi/search',
+    name: 'destinasi-search',
+    component: () => import('../views/DestinasiSearchView.vue')
+  },
+  {
     path: '/detail/:id',
     name: 'detail-destinasi',
     component: () => import('../views/detailView.vue')
