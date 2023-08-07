@@ -22,17 +22,28 @@
                                 <p>{{ ticket.qty }}</p>
                             </div>
                         </div>
-                        <div class="date">
-                            <h4>Tanggal</h4>
-                            <p>{{ formatDate(ticket.tanggal) }}</p>
-                        </div>
-                        <div class="status-container">
-                            <h4>Status</h4>
-                            <div class="status-item"
-                                :style="{ background: getStatusGradient(ticket.status) }">
-                                <p>{{ ticket.status }}</p>
+                        <div class="date-container">
+                            <div class="date">
+                                <h4>Tanggal</h4>
+                                <p>{{ formatDate(ticket.tanggal) }}</p>
+                            </div>
+                            <font-awesome-icon class="arrow-icon" icon="fa-solid fa-angle-right" />
+                            <div class="operational">
+                                <h4>Jam Operasional</h4>
+                                <p>{{ ticket.destinasi.operasional }}</p>
                             </div>
                         </div>
+                        <!-- <div class="status-container">
+                            <h4>Status</h4>
+                            
+                        </div> -->
+                    </div>
+                </div>
+                <div class="qr-container">
+                    <p>Scan QR Code</p>
+                    <img :src="'https://admin.api.northexpokudus.com/qrcode/' + ticket.order_id + '.png'" alt="">
+                    <div class="status-item" :style="{ background: getStatusGradient(ticket.status) }">
+                        <p>{{ ticket.status }}</p>
                     </div>
                 </div>
             </div>
@@ -145,16 +156,17 @@ export default {
 }
 
 .status .status-preview {
+    width: fit-content;
     display: flex;
     align-items: center;
+
 }
 
 .status .status-preview .card-ticket {
-    width: 700px;
-    height: fit-content;
+    width: 600px;
+    height: 300px;
     background-color: var(--color-primary-600);
-    border-radius: 20px;
-    margin-right: 20px;
+    border-radius: 15px;
     overflow: hidden;
     display: flex;
     margin-bottom: 1rem;
@@ -247,41 +259,95 @@ export default {
     text-transform: capitalize;
 }
 
-.status .status-preview .card-ticket .user-data .date {
+.status .status-preview .card-ticket .user-data .date-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
     margin-bottom: 2rem;
 }
 
-.status .status-preview .card-ticket .user-data .date h4 {
+.status .status-preview .card-ticket .user-data .date-container .date {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.status .status-preview .card-ticket .user-data .date-container .date h4 {
     font-size: 16px;
     color: var(--color-primary-200);
 }
 
-.status .status-preview .card-ticket .user-data .date p {
+.status .status-preview .card-ticket .user-data .date-container .date p {
     font-size: 1.2rem;
     font-weight: 600;
     color: #fff;
     text-transform: capitalize;
 }
 
-.status .status-preview .card-ticket .user-data .status-container h4 {
-    font-size: 16px;
-    color: var(--color-primary-200);
-    margin-bottom: 1rem;
+.status .status-preview .card-ticket .user-data .date-container .arrow-icon {
+    color: #fff;
+    font-size: 1.2rem;
+    margin: 0 1rem;
 }
 
-.status .status-preview .card-ticket .user-data .status-container .status-item {
+.status .status-preview .card-ticket .user-data .date-container .operational {
+    display: flex;
+    flex-direction: column;
+}
+
+.status .status-preview .card-ticket .user-data .date-container .operational h4 {
+    font-size: 16px;
+    color: var(--color-primary-200);
+}
+
+.status .status-preview .card-ticket .user-data .date-container .operational p {
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: #fff;
+    text-transform: capitalize;
+}
+
+.status .status-preview .qr-container {
+    width: 180px;
+    height: 300px;
+    background-color: #000;
+    padding: 0.5rem;
+    border-radius: 15px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.status .status-preview .qr-container p {
+    font-size: 1.2rem;
+    font-weight: 500;
+    color: #fff;
+    text-transform: capitalize;
+}
+
+.status .status-preview .qr-container img {
+    width: 140px;
     border-radius: 10px;
-    padding: 1rem;
+    margin: 0.5rem 0;
 }
 
-.status .status-preview .card-ticket .user-data .status-container .status-item p {
+.status .status-preview .qr-container .status-item {
+    width: fit-content;
+    height: fit-content;
+    margin: 1rem 0;
+    padding: 0.5rem 1rem;
+    border-radius: 10px;
+}
+
+.status .status-preview .qr-container .status-item p {
     font-size: 1.2rem;
-    font-weight: 600;
+    font-weight: 500;
     color: #fff;
     text-transform: capitalize;
 }
 
-.status .status-preview .ticket-value {
+/* .status .status-preview .ticket-value {
     display: flex;
     padding-right: 20px;
     margin-top: 20px;
@@ -299,5 +365,5 @@ export default {
     font-weight: 600;
     color: var(--color-theme-950);
     text-transform: capitalize;
-}
+} */
 </style>
