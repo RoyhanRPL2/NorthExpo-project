@@ -1,5 +1,24 @@
 <script setup>
 import HeaderComponent from '../components/HeaderComponent.vue'
+import FooterComponent from '../components/footer.vue'
+import { ref, onMounted } from 'vue'
+import axios from 'axios'
+
+let destinasi = ref([])
+function formattedHarga(harga) {
+    return harga.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.')
+}
+
+onMounted(async () => {
+    axios.get('https://admin.api.northexpokudus.com/api/destinasi')
+        .then((response) => {
+            destinasi.value = response.data
+        })
+        .catch((error) => {
+            console.log(error)
+        })
+})
+
 </script>
 <template>
     <HeaderComponent />
@@ -11,191 +30,49 @@ import HeaderComponent from '../components/HeaderComponent.vue'
     </div>
 
     <div class="card-container">
-        <div class="card-info">
+        <div v-for="destination in destinasi.data" :key="destination" class="card-info">
             <div class="card-title">
-                <h1>The Hills Vaganza</h1>
+                <h1>{{ destination.nama }}</h1>
             </div>
             <div class="card-day">
                 <h1>Hari Senin</h1>
-                <p>Harga : Rp 10.000</p>
+                <p>Harga : Rp {{ formattedHarga(destination.harga) }}</p>
             </div>
 
             <div class="card-day">
                 <h1>Hari Selasa</h1>
-                <p>Harga : Rp 10.000</p>
+                <p>Harga : Rp {{ formattedHarga(destination.harga) }}</p>
             </div>
 
             <div class="card-day">
                 <h1>Hari Rabu</h1>
-                <p>Harga : Rp 10.000</p>
+                <p>Harga : Rp {{ formattedHarga(destination.harga) }}</p>
             </div>
 
             <div class="card-day">
                 <h1>Hari Kamis</h1>
-                <p>Harga : Rp 10.000</p>
+                <p>Harga : Rp {{ formattedHarga(destination.harga) }}</p>
             </div>
 
             <div class="card-day">
                 <h1>Hari Jumat</h1>
-                <p>Harga : Rp 10.000</p>
+                <p>Harga : Rp {{ formattedHarga(destination.harga) }}</p>
             </div>
 
             <div class="card-day">
                 <h1>Hari Sabtu</h1>
-                <p>Harga : Rp 10.000</p>
+                <p>Harga : Rp {{ formattedHarga(destination.harga) }}</p>
             </div>
 
-            <div class="circle-bg"></div>
-        </div>
-
-        <div class="card-info">
-            <div class="card-title">
-                <h1>Gardu Padang</h1>
-            </div>
-            <div class="card-day">
-                <h1>Hari Senin</h1>
-                <p>Harga : Rp 10.000</p>
-            </div>
-
-            <div class="card-day">
-                <h1>Hari Selasa</h1>
-                <p>Harga : Rp 10.000</p>
-            </div>
-
-            <div class="card-day">
-                <h1>Hari Rabu</h1>
-                <p>Harga : Rp 10.000</p>
-            </div>
-
-            <div class="card-day">
-                <h1>Hari Kamis</h1>
-                <p>Harga : Rp 10.000</p>
-            </div>
-
-            <div class="card-day">
-                <h1>Hari Jumat</h1>
-                <p>Harga : Rp 10.000</p>
-            </div>
-
-            <div class="card-day">
-                <h1>Hari Sabtu</h1>
-                <p>Harga : Rp 10.000</p>
-            </div>
-
-            <div class="circle-bg"></div>
-        </div>
-
-        <div class="card-info">
-            <div class="card-title">
-                <h1>Air Terjun Kedung Gender</h1>
-            </div>
-            <div class="card-day">
-                <h1>Hari Senin</h1>
-                <p>Harga : Rp 10.000</p>
-            </div>
-
-            <div class="card-day">
-                <h1>Hari Selasa</h1>
-                <p>Harga : Rp 10.000</p>
-            </div>
-
-            <div class="card-day">
-                <h1>Hari Rabu</h1>
-                <p>Harga : Rp 10.000</p>
-            </div>
-
-            <div class="card-day">
-                <h1>Hari Kamis</h1>
-                <p>Harga : Rp 10.000</p>
-            </div>
-
-            <div class="card-day">
-                <h1>Hari Jumat</h1>
-                <p>Harga : Rp 10.000</p>
-            </div>
-
-            <div class="card-day">
-                <h1>Hari Sabtu</h1>
-                <p>Harga : Rp 10.000</p>
-            </div>
-
-            <div class="circle-bg"></div>
-        </div>
-
-        <div class="card-info">
-            <div class="card-title">
-                <h1>Gardu Padang</h1>
-            </div>
-            <div class="card-day">
-                <h1>Hari Senin</h1>
-                <p>Harga : Rp 10.000</p>
-            </div>
-
-            <div class="card-day">
-                <h1>Hari Selasa</h1>
-                <p>Harga : Rp 10.000</p>
-            </div>
-
-            <div class="card-day">
-                <h1>Hari Rabu</h1>
-                <p>Harga : Rp 10.000</p>
-            </div>
-
-            <div class="card-day">
-                <h1>Hari Kamis</h1>
-                <p>Harga : Rp 10.000</p>
-            </div>
-
-            <div class="card-day">
-                <h1>Hari Jumat</h1>
-                <p>Harga : Rp 10.000</p>
-            </div>
-
-            <div class="card-day">
-                <h1>Hari Sabtu</h1>
-                <p>Harga : Rp 10.000</p>
-            </div>
-
-            <div class="circle-bg"></div>
-        </div>
-
-        <div class="card-info">
-            <div class="card-title">
-                <h1>Gardu Padang</h1>
-            </div>
-            <div class="card-day">
-                <h1>Hari Senin</h1>
-                <p>Harga : Rp 10.000</p>
-            </div>
-
-            <div class="card-day">
-                <h1>Hari Selasa</h1>
-                <p>Harga : Rp 10.000</p>
-            </div>
-
-            <div class="card-day">
-                <h1>Hari Rabu</h1>
-                <p>Harga : Rp 10.000</p>
-            </div>
-
-            <div class="card-day">
-                <h1>Hari Kamis</h1>
-                <p>Harga : Rp 10.000</p>
-            </div>
-
-            <div class="card-day">
-                <h1>Hari Jumat</h1>
-                <p>Harga : Rp 10.000</p>
-            </div>
-
-            <div class="card-day">
-                <h1>Hari Sabtu</h1>
-                <p>Harga : Rp 10.000</p>
+            <div class="operasional">
+                <h1>Jam Operasional</h1>
+                <p>{{ destination.operasional }}</p>
             </div>
 
             <div class="circle-bg"></div>
         </div>
     </div>
+    <FooterComponent />
 </template>
 <style scoped>
 .container {
@@ -305,6 +182,46 @@ import HeaderComponent from '../components/HeaderComponent.vue'
     font-size: 20px;
     font-style: normal;
     font-weight: 500;
+    line-height: 120%;
+    /* 30px */
+    letter-spacing: 0.125px;
+}
+
+.card-info .operasional {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
+    width: 100%;
+    padding: 20px 0;
+    background-color: transparent;
+    border-top: 1px solid var(--color-theme-200, #C4C6CB);
+}
+
+.operasional h1 {
+    color: var(--color-theme-950);
+    text-align: center;
+
+    /* heading 4/bold */
+    font-family: Poppins;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 120%;
+    /* 30px */
+    letter-spacing: 0.125px;
+}
+
+.operasional p {
+    color: var(--color-primary-600);
+    text-align: center;
+
+    /* heading 4/bold */
+    font-family: Poppins;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 600;
     line-height: 120%;
     /* 30px */
     letter-spacing: 0.125px;

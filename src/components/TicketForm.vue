@@ -49,6 +49,7 @@
 import axios from 'axios'
 import { useRoute } from 'vue-router';
 import { computed, onMounted, ref } from 'vue';
+import moment from 'moment-timezone';
 
 export default {
     data() {
@@ -102,9 +103,10 @@ export default {
                 const token = userInfo.token;
                 const userId = userInfo.user.id;
                 const currentTimeInSeconds = String(Math.floor(Date.now() / 1000));
+                const timestamp = moment().tz("Asia/Jakarta").format("YYYYMMDDHHmm")
 
                 let result = await axios.post(`https://admin.api.northexpokudus.com/api/order/transaction/${this.id}`, {
-                    order_id: 'NE' + currentTimeInSeconds,
+                    order_id: 'NE' + timestamp,
                     destinasi_id: this.id,
                     user_id: userId,
                     qty: this.qty,
