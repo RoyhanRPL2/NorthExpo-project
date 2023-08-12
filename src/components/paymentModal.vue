@@ -44,6 +44,7 @@
 import axios from 'axios'
 import { RouterLink } from 'vue-router'
 import HeaderComponent from '../components/HeaderComponent.vue'
+import Swal from 'sweetalert2';
 export default {
   name: 'Pembayaran',
   components: {
@@ -87,7 +88,11 @@ export default {
         snap.pay(snapToken, {
           onSuccess: function (result) {
             // Payment successful, handle success logic here
-            alert('Payment successful! Transaction ID: ' + result.transaction_id);
+            // Swal.fire({ // Use Swal.fire for error messages
+            //             icon: 'success',
+            //             title: 'Pembayaran Berhasil',
+            //             text: 'Silahkan Cek Email Anda.',
+            //         });
             //clear data local storage
             localStorage.removeItem('pembayaran');
             localStorage.removeItem('tkn-pembayaran');
