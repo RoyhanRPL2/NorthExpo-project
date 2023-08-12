@@ -23,6 +23,7 @@
         <div class="img-wrapper">
             <img id="img-box" :src="'https://admin.api.northexpokudus.com/foto/' + destinasi.data.foto" alt="">
             <div class="img-list">
+                <img :src="'https://admin.api.northexpokudus.com/foto/' + destinasi.data.foto" alt="">
                 <img :src="'https://admin.api.northexpokudus.com/foto/' + destinasi.data.foto2" alt="">
                 <img :src="'https://admin.api.northexpokudus.com/foto/' + destinasi.data.foto3" alt="">
                 <img :src="'https://admin.api.northexpokudus.com/foto/' + destinasi.data.foto4" alt="">
