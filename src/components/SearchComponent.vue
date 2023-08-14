@@ -1,56 +1,112 @@
 <script setup>
 import SearchIcon from './icons/IconSearch.vue'
-import { ref, computed, onMounted } from 'vue';
+// import { ref, computed, onMounted, defineEmits } from 'vue';
+import { ref, defineEmits, onMounted } from 'vue';
 import axios from 'axios';
+import { useRouter } from 'vue-router';
 
-const places = ref([
-    { id: 1, name: "Gunung Muria", category: "Wisata Alam", region: "Muria" },
-    { id: 2, name: "Makam Sunan Muria", category: "Wisata Religi", region: "Muria" },
-    { id: 3, name: "The Hills Vaganza", category: "Outdoor", region: "Dawe" },
-    { id: 4, name: "Desa Japan", category: "Desa Wisata", region: "Japan" },
-    { id: 5, name: "Waterpark Mulia Wisata", category: "Outdoor", region: "Dawe" },
-    { id: 6, name: "Susu Moeria", category: "Wisata Edukasi", region: "Muria" }
-]);
+// const places = ref([
+//     { id: 1, name: "Gunung Muria", category: "Wisata Alam", region: "Muria" },
+//     { id: 2, name: "Makam Sunan Muria", category: "Wisata Religi", region: "Muria" },
+//     { id: 3, name: "The Hills Vaganza", category: "Outdoor", region: "Dawe" },
+//     { id: 4, name: "Desa Japan", category: "Desa Wisata", region: "Japan" },
+//     { id: 5, name: "Waterpark Mulia Wisata", category: "Outdoor", region: "Dawe" },
+//     { id: 6, name: "Susu Moeria", category: "Wisata Edukasi", region: "Muria" }
+// ]);
+// const categories = ref([]);
+// const regions = ref([
+//     { id: 1, name: "Muria" },
+//     { id: 2, name: "Japan" },
+//     { id: 3, name: "Dawe" }
+// ]);
+// const selectedCategory = ref("");
+// const selectedRegion = ref("");
+// const searchQuery = ref("");
+
+// const filteredPlaces = computed(() => {
+//     return places.value.filter(place => {
+//         let categoryMatch = true;
+//         let regionMatch = true;
+//         let searchMatch = true;
+
+//         if (selectedCategory.value) {
+//             categoryMatch = place.category === selectedCategory.value;
+//         }
+
+//         if (selectedRegion.value) {
+//             regionMatch = place.region === selectedRegion.value;
+//         }
+
+//         if (searchQuery.value) {
+//             const searchRegex = new RegExp(searchQuery.value, "i");
+//             searchMatch = Object.values(place).some(value => searchRegex.test(value));
+//         }
+
+//         return categoryMatch && regionMatch && searchMatch;
+//     });
+// });
+
+// onMounted(async() => {
+//     const response = await axios.get('https://admin.api.northexpokudus.com/api/destinasi');
+//     const data = response.data.data;
+//     data.forEach((item) => {
+//         categories.value.push(item.kategori.nama);
+//     });
+// });
+
+const emit = defineEmits(['search-results']);
+
+const router = useRouter();
+
+const searchValue = ref('');
+const selectedCategory = ref('');
+const selectedRegion = ref('');
 const categories = ref([]);
-const regions = ref([
-    { id: 1, name: "Muria" },
-    { id: 2, name: "Japan" },
-    { id: 3, name: "Dawe" }
-]);
-const selectedCategory = ref("");
-const selectedRegion = ref("");
-const searchQuery = ref("");
+const regions = ref([]);
 
-const filteredPlaces = computed(() => {
-    return places.value.filter(place => {
-        let categoryMatch = true;
-        let regionMatch = true;
-        let searchMatch = true;
+// function performSearch() {
+//     router.push({
+//         path: '/destinasi',
+//         query: {
+//             search: searchValue.value,
+//             kategori: selectedCategory.value,
+//         },
+//     });
+// }
 
-        if (selectedCategory.value) {
-            categoryMatch = place.category === selectedCategory.value;
-        }
+const search = async () => {
+    try {
+        const response = await axios.get('https://admin.api.northexpokudus.com/api/destinasi', {
+            params: {
+                search: searchValue.value,
+                kategori: selectedCategory.value,
+            },
+        });
 
-        if (selectedRegion.value) {
-            regionMatch = place.region === selectedRegion.value;
-        }
+        router.push({
+            path: '/destinasi/search',
+            query: {
+                search: searchValue.value,
+                kategori: selectedCategory.value,
+            },
+        });
 
-        if (searchQuery.value) {
-            const searchRegex = new RegExp(searchQuery.value, "i");
-            searchMatch = Object.values(place).some(value => searchRegex.test(value));
-        }
+        // Kirim hasil pencarian ke komponen destinasi
+        emit('search-results', response.data.data);
+    } catch (error) {
+        console.error(error);
+    }
+};
 
-        return categoryMatch && regionMatch && searchMatch;
-    });
-});
-
-onMounted(async() => {
+onMounted(async () => {
     const response = await axios.get('https://admin.api.northexpokudus.com/api/destinasi');
     const data = response.data.data;
     data.forEach((item) => {
         categories.value.push(item.kategori.nama);
+        regions.value.push(item.wilayah.nama);
     });
 });
+
 </script>
 
 <template>
@@ -66,16 +122,16 @@ onMounted(async() => {
         <div>
             <select id="region-filter" v-model="selectedRegion">
                 <option value="">Wilayah</option>
-                <option v-for="region in regions" :key="region.id" :value="region.name" class="option">{{ region.name }}
+                <option v-for="region in regions" :key="region" :value="region" class="option">{{ region }}
                 </option>
             </select>
         </div>
         <span class="line"></span>
         <div class="search">
-            <input type="text" v-model="searchQuery" placeholder="Cari destinasi wisata...">
+            <input type="text" v-model="searchValue" placeholder="Cari destinasi wisata...">
         </div>
         <!-- add search icon -->
-        <div class="btn-search">
+        <div class="btn-search" @click="search">
             <SearchIcon />
         </div>
     </div>

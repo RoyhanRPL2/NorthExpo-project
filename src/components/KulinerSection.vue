@@ -7,20 +7,31 @@ import cardCulinary from '../components/cardCulinary.vue'
             <h4>Kuliner</h4>
             <h1>Beragam Referensi Makanan Kuliner</h1>
         </div>
-        <cardCulinary />
+        <div class="container-culinary">
+            <cardCulinary />
+        </div>
     </div>
 </template>
 
 <style scoped>
 .container {
     width: 100%;
-    height: 90vh;
+    height: fit-content;
     background-color: var(--color-theme-50);
     padding: 70px 100px;
     display: flex;
     flex-direction: column;
     justify-content: start;
     align-items: center;
+}
+
+.container .container-culinary {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
 }
 
 .container .culinary-title {

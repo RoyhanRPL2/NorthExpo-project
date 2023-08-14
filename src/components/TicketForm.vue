@@ -45,6 +45,7 @@ import axios from 'axios'
 import { useRoute } from 'vue-router';
 import { computed, onMounted, ref } from 'vue';
 import moment from 'moment-timezone';
+import Swal from 'sweetalert2';
 
 export default {
     data() {
@@ -81,12 +82,20 @@ export default {
         },
         async pay() {
             if (!this.tanggal || !this.no_telp || !this.qty) {
-                alert('Harap isi semua kolom input sebelum melanjutkan.');
+                Swal.fire({ // Use Swal.fire for error messages
+                    icon: 'warning',
+                    title: 'Oops...',
+                    text: 'Harap isi semua kolom input sebelum melanjutkan.',
+                });
                 return;
             }
 
             if (!this.isAgreed) {
-                alert('Harap setujui syarat dan ketentuan sebelum melanjutkan.');
+                Swal.fire({ // Use Swal.fire for error messages
+                    icon: 'warning',
+                    title: 'Oops...',
+                    text: 'Harap setujui syarat dan ketentuan sebelum melanjutkan.',
+                });
                 return;
             }
 
@@ -116,19 +125,31 @@ export default {
                     }
                 });
                 if (result.status == 200) {
-                    alert('Pay Sukses');
+                    Swal.fire({ // Use Swal.fire for error messages
+                        icon: 'success',
+                        title: 'Tiket Berhasil Dipesan',
+                        text: 'Silahkan lanjutkan pembayaran',
+                    });
                     localStorage.setItem('pembayaran', JSON.stringify(result.data));
                     localStorage.setItem('tkn-pembayaran', result.data.token);
                     this.$router.push(`/payment/${this.id}`);
                     console.warn(result);
                 }
                 else {
-                    alert('Kesalahan');
+                    Swal.fire({ // Use Swal.fire for error messages
+                        icon: 'error',
+                        title: 'Oops...',
+                        text: 'Terjadi Kesalahan!',
+                    });
                 }
                 console.log(result.status);
                 console.log(result.data);
             } catch {
-                alert('Terjadi Kesalahan ');
+                Swal.fire({ // Use Swal.fire for error messages
+                    icon: 'error',
+                    title: 'Oops...',
+                    text: 'Terjadi Kesalahan!',
+                });
             }
             console.log(this.harga)
         }
