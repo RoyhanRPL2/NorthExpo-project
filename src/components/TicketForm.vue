@@ -15,11 +15,6 @@
                 <input type="number" v-model="qty" min="1" id="qty">
                 <p>*jumlah orang dalam rombongan</p>
             </div>
-            <div class="form-group">
-                <label for="email">Email</label>
-                <input type="text" v-model="email" id="email">
-                <p>*Untuk menerima link unduh bukti</p>
-            </div>
             <div class="term-condition">
                 <div class="first-term">
                     <p>1. Syarat dan ketentuan berkunjung</p>
@@ -57,7 +52,6 @@ export default {
         return {
             id: null,
             qty: 1,
-            email: '',
             no_telp: '',
             tanggal: '',
             isAgreed: false,
@@ -87,7 +81,7 @@ export default {
             }
         },
         async pay() {
-            if (!this.tanggal || !this.no_telp || !this.qty || !this.email) {
+            if (!this.tanggal || !this.no_telp || !this.qty) {
                 Swal.fire({ // Use Swal.fire for error messages
                     icon: 'warning',
                     title: 'Oops...',
@@ -111,6 +105,7 @@ export default {
 
                 const token = userInfo.token;
                 const userId = userInfo.user.id;
+                const email = userInfo.user.email;
                 const currentTimeInSeconds = String(Math.floor(Date.now() / 1000));
                 const timestamp = moment().tz("Asia/Jakarta").format("YYYYMMDDHHmm")
 
@@ -119,7 +114,7 @@ export default {
                     destinasi_id: this.id,
                     user_id: userId,
                     qty: this.qty,
-                    email: this.email,
+                    email: email,
                     no_telp: this.no_telp,
                     tanggal: this.tanggal,
                     total: this.qty * this.harga,
