@@ -65,9 +65,6 @@ export default {
                         showConfirmButton: false,
                         timer: 4000,
                         timerProgressBar: true,
-                        background: 'var(--color-success-500)',
-                        iconColor: '#fff',
-                        color: '#fff',
                         didOpen: (toast) => {
                             toast.addEventListener('mouseenter', Swal.stopTimer);
                             toast.addEventListener('mouseleave', Swal.resumeTimer);
