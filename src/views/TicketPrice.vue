@@ -36,37 +36,7 @@ onMounted(async () => {
             </div>
             <div v-if="destination.harga > 0" class="card">
                 <div class="card-day">
-                    <h1>Hari Senin</h1>
-                    <p>Harga : Rp {{ formattedHarga(destination.harga) }}</p>
-                </div>
-
-                <div class="card-day">
-                    <h1>Hari Selasa</h1>
-                    <p>Harga : Rp {{ formattedHarga(destination.harga) }}</p>
-                </div>
-
-                <div class="card-day">
-                    <h1>Hari Rabu</h1>
-                    <p>Harga : Rp {{ formattedHarga(destination.harga) }}</p>
-                </div>
-
-                <div class="card-day">
-                    <h1>Hari Kamis</h1>
-                    <p>Harga : Rp {{ formattedHarga(destination.harga) }}</p>
-                </div>
-
-                <div class="card-day">
-                    <h1>Hari Jumat</h1>
-                    <p>Harga : Rp {{ formattedHarga(destination.harga) }}</p>
-                </div>
-
-                <div class="card-day">
-                    <h1>Hari Sabtu</h1>
-                    <p>Harga : Rp {{ formattedHarga(destination.harga) }}</p>
-                </div>
-
-                <div class="card-day">
-                    <h1>Hari Minggu</h1>
+                    <h1>Hari Senin - Minggu</h1>
                     <p>Harga : Rp {{ formattedHarga(destination.harga) }}</p>
                 </div>
             </div>
@@ -125,7 +95,7 @@ onMounted(async () => {
     padding: 0 100px;
     align-items: flex-start;
     align-content: center;
-    gap: 100px 150px;
+    gap: 100px 100px;
     flex-wrap: wrap;
     justify-content: center;
     padding-bottom: 100px;
@@ -160,7 +130,7 @@ onMounted(async () => {
     text-align: center;
     font-size: 18px;
     font-weight: 600;
-    min-width: 200px;
+    min-width: 235px;
 }
 
 .card-info .card-day {
