@@ -35,6 +35,7 @@
 
 <script>
 import axios from 'axios';
+import Swal from 'sweetalert2';
 
 export default {
     data() {
@@ -76,11 +77,28 @@ export default {
                     localStorage.setItem('user-info', JSON.stringify(this.user));
                     // Alihkan pengguna kembali ke halaman profil
                     this.$router.push('/profile');
-                    alert('Profile successfully saved')
+                    Swal.mixin({ // Integrate Swal.mixin here
+                        toast: true,
+                        position: 'bottom-end',
+                        showConfirmButton: false,
+                        timer: 4000,
+                        timerProgressBar: true,
+                        didOpen: (toast) => {
+                            toast.addEventListener('mouseenter', Swal.stopTimer);
+                            toast.addEventListener('mouseleave', Swal.resumeTimer);
+                        },
+                    }).fire({
+                        icon: 'success',
+                        title: 'Profil Berhasil Diperbarui',
+                    });
                 })
                 .catch(error => {
                     console.error('Error saving profile:', error);
-                    alert('Error saving profile. Please try again.' + error)
+                    Swal.fire({ // Use Swal.fire for error messages
+                        icon: 'error',
+                        title: 'Oops...',
+                        text: 'Terjadi Kesalahan. Coba Kembali!',
+                    });
                 });
         },
     },

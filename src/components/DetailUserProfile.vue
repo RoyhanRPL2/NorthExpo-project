@@ -1,7 +1,8 @@
 <template>
 <div class="detail-profile">
     <div class="profile-banner">
-        <img src="src\assets\images\profile-banner-bg.png" alt="User banner" class="banner">
+        <!-- <img src="src\assets\images\profile-banner-bg.png" alt="User banner" class="banner"> -->
+        <img :src="'https://source.unsplash.com/1600x900/?nature/' + Math.random()" alt="User banner" class="banner">
     </div>
     <div class="profile">
         <div class="user">
@@ -16,9 +17,8 @@
             </div>
         </div>
         <div class="edit-profile">
-            <!-- buat button edit profil menuju ke route /profile/edit -->
             <router-link to="/profile/edit">
-                <button class="btn btn-primary">Edit Profile</button>
+                <button class="btn btn-primary">Ubah Profil</button>
             </router-link>
         </div>
     </div>
