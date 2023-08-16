@@ -317,6 +317,7 @@ export default {
     display: flex;
     justify-content: center;
     align-items: center;
+    z-index: 999;
 }
 
 .select-container .order-detail .modal .modal-content {
