@@ -11,11 +11,11 @@
             <div class="capacity">
                 <div class="online-cap">
                     <h4>Kuota Online</h4>
-                    <p>100 Orang</p>
+                    <p> {{ticketApi.kuota}} Orang</p>
                 </div>
                 <div class="rest-capacity">
                     <h4>Sisa Kuota</h4>
-                    <p>100 Orang</p>
+                    <p> {{ticketApi.sisa_kuota}} Orang</p>
                 </div>
             </div>
             <div class="seperate-line"></div>
@@ -39,6 +39,7 @@
 </template>
 
 <script>
+import axios from 'axios';
 import dayjs from 'dayjs';
 import 'dayjs/locale/id';
 import id from 'dayjs/locale/id';
@@ -74,11 +75,12 @@ export default {
         closeModal() {
             // Metode untuk menutup modal
             this.isLoginModalOpen = false;
-        },
+        }
     },
     setup() {
         const route = useRoute();
         const store = useStore();
+        const ticketApi = ref({});
 
         const apiData = computed(() => {
             return store.getters.getApiData;
@@ -96,6 +98,16 @@ export default {
             return selectedDate.value ? dayjs(selectedDate.value).format('D MMMM YYYY') : '';
         });
 
+        const fetchTicketData = async (id) => {
+            try {
+                const response = await axios.get(`https://admin.api.northexpokudus.com/api/sisakuota/${id}`);
+                ticketApi.value = response.data.data;
+                console.log(ticketApi.value);
+            } catch (error) {
+                console.error(error);
+            }
+        };
+
         dayjs.locale('id');
         const dates = [];
         for (let i = 0; i < 7; i++) {
@@ -104,6 +116,7 @@ export default {
 
         onMounted(() => {
             fetchData(route.params.id);
+            fetchTicketData(route.params.id)
         });
 
         return {
@@ -111,6 +124,7 @@ export default {
             dates,
             selectedDate,
             selectedDateFormatted,
+            ticketApi,
         };
     },
 };

@@ -5,7 +5,7 @@ export default createStore({
     state() {
         return {
             selectedDate: '',
-            apiData: {}
+            apiData: {},
         };
     },
     mutations: {
@@ -14,7 +14,7 @@ export default createStore({
         },
         setApiData(state, apiData) {
             state.apiData = apiData;
-        } 
+        },
     },
     actions: {
         async fetchData({commit}, id) {
@@ -37,6 +37,6 @@ export default createStore({
         },
         getApiData(state) { 
             return state.apiData;
-        }
+        },
     }
 });
