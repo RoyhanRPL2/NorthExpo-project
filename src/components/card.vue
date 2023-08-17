@@ -3,9 +3,6 @@
         <router-link :to="{ name: 'detail-destinasi', params: { id: wisata.id } }">
             <img :src="'https://admin.api.northexpokudus.com/foto/' + wisata.foto" alt="gambar">
             <div class="category">
-                <button>
-                    <font-awesome-icon icon="fa-solid fa-plus" class="plus-icon" />
-                </button>
                 <p>{{ wisata.kategori.nama }}</p>
             </div>
             <div class="card-title">
