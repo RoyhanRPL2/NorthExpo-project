@@ -18,7 +18,7 @@ export default {
     components: {
         HeaderComponent,
         Sidebar,
-        ContentProfile
+        ContentProfile  
     },
     data() {
         return {

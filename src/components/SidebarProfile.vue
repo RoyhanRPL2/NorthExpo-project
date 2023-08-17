@@ -8,18 +8,10 @@
                 Detail
             </div>
             <div class="tab" @click="handleTabClick('statusTiket')" :class="{ active: activeTab === 'statusTiket' }">
-                Status Tiket
-            </div>
-            <div class="tab" @click="handleTabClick('daftarKeinginan')" :class="{ active: activeTab === 'daftarKeinginan' }">
-                Daftar Keinginan
+                Riwayat Tiket
             </div>
         </div>
     </div>
-
-    <button class="btn-logout" @click="logout">
-        Keluar
-        <font-awesome-icon class="icon" icon="fa-solid fa-arrow-right-from-bracket" />
-    </button>
 </div>
 </template>
 

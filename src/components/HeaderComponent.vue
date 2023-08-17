@@ -1,5 +1,6 @@
 <script setup>
 import NorthExpoLogo from '../assets/images/logo.png'
+import LogoutPopup from './LogoutPopup.vue';
 import { ref, onMounted } from 'vue'
 const isLoggedIn = ref(false)
 const username = ref('')
@@ -18,6 +19,21 @@ function logout () {
     localStorage.removeItem('token')
     localStorage.removeItem('user-info')
     window.location.href = '/'
+}
+
+const showLogoutPopup = ref(false);
+
+function showPopup() {
+  showLogoutPopup.value = true;
+}
+
+function hidePopup() {
+  showLogoutPopup.value = false;
+}
+
+function performLogout() {
+  logout();
+  hidePopup();
 }
 
 onMounted(async () => {
@@ -64,7 +80,10 @@ onMounted(async () => {
                 <div class="profile-overlay">
                     <ul>
                         <li><a href="/profile">Profile</a></li>
-                        <li><a v-on:click="logout()">Logout</a></li>
+                        <li>
+                            <a @click="showPopup">Logout</a>
+                            <LogoutPopup :visible="showLogoutPopup" @cancel="hidePopup" @confirm="performLogout" />
+                        </li>
                     </ul>
                 </div>
             </div>
@@ -92,6 +111,7 @@ onMounted(async () => {
     z-index: 100;
     background-color: rgba(255, 255, 255, 1);
     backdrop-filter: blur(30px);
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
 }
 
 .navbar #logo {

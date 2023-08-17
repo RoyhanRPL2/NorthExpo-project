@@ -23,6 +23,7 @@
         <div class="img-wrapper">
             <img id="img-box" :src="'https://admin.api.northexpokudus.com/foto/' + destinasi.data.foto" alt="">
             <div class="img-list">
+                <img :src="'https://admin.api.northexpokudus.com/foto/' + destinasi.data.foto" alt="">
                 <img :src="'https://admin.api.northexpokudus.com/foto/' + destinasi.data.foto2" alt="">
                 <img :src="'https://admin.api.northexpokudus.com/foto/' + destinasi.data.foto3" alt="">
                 <img :src="'https://admin.api.northexpokudus.com/foto/' + destinasi.data.foto4" alt="">
@@ -45,13 +46,19 @@
         <!-- additional data -->
         <additionalComponent></additionalComponent>
 
-        <div class="ticket-wrapper">
+        <!-- Jika destinasi.data.status bernilai true -->
+        <div v-if="destinasi.data.status === 'true'" class="ticket-wrapper">
+            <DropdownTime :id="destinasi.data.id"></DropdownTime>
+        </div>
+
+        <!-- Jika destinasi.data.status bernilai false -->
+        <div v-else style="display: none;">
             <DropdownTime :id="destinasi.data.id"></DropdownTime>
         </div>
 
         <div class="review-form">
             <h2>Ulasan</h2>
-            <div class="rate">
+            <!-- <div class="rate">
                 <p>Penilaian :</p>
                 <div class="star-rate">
                     <font-awesome-icon class="icon" icon="fa-solid fa-star" size="xl" />
@@ -60,7 +67,7 @@
                     <font-awesome-icon class="icon" icon="fa-solid fa-star" size="xl" />
                     <font-awesome-icon class="icon" icon="fa-solid fa-star" size="xl" />
                 </div>
-            </div>
+            </div> -->
             <div class="form">
                 <form action="" @submit.prevent="postKomentar()">
                     <!-- <div class="user-data">
@@ -75,7 +82,7 @@
                     </div> -->
 
                     <div class="form-group">
-                        <label for="review">Ulasan</label>
+                        <!-- <label for="review">Ulasan</label> -->
                         <div class="form-nama">
                             <textarea name="review" id="review" cols="30" rows="10" v-model="komentar"></textarea>
                         </div>
@@ -118,6 +125,7 @@ import additionalComponent from '../components/AdditionalData.vue'
 import DropdownTime from '../components/DropdownTime.vue';
 import { ref, onMounted } from 'vue';
 import { useRoute } from 'vue-router';
+import Swal from 'sweetalert2';
 
 const destinasi = ref({
     data: {
@@ -140,6 +148,9 @@ const destinasi = ref({
 const komentar = ref('');
 const komentars = ref([]);
 
+const kuliner = ref([]);
+
+const destinasi2 = ref([])
 const route = useRoute();
 
 // get komentars
@@ -175,6 +186,23 @@ async function postKomentar() {
             console.log(response.data);
             this.komentar = '';
             this.getKomentars();
+            Swal.mixin({ // Integrate Swal.mixin here
+                        toast: true,
+                        position: 'bottom-end',
+                        showConfirmButton: false,
+                        timer: 4000,
+                        timerProgressBar: true,
+                        background: 'var(--color-success-500)',
+                        iconColor: '#fff',
+                        color: '#fff',
+                        didOpen: (toast) => {
+                            toast.addEventListener('mouseenter', Swal.stopTimer);
+                            toast.addEventListener('mouseleave', Swal.resumeTimer);
+                        },
+                    }).fire({
+                        icon: 'success',
+                        title: 'Komentar Berhasil Dikirim.',
+                    });
         })
         .catch(error => {
             console.log(error.response.data);
