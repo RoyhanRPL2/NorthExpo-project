@@ -7,9 +7,6 @@
         <h1>Riwayat Tiket</h1>
         <ProfileTicketStatus/>
     </div>
-    <div v-else-if="activeTab === 'daftarKeinginan'">
-        <h1>Daftar Keinginan</h1>
-    </div>
 </div>
 </template>
 

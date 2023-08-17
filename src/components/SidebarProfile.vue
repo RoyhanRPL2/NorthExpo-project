@@ -10,9 +10,6 @@
             <div class="tab" @click="handleTabClick('statusTiket')" :class="{ active: activeTab === 'statusTiket' }">
                 Riwayat Tiket
             </div>
-            <div class="tab" @click="handleTabClick('daftarKeinginan')" :class="{ active: activeTab === 'daftarKeinginan' }">
-                Daftar Keinginan
-            </div>
         </div>
     </div>
 </div>
