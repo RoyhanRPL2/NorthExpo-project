@@ -123,7 +123,7 @@ footer {
     }
 
     .main {
-        padding: 2rem 0;
+        padding: 2rem 1rem;
     }
 
     .main .card {
