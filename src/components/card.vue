@@ -171,4 +171,73 @@ export default {
         transform: translateX(0);
     }
 }
+
+@media screen and (max-width: 768px) {
+    .container {
+        width: 100%;
+        height: 300px;
+    }
+
+    .card-title {
+        padding: 0.5rem;
+    }
+
+    .card-title p {
+        font-size: 1.2rem;
+    }
+
+    .card-title .lokasi p {
+        font-size: 0.8rem;
+    }
+
+    .black-liner {
+        height: 30%;
+    }
+}
+
+@media screen and (max-width: 425px) {
+    .container {
+        width: 100%;
+        height: 300px;
+    }
+
+    .card-title {
+        padding: 0.5rem;
+    }
+
+    .card-title p {
+        font-size: 1.2rem;
+    }
+
+    .card-title .lokasi p {
+        font-size: 0.8rem;
+    }
+
+    .black-liner {
+        height: 30%;
+    }
+}
+
+@media screen and (max-width: 375px) {
+    .container {
+        width: 100%;
+        height: 300px;
+    }
+
+    .card-title {
+        padding: 0.5rem;
+    }
+
+    .card-title p {
+        font-size: 1.2rem;
+    }
+
+    .card-title .lokasi p {
+        font-size: 0.8rem;
+    }
+
+    .black-liner {
+        height: 30%;
+    }
+}
 </style>
