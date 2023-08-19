@@ -64,7 +64,7 @@ const getUserData = async () => {
         useravatar.value = userData.value.avatar;
         // console.log(userData.value);
     } catch (error) {
-        console.log("error "+error);
+        console.log("error " + error);
     }
 };
 
@@ -80,10 +80,10 @@ onMounted(() => {
         </router-link>
         <nav class="nav-links">
             <ul>
-                <li><a href="/" class="underline">Beranda</a></li>
-                <li><a href="/destinasi" class="underline">Destinasi</a></li>
-                <li><a href="/tiket" class="underline">Informasi Umum</a></li>
-                <li><a href="/map" class="underline">Peta Wisata</a></li>
+                <li><router-link to="/" class="underline">Beranda</router-link></li>
+                <li><router-link to="/destinasi" class="underline">Destinasi</router-link></li>
+                <li><router-link to="/tiket" class="underline">Informasi Umum</router-link></li>
+                <li><router-link to="/map" class="underline">Peta Wisata</router-link></li>
             </ul>
         </nav>
 
@@ -93,12 +93,12 @@ onMounted(() => {
                     <!-- <p>Halo, {{ username.user.name }}</p> -->
                     <p>Halo, {{ username }}</p>
                     <!-- get img avatar from username.user.avatar -->
-                    <img :src="'https://admin.api.northexpokudus.com/assets/img/avatar/' + useravatar"
-                        alt="user avatar" @click="showProfileOverlay()">
+                    <img :src="'https://admin.api.northexpokudus.com/assets/img/avatar/' + useravatar" alt="user avatar"
+                        @click="showProfileOverlay()">
                 </div>
                 <div class="profile-overlay">
                     <ul>
-                        <li><a href="/profile">Profile</a></li>
+                        <li><router-link to="/profile" class="underline">Profil</router-link></li>
                         <li>
                             <a @click="showPopup">Logout</a>
                             <LogoutPopup :visible="showLogoutPopup" @cancel="hidePopup" @confirm="performLogout" />
@@ -107,15 +107,11 @@ onMounted(() => {
                 </div>
             </div>
             <div class="action" v-else>
-                <a href="/login" class="underline">Masuk</a>
+                <router-link to="/login" class="underline">Masuk</router-link>
                 <button @click="showRegister">Daftar</button>
             </div>
         </div>
     </div>
-    <div class="bg">
-        <!-- <img :src="GunungMuria" alt=""> -->
-    </div>
-    <div class="content"></div>
 </template>
 
 <style scoped>
