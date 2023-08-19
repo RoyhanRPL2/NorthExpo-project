@@ -23,14 +23,6 @@
                         <font-awesome-icon icon="fa-solid fa-arrow-right" size="xl"/>
                     </router-link>
                 </li>
-                <li>
-                    <h3>warung Ortega</h3>
-                    <font-awesome-icon class="icon" icon="fa-solid fa-arrow-right" size="xl"/>
-                </li>
-                <li>
-                    <h3>warung Ortega</h3>
-                    <font-awesome-icon class="icon" icon="fa-solid fa-arrow-right" size="xl"/>
-                </li>
             </ul>
         </div>
     </div>
