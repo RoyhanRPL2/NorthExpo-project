@@ -22,6 +22,17 @@ const kuliner = ref({
 
 const route = useRoute();
 
+function changeImage() {
+    const smallImg = document.querySelectorAll('.small-images img');
+
+    smallImg.forEach(img => img.addEventListener('click', changeSrc));
+
+    function changeSrc() {
+        const bigImg = document.querySelector('.big-image img');
+        bigImg.src = this.src;
+    }
+}
+
 onMounted(async () => {
     axios.get(`https://admin.api.northexpokudus.com/api/kuliner/${route.params.id}`)
         .then((response) => {
@@ -30,12 +41,9 @@ onMounted(async () => {
         .catch((error) => {
             console.log(error);
         });
-});
 
-function changeBigImage(src) {
-    const bigImage = document.querySelector('.big-image img');
-    bigImage.src = src;
-}
+    changeImage();
+});
 
 </script>
 
@@ -56,7 +64,7 @@ function changeBigImage(src) {
                     <h4>Deskripsi</h4>
                     <p>{{ kuliner.data.deskripsi }}</p>
                     <h4>Harga</h4>
-                    <p>{{ kuliner.data.harga }}</p>
+                    <p>Rp {{ kuliner.data.harga }}</p>
                     <h4>Alamat</h4>
                     <p>{{ kuliner.data.alamat }}</p>
                 </div>
@@ -65,14 +73,12 @@ function changeBigImage(src) {
             <div class="detail-content">
                 <div class="grid-container">
                     <div class="big-image">
-                        <img :src="'https://admin.api.northexpokudus.com/kuliner/' + kuliner.data.foto" alt="gambar besar"
-                            @click="changeBigImage(this.src)">
+                        <img :src="'https://admin.api.northexpokudus.com/kuliner/' + kuliner.data.foto" alt="gambar besar" id="big-image">
                     </div>
                     <div class="small-images">
-                        <img :src="'https://admin.api.northexpokudus.com/kuliner/' + kuliner.data.foto2" alt="gambar kecil 1"
-                            @click="changeBigImage(this.src)">
-                        <img :src="'https://admin.api.northexpokudus.com/kuliner/' + kuliner.data.foto3" alt="gambar kecil 2"
-                            @click="changeBigImage(this.src)">
+                        <img :src="'https://admin.api.northexpokudus.com/kuliner/' + kuliner.data.foto" alt="gambar kecil 1">
+                        <img :src="'https://admin.api.northexpokudus.com/kuliner/' + kuliner.data.foto2" alt="gambar kecil 1">
+                        <img :src="'https://admin.api.northexpokudus.com/kuliner/' + kuliner.data.foto3" alt="gambar kecil 2">
                     </div>
                 </div>
 
@@ -93,10 +99,12 @@ function changeBigImage(src) {
 .container .detail-container {
     display: flex;
     flex-direction: row;
+    justify-content: space-between;
 }
 
 .detail-content {
     padding-left: 50px;
+    width: 50%;
 }
 
 .detail-content img {
