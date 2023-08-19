@@ -2,20 +2,22 @@
 import NorthExpoLogo from '../assets/images/logo.png'
 import LogoutPopup from './LogoutPopup.vue';
 import { ref, onMounted } from 'vue'
+import axios from 'axios'
 const isLoggedIn = ref(false)
 const username = ref('')
 const useravatar = ref('')
+const userData = ref([]);
 
-function showProfileOverlay () {
+function showProfileOverlay() {
     const profileOverlay = document.querySelector('.profile-overlay')
     profileOverlay.classList.toggle('show')
 }
 
-function showRegister () {
+function showRegister() {
     window.location.href = '/register'
 }
 
-function logout () {
+function logout() {
     localStorage.removeItem('token')
     localStorage.removeItem('user-info')
     window.location.href = '/'
@@ -24,35 +26,51 @@ function logout () {
 const showLogoutPopup = ref(false);
 
 function showPopup() {
-  showLogoutPopup.value = true;
+    showLogoutPopup.value = true;
 }
 
 function hidePopup() {
-  showLogoutPopup.value = false;
+    showLogoutPopup.value = false;
 }
 
 function performLogout() {
-  logout();
-  hidePopup();
+    logout();
+    hidePopup();
 }
 
-onMounted(async () => {
-    isLoggedIn.value = checkUserloginStatus()
+const getUserToken = () => {
+    const token = localStorage.getItem('token');
+    return token ? token.replace(/['"]+/g, '') : '';
+};
 
-    function checkUserloginStatus() {
-        // get token
-        const token = localStorage.getItem('token')
-        return token ? true : false
+function checkUserloginStatus() {
+    // get token
+    const token = getUserToken();
+    return token ? true : false
+}
+
+const getUserData = async () => {
+    const userToken = getUserToken();
+    isLoggedIn.value = checkUserloginStatus();
+    console.log(isLoggedIn.value);
+    try {
+        const response = await axios.get('https://admin.api.northexpokudus.com/api/auth/user', {
+            headers: {
+                Authorization: `Bearer ${userToken}`
+            },
+        });
+        userData.value = response.data.data;
+        username.value = userData.value.name;
+        useravatar.value = userData.value.avatar;
+        // console.log(userData.value);
+    } catch (error) {
+        console.log("error "+error);
     }
+};
 
-    const userInfo = localStorage.getItem('user-info')
-    if (userInfo) {
-        username.value = JSON.parse(userInfo)
-        useravatar.value = JSON.parse(userInfo)
-    }
-
-    console.log(isLoggedIn.value)
-})
+onMounted(() => {
+    getUserData();
+});
 </script>
 
 <template>
@@ -72,9 +90,10 @@ onMounted(async () => {
         <div class="nav-action">
             <div class="user-profile" v-if="isLoggedIn">
                 <div class="profile">
-                    <p>Halo, {{ username.user.name }}</p>
+                    <!-- <p>Halo, {{ username.user.name }}</p> -->
+                    <p>Halo, {{ username }}</p>
                     <!-- get img avatar from username.user.avatar -->
-                    <img :src="'https://admin.api.northexpokudus.com/assets/img/avatar/' + useravatar.user.avatar"
+                    <img :src="'https://admin.api.northexpokudus.com/assets/img/avatar/' + useravatar"
                         alt="user avatar" @click="showProfileOverlay()">
                 </div>
                 <div class="profile-overlay">

@@ -5,18 +5,17 @@
             <form @submit.prevent="saveProfile">
                 <div>
                     <label for="avatar">Foto Kamu :</label>
-                    <img :src="'https://admin.api.northexpokudus.com/assets/img/avatar/' + user.user.avatar" alt=""
-                        class="user-avatar">
-                    <input type="file" id="avatar" @change="handlePhotoUpload" accept="image/*">
+                    <img :src="previewAvatar" alt="" class="user-avatar">
+                    <input type="file" id="avatar" @change="handleFileChange" accept="image/*">
                 </div>
                 <div>
                     <div>
                         <label for="name">Nama :</label>
-                        <input type="text" id="name" v-model="user.user.name">
+                        <input type="text" id="name" v-model="userName">
                     </div>
                     <div>
                         <label>Email :</label>
-                        <p>{{ user.user.email }}</p>
+                        <p>{{ userData.email }}</p>
                     </div>
                     <div class="action">
                         <button type="submit">Simpan</button>
@@ -33,77 +32,99 @@
     </div>
 </template>
 
-<script>
+<script setup>
+import { ref, onMounted } from 'vue';
 import axios from 'axios';
 import Swal from 'sweetalert2';
 
-export default {
-    data() {
-        return {
-            user: null,
+const userName = ref('');
+const userAvatar = ref('');
+const previewAvatar = ref('');
+const userData = ref([]);
+
+const getUserToken = () => {
+    const token = localStorage.getItem('token');
+    return token ? token.replace(/['"]+/g, '') : '';
+};
+
+const handleFileChange = (e) => {
+    userAvatar.value = e.target.files[0];
+    // show preview avatar before upload
+    if (userAvatar.value) {
+        const reader = new FileReader();
+        reader.onload = () => {
+            previewAvatar.value = reader.result;
         };
-    },
-    created() {
-        const userInfo = localStorage.getItem('user-info');
-        if (userInfo) {
-            const parsedUserInfo = JSON.parse(userInfo);
-            this.user = {
-                ...parsedUserInfo
-            };
-        }
-    },
-    methods: {
-        handlePhotoUpload(event) {
-            const file = event.target.files[0];
-            this.user.user.avatar = file;
-        },
-        saveProfile() {
-            const id = this.user.user.id;
+        reader.readAsDataURL(userAvatar.value);
+    } else {
+        // show current avatar
+        previewAvatar.value = `https://admin.api.northexpokudus.com/assets/img/avatar/${userData.value.avatar}`;
+    }
+}
+
+const saveProfile = async () => {
+    try {
+        const token = getUserToken();
+        if (token) {
             const formData = new FormData();
-            formData.append('name', this.user.user.name);
-            if (this.user.user.avatar) {
-                formData.append('avatar', this.user.user.avatar);
+            formData.append('name', userName.value);
+            if (userAvatar.value) {
+                formData.append('avatar', userAvatar.value);
             }
 
-            axios.post(`https://admin.api.northexpokudus.com/api/auth/user/${id}`, formData, {
+            await axios.post('https://admin.api.northexpokudus.com/api/auth/user/update', formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data',
+                    Authorization: `Bearer ${token}`,
                 },
+            });
 
-            })
-                .then(response => {
-                    console.log('Profile successfully saved:', response.data);
-                    // Simpan data pengguna yang diperbarui ke local storage
-                    localStorage.setItem('user-info', JSON.stringify(this.user));
-                    // Alihkan pengguna kembali ke halaman profil
-                    this.$router.push('/profile');
-                    Swal.mixin({ // Integrate Swal.mixin here
-                        toast: true,
-                        position: 'bottom-end',
-                        showConfirmButton: false,
-                        timer: 4000,
-                        timerProgressBar: true,
-                        didOpen: (toast) => {
-                            toast.addEventListener('mouseenter', Swal.stopTimer);
-                            toast.addEventListener('mouseleave', Swal.resumeTimer);
-                        },
-                    }).fire({
-                        icon: 'success',
-                        title: 'Profil Berhasil Diperbarui',
-                    });
-                })
-                .catch(error => {
-                    console.error('Error saving profile:', error);
-                    Swal.fire({ // Use Swal.fire for error messages
-                        icon: 'error',
-                        title: 'Oops...',
-                        text: 'Terjadi Kesalahan. Coba Kembali!',
-                    });
-                });
-        },
-    },
+            console.log('Profile updated successfully!');
+            Swal.fire({
+                icon: 'success',
+                title: 'Berhasil',
+                text: 'Profile berhasil diubah!.',
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    window.location.href = '/profile';
+                }
+            });
+        }
+    } catch (error) {
+        console.error('Error updating profile:', error);
+        Swal.fire({
+            icon: 'error',
+            title: 'Gagal',
+            text: 'Terjadi Kesalahan Saat Mengubah Profil. Coba Kembali!',
+        });
+    }
 };
+
+onMounted(async () => {
+    try {
+        const token = getUserToken();
+        if (token) {
+            const response = await axios.get('https://admin.api.northexpokudus.com/api/auth/user', {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            });
+            userData.value = response.data.data;
+            userName.value = userData.value.name;
+            previewAvatar.value = `https://admin.api.northexpokudus.com/assets/img/avatar/${userData.value.avatar}`;
+
+            if (userData.value.avatar) {
+                previewAvatar.value = `https://admin.api.northexpokudus.com/assets/img/avatar/${userData.value.avatar}`;
+            } else {
+                previewAvatar.value = `https://admin.api.northexpokudus.com/assets/img/avatar/default.png`;
+            }
+        }
+    } catch (error) {
+        console.error('Error fetching user data:', error);
+    }
+})
 </script>
+
 
 <!-- style kode diatas -->
 <style scoped>
