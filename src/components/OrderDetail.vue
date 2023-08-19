@@ -32,7 +32,7 @@
                 <p>{{ destination ? destination.deskripsi : '' }}</p>
             </div>
             <div class="capacity-container">
-                <h3>Total kuota: {{ destination ? destination.kuota : '' }}</h3>
+                <h3>Sisa kuota: {{ ticketApi.sisa_kuota }} tiket</h3>
             </div>
         </div>
         <div class="bottom-container">
@@ -62,13 +62,11 @@ export default {
         const route = useRoute();
         const destinationId = computed(() => route.params.id);
         const date = computed(() => route.query.date);
-        const destination = ref(null); // Properti reactive untuk menyimpan data destinasi
+        const destination = ref(null);
+        const ticketApi = ref({});
 
         // Lakukan logika untuk mengambil data destinasi berdasarkan ID
-        onMounted(() => {
-            fetchData(destinationId.value);
-        });
-
+        
         const fetchData = async (id) => {
             try {
                 const response = await axios.get(`https://admin.api.northexpokudus.com/api/destinasi/${id}`);
@@ -80,11 +78,27 @@ export default {
             }
         };
 
+        const fetchTicketData = async (id) => {
+            try {
+                const response = await axios.get(`https://admin.api.northexpokudus.com/api/sisakuota/${id}`);
+                ticketApi.value = response.data.data;
+                console.log(ticketApi.value);
+            } catch (error) {
+                console.error(error);
+            }
+        };
+
+        onMounted(() => {
+            fetchData(destinationId.value);
+            fetchTicketData(route.params.id)
+        });
+
         return {
             destinationId,
             date,
             fetchData,
-            destination, // Tambahkan properti destination ke dalam return
+            destination,
+            ticketApi
         };
     },
 };
@@ -218,7 +232,7 @@ export default {
 }
 
 .capacity-container h3 {
-    width: 60%;
+    width: 40%;
     font-size: 1.1rem;
     font-weight: 700;
     color: var(--color-primary-50);
