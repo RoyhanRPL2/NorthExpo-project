@@ -32,7 +32,7 @@ import searchComponent from '../components/SearchComponent.vue'
 
 <style scoped>
 .container {
-    width: fit-content;
+    width: 100%;
     height: 100%;
     display: flex;
     flex-direction: column;
