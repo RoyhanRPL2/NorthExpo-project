@@ -61,7 +61,7 @@ export default {
     background-size: cover;
     background-position: center;
     position: relative;
-    margin-bottom: 20px;
+    margin-bottom: 3.5rem;
     border-radius: 10px;
     overflow: hidden;
     cursor: pointer;
