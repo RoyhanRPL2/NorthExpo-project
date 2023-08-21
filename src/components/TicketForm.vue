@@ -64,6 +64,12 @@ export default {
         this.fetchdata()
     },
     methods: {
+        parseOperatingHours(operatingHours) {
+            const [openingTimeStr, closingTimeStr] = operatingHours.split(' - ');
+            const openingTime = parseInt(openingTimeStr.split('.')[0], 10);
+            const closingTime = parseInt(closingTimeStr.split('.')[0], 10);
+            return { openingTime, closingTime };
+        },
         getTodayISOString() {
             const today = new Date();
             const year = today.getFullYear();
@@ -76,6 +82,11 @@ export default {
                 const response = await axios.get(`https://admin.api.northexpokudus.com/api/destinasi/${this.id}`);
                 this.harga = response.data.data.harga; // Set the 'harga' value from the fetched destination data
                 console.log(this.harga)
+
+                const operatingHours = response.data.data.operasional;
+                const { openingTime, closingTime } = this.parseOperatingHours(operatingHours);
+
+                this.operatingHours = { openingTime, closingTime };
             } catch (error) {
                 console.error(error);
             }
@@ -97,6 +108,20 @@ export default {
                     text: 'Harap setujui syarat dan ketentuan sebelum melanjutkan.',
                 });
                 return;
+            }
+
+            if (this.tanggal === this.getTodayISOString()) {
+                const now = new Date();
+                const currentHour = now.getHours();
+
+                if (currentHour < this.operatingHours.openingTime || currentHour >= this.operatingHours.closingTime) {
+                    Swal.fire({
+                        icon: 'warning',
+                        title: 'Jam Operasional Wisata',
+                        text: 'Maaf, pemesanan tiket hanya tersedia selama jam operasional wisata.',
+                    });
+                    return;
+                }
             }
 
             try {

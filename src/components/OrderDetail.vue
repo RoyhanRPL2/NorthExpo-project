@@ -20,7 +20,7 @@
                     </div>
                     <div class="price">
                         <h4>Harga Tiket</h4>
-                        <p>Rp.{{ destination ? destination.harga : '' }}/Orang</p>
+                        <p>Rp{{ formattedHarga(destination ? destination.harga : '') }}/Orang</p>
                     </div>
                 </div>
             </div>
@@ -58,6 +58,11 @@ import { computed, onMounted, ref } from 'vue';
 import axios from 'axios';
 
 export default {
+    methods: {
+        formattedHarga(harga) {
+            return harga.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+        },
+    },
     setup() {
         const route = useRoute();
         const destinationId = computed(() => route.params.id);
