@@ -20,7 +20,7 @@
         </li>
         <li>
           <h4>Harga</h4>
-          <p>{{ data.destinasi.harga }}</p>
+          <p>{{ formattedHarga(data.destinasi.harga) }}</p>
         </li>
         <li>
           <h4>Jumlah Orang</h4>
@@ -75,6 +75,9 @@ export default {
         console.log(this.data)
       }
     },
+    formattedHarga(harga) {
+      return harga.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+    },
     async payWithMidtrans() {
 
       try {
@@ -97,7 +100,7 @@ export default {
             localStorage.removeItem('pembayaran');
             localStorage.removeItem('tkn-pembayaran');
             // Redirect or show success message as needed
-            self.$router.push({ name : 'payment-success'});
+            self.$router.push({ name: 'payment-success' });
           },
           onPending: function (result) {
             // Payment pending, handle pending logic here
