@@ -1,5 +1,6 @@
 <script setup>
-import { ref } from 'vue';
+import { ref, onMounted } from 'vue';
+import axios from 'axios';
 // import card from '../components/card.vue'
 import footerComponent from '../components/footer.vue'
 import headerComponent from '../components/HeaderComponent.vue'
@@ -10,6 +11,11 @@ const destinations = ref([]);
 function showDestinations(result) {
     destinations.value = result;
 }
+
+onMounted(async () => {
+    const response = await axios.get('https://admin.api.northexpokudus.com/api/destinasi');
+    destinations.value = response.data.data;
+});
 </script>
 
 <template>
@@ -29,12 +35,9 @@ function showDestinations(result) {
     <div class="main-container">
         <div v-if="destinations.length > 0" class="main">
             <div class="container" v-for="destination in destinations" :key="destination.id">
-                <router-link :to="{ name: 'detail-destinasi', params: { id: destination.id } }">
+                <router-link :to="{ name: 'detail-destinasi', params: { id: destination.id } }" class="link">
                     <img :src="'https://admin.api.northexpokudus.com/foto/' + destination.foto" alt="gambar">
                     <div class="category">
-                        <button>
-                            <font-awesome-icon icon="fa-solid fa-plus" class="plus-icon" />
-                        </button>
                         <p>{{ destination.kategori.nama }}</p>
                     </div>
                     <div class="card-title">
@@ -133,6 +136,29 @@ function showDestinations(result) {
     align-items: center;
     padding: 5rem 0;
 }
+
+.container {
+    width: fit-content;
+    height: fit-content;
+    background-size: cover;
+    background-position: center;
+    position: relative;
+    margin-bottom: 3.5rem;
+    border-radius: 10px;
+    overflow: hidden;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    align-content: space-between;
+}
+
+.link {
+    display: flex;
+    flex-direction: column;
+    align-content: space-between;
+    height: 100%;
+    text-decoration: none;
+}
 .container a {
     width: 400px;
     height: 400px;
@@ -153,10 +179,8 @@ function showDestinations(result) {
 }
 
 .container a:hover  img {
-    transform: scale(1.5);
+    transform: scale(1.15);
 }
-
-
 
 .category {
     width: 100%;
@@ -231,8 +255,9 @@ function showDestinations(result) {
 .card-title .lokasi p {
     font-family: 'Poppins', sans-serif;
     font-size: 1rem;
-    font-weight: 300;
+    font-weight: 400;
     color: #fff;
+    opacity: 0.5;
     background-color: transparent;
     white-space: nowrap;
     transform: translateX(0);
@@ -275,6 +300,75 @@ function showDestinations(result) {
 
     100% {
         transform: translateX(0);
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .container {
+        width: 100%;
+        height: 300px;
+    }
+
+    .card-title {
+        padding: 0.5rem;
+    }
+
+    .card-title p {
+        font-size: 1.2rem;
+    }
+
+    .card-title .lokasi p {
+        font-size: 0.8rem;
+    }
+
+    .black-liner {
+        height: 30%;
+    }
+}
+
+@media screen and (max-width: 425px) {
+    .container {
+        width: 100%;
+        height: 300px;
+    }
+
+    .card-title {
+        padding: 0.5rem;
+    }
+
+    .card-title p {
+        font-size: 1.2rem;
+    }
+
+    .card-title .lokasi p {
+        font-size: 0.8rem;
+    }
+
+    .black-liner {
+        height: 30%;
+    }
+}
+
+@media screen and (max-width: 375px) {
+    .container {
+        width: 100%;
+        height: 300px;
+    }
+
+    .card-title {
+        padding: 0.5rem;
+    }
+
+    .card-title p {
+        font-size: 1.2rem;
+    }
+
+    .card-title .lokasi p {
+        font-size: 0.8rem;
+    }
+
+    .black-liner {
+        height: 30%;
     }
 }
 </style>
