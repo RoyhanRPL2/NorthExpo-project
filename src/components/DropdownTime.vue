@@ -11,11 +11,11 @@
             <div class="capacity">
                 <div class="online-cap">
                     <h4>Kuota Online</h4>
-                    <p> {{ticketApi.kuota}} Orang</p>
+                    <p> {{ ticketApi.kuota }} Orang</p>
                 </div>
                 <div class="rest-capacity">
                     <h4>Sisa Kuota</h4>
-                    <p> {{ticketApi.sisa_kuota}} Orang</p>
+                    <p> {{ ticketApi.sisa_kuota }} Orang</p>
                 </div>
             </div>
             <div class="seperate-line"></div>
@@ -46,12 +46,15 @@ import id from 'dayjs/locale/id';
 import { computed, onMounted, ref } from 'vue';
 import { useRoute } from 'vue-router';
 import { useStore } from 'vuex';
+import Swal from 'sweetalert2';
 
 export default {
     data() {
         return {
             isLoggedIn: false,
             isLoginModalOpen: false,
+            userTicketStatus: false,
+            userTicket: {},
         }
     },
     methods: {
@@ -60,9 +63,39 @@ export default {
         },
         pesanTiket() {
             const token = localStorage.getItem('token');
+            const userInfo = JSON.parse(localStorage.getItem('user-info'));
             if (token) {
-                // Pengguna sudah login, lakukan aksi untuk memesan tiket (contoh: arahkan ke halaman pemesanan tiket)
-                this.$router.push({ name: 'ticket', params: { id: this.$route.params.id } });
+                if (userInfo && userInfo.user) {
+                    const userId = userInfo.user.id;
+
+                    // if (this.userTicketStatus) {
+                    //     // Tampilkan pesan pop-up bahwa harus menyelesaikan pembayaran tiket dengan status pending terlebih dahulu
+                    //     Swal.fire({ // Use Swal.fire for error messages
+                    //         icon: 'warning',
+                    //         title: 'Oops...',
+                    //         text: 'Selesaikan pembayaran tiket terlebih dahulu!',
+                    //     });
+                    //     this.$router.push({ name: 'payment', params: { id: userId } });
+                    // } else {
+                    //     // Pengguna sudah login, lakukan aksi untuk memesan tiket (contoh: arahkan ke halaman pemesanan tiket)
+                    //     this.$router.push({ name: 'ticket', params: { id: this.$route.params.id } });
+                    // }
+                    if (this.userTicketStatus) {
+                        Swal.fire({
+                            icon: 'warning',
+                            title: 'Oops...',
+                            text: 'Selesaikan pembayaran tiket terlebih dahulu!',
+                            confirmButtonText: 'Lanjutkan Pembayaran',
+                        }).then((userTicketStatus) => {
+                            if (userTicketStatus) {
+                                this.$router.push({ name: 'payment', params: { id: userId } });
+                            }
+                        });
+                    } else {
+                        this.$router.push({ name: 'ticket', params: { id: this.$route.params.id } });
+                    }
+                }
+
             } else {
                 // Pengguna belum login, tampilkan modal login
                 this.isLoginModalOpen = true;
@@ -75,7 +108,35 @@ export default {
         closeModal() {
             // Metode untuk menutup modal
             this.isLoginModalOpen = false;
-        }
+        },
+        fetchUserTicket() {
+            const userInfo = JSON.parse(localStorage.getItem('user-info'));
+
+            if (userInfo && userInfo.user) {
+                const id = userInfo.user.id;
+
+                axios.get(`https://admin.api.northexpokudus.com/api/order/user/${id}`)
+                    .then(res => {
+                        this.userTicket = res.data.data;
+                        console.log(this.userTicket);
+
+                        // Loop melalui tiket user untuk memeriksa status "pending"
+                        for (const ticket of this.userTicket) {
+                            if (ticket.status === "pending") {
+                                this.userTicketStatus = true; // Set userTicketStatus menjadi true
+                                break; // Keluar dari loop jika tiket dengan status "pending" ditemukan
+                            }
+                        }
+                    })
+                    .catch(err => console.log(err))
+            } else {
+                console.log("User info is not available");
+            }
+
+        },
+    },
+    mounted() {
+        this.fetchUserTicket();
     },
     setup() {
         const route = useRoute();
