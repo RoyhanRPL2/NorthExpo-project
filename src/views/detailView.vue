@@ -57,7 +57,7 @@
         </div>
 
         <div class="review-form">
-            <h2>Ulasan</h2>
+            <h2>Komentar</h2>
             <!-- <div class="rate">
                 <p>Penilaian :</p>
                 <div class="star-rate">
@@ -93,7 +93,7 @@
         </div>
 
         <div class="review">
-            <h2>Ulasan Pengunjung</h2>
+            <h2>Semua Komentar</h2>
             <div class="review-item" v-for="komentar in komentars" :key="komentar">
                 <div class="user">
                     <img :src="`https://admin.api.northexpokudus.com/assets/img/avatar/` + komentar.user_id.avatar" alt="">
@@ -107,7 +107,7 @@
             </div>
 
             <div class="no-comment" v-if="komentars.length == 0">
-                <p>Belum ada ulasan</p>
+                <p>Belum ada komentar</p>
             </div>
         </div>
     </div>
@@ -497,4 +497,74 @@ onMounted(() => {
     margin: 0;
     padding: 2rem 0;
 }
+
+@media screen and (max-width: 768px) {
+    .container {
+        padding: 5rem 2rem;
+    }
+
+    .container .header {
+        padding: 0 0.5rem;
+    }
+
+    .container .img-wrapper {
+        padding: 2rem 0.5rem;
+    }
+
+    .container .description-container {
+        padding: 2rem 0.5rem;
+    }
+
+    .container .map-container {
+        padding: 2rem 0.5rem;
+    }
+
+    .container .ticket-wrapper {
+        padding: 2rem 0.5rem;
+    }
+
+    .container .review-form {
+        padding: 2rem 0.5rem;
+    }
+
+    .container .review {
+        padding: 0 0.5rem;
+    }
+}
+
+@media screen and (max-width: 576px) {
+    .container {
+        padding: 5rem 1rem;
+    }
+
+    .container .header {
+        padding: 0 0.5rem;
+    }
+
+    .container .img-wrapper {
+        padding: 2rem 0.5rem;
+    }
+
+    .container .description-container {
+        padding: 2rem 0.5rem;
+    }
+
+    .container .map-container {
+        padding: 2rem 0.5rem;
+    }
+
+    .container .ticket-wrapper {
+        padding: 2rem 0.5rem;
+    }
+
+    .container .review-form {
+        padding: 2rem 0.5rem;
+    }
+
+    .container .review {
+        padding: 0 0.5rem;
+    }
+}
+
+
 </style>

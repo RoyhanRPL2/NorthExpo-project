@@ -377,4 +377,32 @@ export default {
     cursor: pointer;
     background-color: var(--color-theme-900);
 }
+
+.select-container .order-detail .modal .modal-content .close-button:active {
+    background-color: var(--color-theme-800);
+}
+
+@media screen and (max-width: 768px) {
+    .select-container .order-detail .modal .modal-content {
+        width: 50%;
+    }
+}
+
+@media screen and (max-width: 576px) {
+    .select-container .order-detail .modal .modal-content {
+        width: 75%;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .select-container .order-detail .modal .modal-content {
+        width: 90%;
+    }
+}
+
+@media screen and (max-width: 360px) {
+    .select-container .order-detail .modal .modal-content {
+        width: 100%;
+    }
+}
 </style>

@@ -155,6 +155,61 @@ export default {
 .container .additional-data .nearest-restaurant .restaurant-list li .icon {
     color: var(--color-theme-950);
 }
+
+@media screen and (max-width: 768px) {
+    .container {
+        padding: 5rem 2rem;
+    }
+
+    .container .additional-data {
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .container .additional-data .nearest-destination {
+        width: 100%;
+    }
+
+    .container .additional-data .nearest-destination h2 {
+        font-size: 1.5rem;
+    }
+
+    .container .additional-data .nearest-destination .destination-list li h3 {
+        font-size: 1rem;
+    }
+
+    .container .additional-data .separator-line {
+        width: 12rem;
+        height: 1px;
+    }
+
+    .container .additional-data .nearest-restaurant {
+        width: 100%;
+    }
+
+    .container .additional-data .nearest-restaurant h2 {
+        font-size: 1.5rem;
+    }
+
+    .container .additional-data .nearest-restaurant .restaurant-list li h3 {
+        font-size: 1rem;
+    }
+}
+
+@media screen and (max-width: 576px) {
+    .container {
+        padding: 5rem 1rem;
+    }
+
+    .container .additional-data .nearest-destination .destination-list li h3 {
+        font-size: 0.8rem;
+    }
+
+    .container .additional-data .nearest-restaurant .restaurant-list li h3 {
+        font-size: 0.8rem;
+    }
+}
 </style>
 
 
