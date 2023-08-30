@@ -49,6 +49,7 @@ export default {
     border-radius: 10px;
     overflow: hidden;
     background-color: aqua;
+    margin: 30px;
 }
 
 .container-card img {

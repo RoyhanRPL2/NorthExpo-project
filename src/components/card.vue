@@ -1,27 +1,24 @@
 <template>
-    <div class="container" v-for="(wisata, index) in destinasi.data" :key="index">
-        <router-link :to="{ name: 'detail-destinasi', params: { id: wisata.id } }">
-            <img :src="'https://admin.api.northexpokudus.com/foto/' + wisata.foto" alt="gambar">
+    <div class="container" v-for="(wisata, index) in destinasi.data" :key="index"
+        :style="{ backgroundImage: 'url(https://admin.api.northexpokudus.com/foto/' + wisata.foto + ')' }">
+        <router-link :to="{ name: 'detail-destinasi', params: { id: wisata.id } }" class="link">
+            <!-- <img :src="'https://admin.api.northexpokudus.com/foto/' + wisata.foto" alt="gambar"> -->
             <div class="category">
-                <button>
-                    <font-awesome-icon icon="fa-solid fa-plus" class="plus-icon" />
-                </button>
                 <p>{{ wisata.kategori.nama }}</p>
             </div>
-            <div class="card-title">
-                <div class="wrapper">
-                    <p id="title">{{ wisata.nama }}</p>
-                </div>
-
-                <div class="lokasi">
-                    <font-awesome-icon class="icon" icon="fa-solid fa-location-dot" size="xl" />
-                    <div class="loc">
-                        <p>{{ wisata.alamat }}</p>
-                    </div>
+        </router-link>
+        <div class="card-title">
+            <div class="wrapper">
+                <p id="title">{{ wisata.nama }}</p>
+            </div>
+            <div class="lokasi">
+                <font-awesome-icon class="icon" icon="fa-solid fa-location-dot" size="xl" />
+                <div class="loc">
+                    <p>{{ wisata.alamat }}</p>
                 </div>
             </div>
-            <div class="black-liner"></div>
-        </router-link>
+        </div>
+        <div class="black-liner"></div>
     </div>
 </template>
 
@@ -39,7 +36,7 @@ export default {
     setup() {
         let destinasi = ref([]);
 
-        onMounted(async () => { 
+        onMounted(async () => {
             axios.get('https://admin.api.northexpokudus.com/api/destinasi')
                 .then((response) => {
                     destinasi.value = response.data;
@@ -58,59 +55,39 @@ export default {
 </script>
 
 <style scoped>
-.container a {
+.container {
     width: 400px;
     height: 400px;
     background-size: cover;
+    background-position: center;
+    position: relative;
+    margin-bottom: 3.5rem;
     border-radius: 10px;
+    overflow: hidden;
+    cursor: pointer;
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
-    position: relative;
-    overflow: hidden;
-    margin: 1rem;
+    align-content: space-between;
 }
 
-.container a img {
-    width: 100%;
-    height: 100%;
-    transition: 0.5s all ease-out;
-}
-
-.container a:hover  img {
-    transform: scale(1.5);
-}
-
-
-
-.category {
-    width: 100%;
+.link {
     display: flex;
-    justify-content: space-between;
-    padding: 0.8rem;
+    flex-direction: column;
+    align-content: space-between;
+    height: 100%;
+    text-decoration: none;
+}
+
+.container a .category {
     position: absolute;
     top: 0;
-    right: 0;
+    left: 0;
+    padding: 0.8rem;
+    border-radius: 0 10px 0 10px;
+    z-index: 1;
 }
 
-.category button {
-    width: 2rem;
-    height: 2rem;
-    border-radius: 10%;
-    background-color: #61832d;
-    border: none;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    cursor: pointer;
-}
-
-.category button .plus-icon {
-    color: #fff;
-    font-size: 1rem;
-}
-
-.category p {
+.container a .category p {
     font-family: "Poppins", sans-serif;
     color: #fff;
     background-color: #61832d;
@@ -120,14 +97,14 @@ export default {
 
 .card-title {
     width: 100%;
-    height: 25%;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-around;
-    padding: 0.5rem 0.8rem;
+    padding: 1rem;
     position: absolute;
     bottom: 0;
-    z-index: 2;
+    left: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    z-index: 1;
 }
 
 .card-title p {
@@ -148,9 +125,8 @@ export default {
 }
 
 .card-title .lokasi .icon {
-    margin-right: 0.5rem;
     color: #15ACC5;
-    width: 100px;
+    margin-right: 0.5rem;
 }
 
 .card-title .lokasi p {
@@ -163,6 +139,7 @@ export default {
     transform: translateX(0);
     animation: marqueeLocation 30s linear infinite;
 }
+
 
 .black-liner {
     width: 100%;
@@ -192,6 +169,75 @@ export default {
 
     100% {
         transform: translateX(0);
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .container {
+        width: 100%;
+        height: 300px;
+    }
+
+    .card-title {
+        padding: 0.5rem;
+    }
+
+    .card-title p {
+        font-size: 1.2rem;
+    }
+
+    .card-title .lokasi p {
+        font-size: 0.8rem;
+    }
+
+    .black-liner {
+        height: 30%;
+    }
+}
+
+@media screen and (max-width: 425px) {
+    .container {
+        width: 100%;
+        height: 300px;
+    }
+
+    .card-title {
+        padding: 0.5rem;
+    }
+
+    .card-title p {
+        font-size: 1.2rem;
+    }
+
+    .card-title .lokasi p {
+        font-size: 0.8rem;
+    }
+
+    .black-liner {
+        height: 30%;
+    }
+}
+
+@media screen and (max-width: 375px) {
+    .container {
+        width: 100%;
+        height: 300px;
+    }
+
+    .card-title {
+        padding: 0.5rem;
+    }
+
+    .card-title p {
+        font-size: 1.2rem;
+    }
+
+    .card-title .lokasi p {
+        font-size: 0.8rem;
+    }
+
+    .black-liner {
+        height: 30%;
     }
 }
 </style>

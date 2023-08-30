@@ -15,11 +15,6 @@
                 <input type="number" v-model="qty" min="1" id="qty">
                 <p>*jumlah orang dalam rombongan</p>
             </div>
-            <div class="form-group">
-                <label for="email">Email</label>
-                <input type="text" v-model="email" id="email">
-                <p>*Untuk menerima link unduh bukti</p>
-            </div>
             <div class="term-condition">
                 <div class="first-term">
                     <p>1. Syarat dan ketentuan berkunjung</p>
@@ -50,13 +45,13 @@ import axios from 'axios'
 import { useRoute } from 'vue-router';
 import { computed, onMounted, ref } from 'vue';
 import moment from 'moment-timezone';
+import Swal from 'sweetalert2';
 
 export default {
     data() {
         return {
             id: null,
             qty: 1,
-            email: '',
             no_telp: '',
             tanggal: '',
             isAgreed: false,
@@ -69,6 +64,12 @@ export default {
         this.fetchdata()
     },
     methods: {
+        parseOperatingHours(operatingHours) {
+            const [openingTimeStr, closingTimeStr] = operatingHours.split(' - ');
+            const openingTime = parseInt(openingTimeStr.split('.')[0], 10);
+            const closingTime = parseInt(closingTimeStr.split('.')[0], 10);
+            return { openingTime, closingTime };
+        },
         getTodayISOString() {
             const today = new Date();
             const year = today.getFullYear();
@@ -81,19 +82,46 @@ export default {
                 const response = await axios.get(`https://admin.api.northexpokudus.com/api/destinasi/${this.id}`);
                 this.harga = response.data.data.harga; // Set the 'harga' value from the fetched destination data
                 console.log(this.harga)
+
+                const operatingHours = response.data.data.operasional;
+                const { openingTime, closingTime } = this.parseOperatingHours(operatingHours);
+
+                this.operatingHours = { openingTime, closingTime };
             } catch (error) {
                 console.error(error);
             }
         },
         async pay() {
-            if (!this.tanggal || !this.no_telp || !this.qty || !this.email) {
-                alert('Harap isi semua kolom input sebelum melanjutkan.');
+            if (!this.tanggal || !this.no_telp || !this.qty) {
+                Swal.fire({ // Use Swal.fire for error messages
+                    icon: 'warning',
+                    title: 'Oops...',
+                    text: 'Harap isi semua kolom input sebelum melanjutkan.',
+                });
                 return;
             }
 
             if (!this.isAgreed) {
-                alert('Harap setujui syarat dan ketentuan sebelum melanjutkan.');
+                Swal.fire({ // Use Swal.fire for error messages
+                    icon: 'warning',
+                    title: 'Oops...',
+                    text: 'Harap setujui syarat dan ketentuan sebelum melanjutkan.',
+                });
                 return;
+            }
+
+            if (this.tanggal === this.getTodayISOString()) {
+                const now = new Date();
+                const currentHour = now.getHours();
+
+                if (currentHour < this.operatingHours.openingTime || currentHour >= this.operatingHours.closingTime) {
+                    Swal.fire({
+                        icon: 'warning',
+                        title: 'Jam Operasional Wisata',
+                        text: 'Maaf, pemesanan tiket hanya tersedia selama jam operasional wisata.',
+                    });
+                    return;
+                }
             }
 
             try {
@@ -102,6 +130,7 @@ export default {
 
                 const token = userInfo.token;
                 const userId = userInfo.user.id;
+                const email = userInfo.user.email;
                 const currentTimeInSeconds = String(Math.floor(Date.now() / 1000));
                 const timestamp = moment().tz("Asia/Jakarta").format("YYYYMMDDHHmm")
 
@@ -110,7 +139,7 @@ export default {
                     destinasi_id: this.id,
                     user_id: userId,
                     qty: this.qty,
-                    email: this.email,
+                    email: email,
                     no_telp: this.no_telp,
                     tanggal: this.tanggal,
                     total: this.qty * this.harga,
@@ -121,19 +150,31 @@ export default {
                     }
                 });
                 if (result.status == 200) {
-                    alert('Pay Sukses');
+                    Swal.fire({ // Use Swal.fire for error messages
+                        icon: 'success',
+                        title: 'Tiket Berhasil Dipesan',
+                        text: 'Silahkan lanjutkan pembayaran',
+                    });
                     localStorage.setItem('pembayaran', JSON.stringify(result.data));
                     localStorage.setItem('tkn-pembayaran', result.data.token);
                     this.$router.push(`/payment/${this.id}`);
                     console.warn(result);
                 }
                 else {
-                    alert('Kesalahan');
+                    Swal.fire({ // Use Swal.fire for error messages
+                        icon: 'error',
+                        title: 'Oops...',
+                        text: 'Terjadi Kesalahan!',
+                    });
                 }
                 console.log(result.status);
                 console.log(result.data);
             } catch {
-                alert('Terjadi Kesalahan ');
+                Swal.fire({ // Use Swal.fire for error messages
+                    icon: 'error',
+                    title: 'Oops...',
+                    text: 'Terjadi Kesalahan!',
+                });
             }
             console.log(this.harga)
         }

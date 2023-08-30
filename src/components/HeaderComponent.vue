@@ -1,42 +1,76 @@
 <script setup>
 import NorthExpoLogo from '../assets/images/logo.png'
+import LogoutPopup from './LogoutPopup.vue';
 import { ref, onMounted } from 'vue'
+import axios from 'axios'
 const isLoggedIn = ref(false)
 const username = ref('')
 const useravatar = ref('')
+const userData = ref([]);
 
-function showProfileOverlay () {
+function showProfileOverlay() {
     const profileOverlay = document.querySelector('.profile-overlay')
     profileOverlay.classList.toggle('show')
 }
 
-function showRegister () {
+function showRegister() {
     window.location.href = '/register'
 }
 
-function logout () {
+function logout() {
     localStorage.removeItem('token')
     localStorage.removeItem('user-info')
     window.location.href = '/'
 }
 
-onMounted(async () => {
-    isLoggedIn.value = checkUserloginStatus()
+const showLogoutPopup = ref(false);
 
-    function checkUserloginStatus() {
-        // get token
-        const token = localStorage.getItem('token')
-        return token ? true : false
+function showPopup() {
+    showLogoutPopup.value = true;
+}
+
+function hidePopup() {
+    showLogoutPopup.value = false;
+}
+
+function performLogout() {
+    logout();
+    hidePopup();
+}
+
+const getUserToken = () => {
+    const token = localStorage.getItem('token');
+    return token ? token.replace(/['"]+/g, '') : '';
+};
+
+function checkUserloginStatus() {
+    // get token
+    const token = getUserToken();
+    return token ? true : false
+}
+
+const getUserData = async () => {
+    const userToken = getUserToken();
+    isLoggedIn.value = checkUserloginStatus();
+    console.log(isLoggedIn.value);
+    try {
+        const response = await axios.get('https://admin.api.northexpokudus.com/api/auth/user', {
+            headers: {
+                Authorization: `Bearer ${userToken}`
+            },
+        });
+        userData.value = response.data.data;
+        username.value = userData.value.name;
+        useravatar.value = userData.value.avatar;
+        // console.log(userData.value);
+    } catch (error) {
+        console.log("error " + error);
     }
+};
 
-    const userInfo = localStorage.getItem('user-info')
-    if (userInfo) {
-        username.value = JSON.parse(userInfo)
-        useravatar.value = JSON.parse(userInfo)
-    }
-
-    console.log(isLoggedIn.value)
-})
+onMounted(() => {
+    getUserData();
+});
 </script>
 
 <template>
@@ -46,38 +80,38 @@ onMounted(async () => {
         </router-link>
         <nav class="nav-links">
             <ul>
-                <li><a href="/" class="underline">Beranda</a></li>
-                <li><a href="/destinasi" class="underline">Destinasi</a></li>
-                <li><a href="/tiket" class="underline">Informasi Umum</a></li>
-                <li><a href="/map" class="underline">Peta Wisata</a></li>
+                <li><router-link to="/" class="underline">Beranda</router-link></li>
+                <li><router-link to="/destinasi" class="underline">Destinasi</router-link></li>
+                <li><router-link to="/tiket" class="underline">Informasi Umum</router-link></li>
+                <li><router-link to="/map" class="underline">Peta Wisata</router-link></li>
             </ul>
         </nav>
 
         <div class="nav-action">
             <div class="user-profile" v-if="isLoggedIn">
                 <div class="profile">
-                    <p>Halo, {{ username.user.name }}</p>
+                    <!-- <p>Halo, {{ username.user.name }}</p> -->
+                    <p>Halo, {{ username }}</p>
                     <!-- get img avatar from username.user.avatar -->
-                    <img :src="'https://admin.api.northexpokudus.com/assets/img/avatar/' + useravatar.user.avatar"
-                        alt="user avatar" @click="showProfileOverlay()">
+                    <img :src="'https://admin.api.northexpokudus.com/assets/img/avatar/' + useravatar" alt="user avatar"
+                        @click="showProfileOverlay()">
                 </div>
                 <div class="profile-overlay">
                     <ul>
-                        <li><a href="/profile">Profile</a></li>
-                        <li><a v-on:click="logout()">Logout</a></li>
+                        <li><router-link to="/profile" class="underline">Profil</router-link></li>
+                        <li>
+                            <a @click="showPopup">Logout</a>
+                            <LogoutPopup :visible="showLogoutPopup" @cancel="hidePopup" @confirm="performLogout" />
+                        </li>
                     </ul>
                 </div>
             </div>
             <div class="action" v-else>
-                <a href="/login" class="underline">Masuk</a>
+                <router-link to="/login" class="underline">Masuk</router-link>
                 <button @click="showRegister">Daftar</button>
             </div>
         </div>
     </div>
-    <div class="bg">
-        <!-- <img :src="GunungMuria" alt=""> -->
-    </div>
-    <div class="content"></div>
 </template>
 
 <style scoped>

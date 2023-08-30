@@ -38,6 +38,7 @@ import { ref } from 'vue'
 </template>
 <script>
 import axios from 'axios';
+import Swal from 'sweetalert2';
 
 export default {
     name: 'Register',
@@ -59,7 +60,21 @@ export default {
             });
             console.warn(result);
             if(result.status == 201 && result.data){
-                alert('Register Sukses');
+                Swal.mixin({ // Integrate Swal.mixin here
+                        toast: true,
+                        position: 'bottom-end',
+                        showConfirmButton: false,
+                        timer: 4000,
+                        timerProgressBar: true,
+                        didOpen: (toast) => {
+                            toast.addEventListener('mouseenter', Swal.stopTimer);
+                            toast.addEventListener('mouseleave', Swal.resumeTimer);
+                        },
+                    }).fire({
+                        icon: 'success',
+                        title: 'Register Berhasil',
+                    });
+
                 localStorage.setItem('user-info', JSON.stringify(result.data));
                 this.$router.push('/login');
             }

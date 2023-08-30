@@ -20,7 +20,7 @@
         </li>
         <li>
           <h4>Harga</h4>
-          <p>{{ data.destinasi.harga }}</p>
+          <p>{{ formattedHarga(data.destinasi.harga) }}</p>
         </li>
         <li>
           <h4>Jumlah Orang</h4>
@@ -44,6 +44,7 @@
 import axios from 'axios'
 import { RouterLink } from 'vue-router'
 import HeaderComponent from '../components/HeaderComponent.vue'
+import Swal from 'sweetalert2';
 export default {
   name: 'Pembayaran',
   components: {
@@ -74,6 +75,9 @@ export default {
         console.log(this.data)
       }
     },
+    formattedHarga(harga) {
+      return harga.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+    },
     async payWithMidtrans() {
 
       try {
@@ -87,12 +91,16 @@ export default {
         snap.pay(snapToken, {
           onSuccess: function (result) {
             // Payment successful, handle success logic here
-            alert('Payment successful! Transaction ID: ' + result.transaction_id);
+            // Swal.fire({ // Use Swal.fire for error messages
+            //             icon: 'success',
+            //             title: 'Pembayaran Berhasil',
+            //             text: 'Silahkan Cek Email Anda.',
+            //         });
             //clear data local storage
             localStorage.removeItem('pembayaran');
             localStorage.removeItem('tkn-pembayaran');
             // Redirect or show success message as needed
-            self.$router.push({ name : 'payment-success'});
+            self.$router.push({ name: 'payment-success' });
           },
           onPending: function (result) {
             // Payment pending, handle pending logic here

@@ -34,34 +34,17 @@ onMounted(async () => {
             <div class="card-title">
                 <h1>{{ destination.nama }}</h1>
             </div>
-            <div class="card-day">
-                <h1>Hari Senin</h1>
-                <p>Harga : Rp {{ formattedHarga(destination.harga) }}</p>
+            <div v-if="destination.harga > 0" class="card">
+                <div class="card-day">
+                    <h1>Hari Senin - Minggu</h1>
+                    <p>Harga : Rp {{ formattedHarga(destination.harga) }}</p>
+                </div>
             </div>
 
-            <div class="card-day">
-                <h1>Hari Selasa</h1>
-                <p>Harga : Rp {{ formattedHarga(destination.harga) }}</p>
-            </div>
-
-            <div class="card-day">
-                <h1>Hari Rabu</h1>
-                <p>Harga : Rp {{ formattedHarga(destination.harga) }}</p>
-            </div>
-
-            <div class="card-day">
-                <h1>Hari Kamis</h1>
-                <p>Harga : Rp {{ formattedHarga(destination.harga) }}</p>
-            </div>
-
-            <div class="card-day">
-                <h1>Hari Jumat</h1>
-                <p>Harga : Rp {{ formattedHarga(destination.harga) }}</p>
-            </div>
-
-            <div class="card-day">
-                <h1>Hari Sabtu</h1>
-                <p>Harga : Rp {{ formattedHarga(destination.harga) }}</p>
+            <div v-else>
+                <div class="card-day">
+                    <p>Wisata ini gratis dan tidak menggunakan tiket</p>
+                </div>
             </div>
 
             <div class="operasional">
@@ -110,9 +93,9 @@ onMounted(async () => {
     display: flex;
     width: 100%;
     padding: 0 100px;
-    align-items: center;
+    align-items: flex-start;
     align-content: center;
-    gap: 100px 150px;
+    gap: 100px 100px;
     flex-wrap: wrap;
     justify-content: center;
     padding-bottom: 100px;
@@ -124,7 +107,6 @@ onMounted(async () => {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    gap: 40px;
     border-radius: 10px;
     border: 0.5px solid var(--color-theme-200, #C4C6CB);
     background: rgba(255, 255, 255, 0.10);
@@ -148,7 +130,7 @@ onMounted(async () => {
     text-align: center;
     font-size: 18px;
     font-weight: 600;
-    min-width: 200px;
+    min-width: 235px;
 }
 
 .card-info .card-day {
@@ -157,6 +139,8 @@ onMounted(async () => {
     justify-content: center;
     align-items: flex-start;
     gap: 5px;
+    margin: 40px 0;
+    max-width: 260px;
 }
 
 .card-day h1 {

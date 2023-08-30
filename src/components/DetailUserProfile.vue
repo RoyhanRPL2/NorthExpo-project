@@ -1,51 +1,61 @@
 <template>
-<div class="detail-profile">
-    <div class="profile-banner">
-        <img src="src\assets\images\profile-banner-bg.png" alt="User banner" class="banner">
-    </div>
-    <div class="profile">
-        <div class="user">
-            <img :src="'https://admin.api.northexpokudus.com/assets/img/avatar/' + userInfo.user.avatar" alt="" class="user-avatar">
-            <div>
-                <div class="username">
-                    <h1>{{ userInfo.user.name }}</h1>
-                </div>
-                <div class="email">
-                    <h6>{{ userInfo.user.email }}</h6>
+    <div class="detail-profile">
+        <div class="profile-banner">
+            <!-- <img src="src\assets\images\profile-banner-bg.png" alt="User banner" class="banner"> -->
+            <img :src="'https://source.unsplash.com/1600x900/?nature/' + Math.random()" alt="User banner" class="banner">
+        </div>
+        <div class="profile">
+            <div class="user">
+                <img :src="'https://admin.api.northexpokudus.com/assets/img/avatar/' + userData.avatar" alt=""
+                    class="user-avatar">
+                <div>
+                    <div class="username">
+                        <h1>{{ userData.name }}</h1>
+                    </div>
+                    <div class="email">
+                        <h6>{{ userData.email }}</h6>
+                    </div>
                 </div>
             </div>
-        </div>
-        <div class="edit-profile">
-            <!-- buat button edit profil menuju ke route /profile/edit -->
-            <router-link to="/profile/edit">
-                <button class="btn btn-primary">Edit Profile</button>
-            </router-link>
+            <div class="edit-profile">
+                <router-link to="/profile/edit">
+                    <button class="btn btn-primary">Ubah Profil</button>
+                </router-link>
+            </div>
         </div>
     </div>
-</div>
 </template>
+    
+<script setup>
+import axios from 'axios';
+import { ref, onMounted } from 'vue';
 
-<script>
-export default {
-    data() {
-        return {
-            userInfo: null
-        };
-    },
-    created() {
-        this.getUserInfoFromLocalStorage();
-    },
-    methods: {
-        getUserInfoFromLocalStorage() {
-            const storedUserInfo = localStorage.getItem('user-info');
-            if (storedUserInfo) {
-                this.userInfo = JSON.parse(storedUserInfo);
-            }
-        }
+const userData = ref([]);
+const getUserToken = () => {
+    const token = localStorage.getItem('token');
+    return token ? token.replace(/['"]+/g, '') : '';
+};
+
+const getUserData = async () => {
+    const userToken = getUserToken();
+    try {
+        const response = await axios.get('https://admin.api.northexpokudus.com/api/auth/user', {
+            headers: {
+                Authorization: `Bearer ${userToken}`
+            },
+        });
+        userData.value = response.data.data;
+    } catch (error) {
+        console.log("error "+error);
     }
 };
+
+onMounted(() => {
+    getUserData();
+});
 </script>
 
+    
 <style>
 .detail-profile {
     width: 100%;

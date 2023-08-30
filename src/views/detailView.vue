@@ -125,6 +125,7 @@ import additionalComponent from '../components/AdditionalData.vue'
 import DropdownTime from '../components/DropdownTime.vue';
 import { ref, onMounted } from 'vue';
 import { useRoute } from 'vue-router';
+import Swal from 'sweetalert2';
 
 const destinasi = ref({
     data: {
@@ -185,7 +186,23 @@ async function postKomentar() {
             console.log(response.data);
             this.komentar = '';
             this.getKomentars();
-            alert('Komentar berhasil dikirim');
+            Swal.mixin({ // Integrate Swal.mixin here
+                        toast: true,
+                        position: 'bottom-end',
+                        showConfirmButton: false,
+                        timer: 4000,
+                        timerProgressBar: true,
+                        background: 'var(--color-success-500)',
+                        iconColor: '#fff',
+                        color: '#fff',
+                        didOpen: (toast) => {
+                            toast.addEventListener('mouseenter', Swal.stopTimer);
+                            toast.addEventListener('mouseleave', Swal.resumeTimer);
+                        },
+                    }).fire({
+                        icon: 'success',
+                        title: 'Komentar Berhasil Dikirim.',
+                    });
         })
         .catch(error => {
             console.log(error.response.data);
