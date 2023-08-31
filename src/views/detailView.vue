@@ -57,7 +57,7 @@
         </div>
 
         <div class="review-form">
-            <h2>Ulasan</h2>
+            <h2>Komentar</h2>
             <!-- <div class="rate">
                 <p>Penilaian :</p>
                 <div class="star-rate">
@@ -93,7 +93,7 @@
         </div>
 
         <div class="review">
-            <h2>Ulasan Pengunjung</h2>
+            <h2>Komentar Pengunjung</h2>
             <div class="review-item" v-for="komentar in komentars" :key="komentar">
                 <div class="user">
                     <img :src="`https://admin.api.northexpokudus.com/assets/img/avatar/` + komentar.user_id.avatar" alt="">
@@ -107,7 +107,7 @@
             </div>
 
             <div class="no-comment" v-if="komentars.length == 0">
-                <p>Belum ada ulasan</p>
+                <p>Belum ada komentar</p>
             </div>
         </div>
     </div>
