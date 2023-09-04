@@ -209,6 +209,12 @@ export default {
     .container .additional-data .nearest-restaurant .restaurant-list li h3 {
         font-size: 0.8rem;
     }
+
+    .container .additional-data .separator-line {
+        width: 100%;
+        height: 1px;
+        margin: 1rem 0;
+    }
 }
 </style>
 

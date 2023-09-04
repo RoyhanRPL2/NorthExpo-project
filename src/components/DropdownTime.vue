@@ -13,10 +13,6 @@
                     <h4>Kuota Online</h4>
                     <p> {{ ticketApi.kuota }} Orang</p>
                 </div>
-                <div class="rest-capacity">
-                    <h4>Sisa Kuota</h4>
-                    <p> {{ ticketApi.sisa_kuota }} Orang</p>
-                </div>
             </div>
             <div class="seperate-line"></div>
             <div class="order-button">
@@ -308,6 +304,9 @@ export default {
 }
 
 .select-container .order-detail .capacity .online-cap {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
     text-align: left;
 }
 
@@ -461,6 +460,10 @@ export default {
 @media screen and (max-width: 768px) {
     .select-container .order-detail .modal .modal-content {
         width: 50%;
+    }
+
+    .select-container .order-detail .modal .modal-content .warn-icon {
+        font-size: 3rem;
     }
 }
 

@@ -8,7 +8,9 @@
             <h1>{{ destinasi.data.nama }}</h1>
             <div class="lokasi">
                 <font-awesome-icon class="icon" icon="fa-solid fa-location-dot" size="xl" />
-                <p>{{ destinasi.data.alamat }}</p>
+                <div class="location-wrapper">
+                    <p>{{ destinasi.data.alamat }}</p>
+                </div>
             </div>
             <div class="operasional">
                 <font-awesome-icon class="icon" icon="fa-solid fa-clock" size="xl" />
@@ -123,7 +125,7 @@ import HeaderComponent from '../components/HeaderComponent.vue';
 import footerComponent from '../components/footer.vue';
 import additionalComponent from '../components/AdditionalData.vue'
 import DropdownTime from '../components/DropdownTime.vue';
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, watch, computed } from 'vue';
 import { useRoute } from 'vue-router';
 import Swal from 'sweetalert2';
 
@@ -153,7 +155,6 @@ const kuliner = ref([]);
 const destinasi2 = ref([])
 const route = useRoute();
 
-// get komentars
 async function getKomentars() {
     axios.get(`https://admin.api.northexpokudus.com/api/destinasi/komentar/${route.params.id}`)
         .then(response => {
@@ -187,33 +188,40 @@ async function postKomentar() {
             this.komentar = '';
             this.getKomentars();
             Swal.mixin({ // Integrate Swal.mixin here
-                        toast: true,
-                        position: 'bottom-end',
-                        showConfirmButton: false,
-                        timer: 4000,
-                        timerProgressBar: true,
-                        background: 'var(--color-success-500)',
-                        iconColor: '#fff',
-                        color: '#fff',
-                        didOpen: (toast) => {
-                            toast.addEventListener('mouseenter', Swal.stopTimer);
-                            toast.addEventListener('mouseleave', Swal.resumeTimer);
-                        },
-                    }).fire({
-                        icon: 'success',
-                        title: 'Komentar Berhasil Dikirim.',
-                    });
+                toast: true,
+                position: 'bottom-end',
+                showConfirmButton: false,
+                timer: 4000,
+                timerProgressBar: true,
+                background: 'var(--color-success-500)',
+                iconColor: '#fff',
+                color: '#fff',
+                didOpen: (toast) => {
+                    toast.addEventListener('mouseenter', Swal.stopTimer);
+                    toast.addEventListener('mouseleave', Swal.resumeTimer);
+                },
+            }).fire({
+                icon: 'success',
+                title: 'Komentar Berhasil Dikirim.',
+            });
         })
         .catch(error => {
             console.log(error.response.data);
         });
 }
 
-
+async function getDestinasi() {
+    axios.get(`https://admin.api.northexpokudus.com/api/destinasi/${route.params.id}`)
+        .then(response => {
+            destinasi.value = response.data;
+        })
+        .catch(error => {
+            console.log(error);
+        })
+}
 
 onMounted(async () => {
-    const response = await axios.get(`https://admin.api.northexpokudus.com/api/destinasi/${route.params.id}`);
-    destinasi.value = response.data;
+    getDestinasi();
     postKomentar();
     getKomentars();
 });
@@ -530,6 +538,7 @@ onMounted(() => {
 
     .container .description-container {
         padding: 2rem 0.5rem;
+        padding-bottom: 20px;
     }
 
     .container .map-container {
@@ -558,6 +567,43 @@ onMounted(() => {
         padding: 0 0.5rem;
     }
 
+    .container .header h1 {
+        font-size: 2.5rem;
+    }
+
+    .container .header .lokasi .location-wrapper {
+        overflow: hidden;
+    }
+
+    .container .header .lokasi .location-wrapper p {
+        max-width: 20%;
+        white-space: nowrap;
+        transform: translateX(0);
+        animation: marqueeLocation 30s linear infinite;
+    }
+
+    @keyframes marqueeLocation {
+        0% {
+            transform: translateX(0);
+        }
+
+        10% {
+            transform: translateX(0);
+        }
+
+        60% {
+            transform: translateX(calc(-100% - 200px));
+        }
+
+        70% {
+            transform: translateX(calc(-100% - 200px));
+        }
+
+        100% {
+            transform: translateX(0);
+        }
+    }
+
     .container .img-wrapper {
         padding: 2rem 0.5rem;
     }
@@ -566,8 +612,13 @@ onMounted(() => {
         padding: 2rem 0.5rem;
     }
 
+
     .container .map-container {
         padding: 2rem 0.5rem;
+    }
+
+    .container .map-container iframe {
+        border-radius: 8px;
     }
 
     .container .ticket-wrapper {
@@ -581,7 +632,18 @@ onMounted(() => {
     .container .review {
         padding: 0 0.5rem;
     }
+
+    .container .img-wrapper img {
+        height: 20rem;
+    }
+
+    .container .img-wrapper .img-list img {
+        width: 20%;
+        height: 5rem;
+    }
+
+    .container .review-form .form form button {
+        width: 30%;
+    }
 }
-
-
 </style>

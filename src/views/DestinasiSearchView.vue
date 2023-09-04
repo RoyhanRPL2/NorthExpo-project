@@ -60,9 +60,6 @@ onMounted(async () => {
             <p class="data-kosong">Tidak ada destinasi yang ditemukan.</p>
         </div>
     </div>
-    <div class="pagination">
-
-    </div>
     <footer>
         <footerComponent />
     </footer>
@@ -159,6 +156,7 @@ onMounted(async () => {
     height: 100%;
     text-decoration: none;
 }
+
 .container a {
     width: 400px;
     height: 400px;
@@ -178,7 +176,7 @@ onMounted(async () => {
     transition: 0.5s all ease-out;
 }
 
-.container a:hover  img {
+.container a:hover img {
     transform: scale(1.15);
 }
 
@@ -303,14 +301,75 @@ onMounted(async () => {
     }
 }
 
+@media screen and (max-width: 1024px) {
+    .hero .title-wrapper h1 {
+        font-size: 2rem;
+    }
+
+    .hero .title-wrapper p {
+        font-size: 0.8rem;
+    }
+
+    .hero .search-wrapper {
+        top: 70%;
+    }
+
+    .main {
+        padding: 2rem 0;
+    }
+
+    .container {
+        width: fit-content;
+        height: 300px;
+        margin-bottom: 2.5rem;
+    }
+
+    .container a {
+        width: 300px;
+        height: 300px;
+    }
+
+    .card-title p {
+        font-size: 1.2rem;
+    }
+
+    .card-title .lokasi p {
+        font-size: 0.8rem;
+    }
+
+    .data-kosong {
+        font-size: 1rem;
+    }
+}
+
 @media screen and (max-width: 768px) {
+    .hero .title-wrapper h1 {
+        font-size: 2rem;
+    }
+
+    .hero .title-wrapper p {
+        font-size: 0.8rem;
+    }
+
+    .hero .search-wrapper {
+        top: 70%;
+    }
+
+    .main {
+        padding: 2rem 0;
+    }
+
     .container {
-        width: 100%;
+        width: fit-content;
         height: 300px;
     }
 
-    .card-title {
-        padding: 0.5rem;
+    .link {
+        display: flex;
+        flex-direction: column;
+        align-content: space-between;
+        height: 100%;
+        text-decoration: none;
     }
 
     .card-title p {
@@ -321,54 +380,8 @@ onMounted(async () => {
         font-size: 0.8rem;
     }
 
-    .black-liner {
-        height: 30%;
-    }
-}
-
-@media screen and (max-width: 425px) {
-    .container {
-        width: 100%;
-        height: 300px;
-    }
-
-    .card-title {
-        padding: 0.5rem;
-    }
-
-    .card-title p {
-        font-size: 1.2rem;
-    }
-
-    .card-title .lokasi p {
-        font-size: 0.8rem;
-    }
-
-    .black-liner {
-        height: 30%;
-    }
-}
-
-@media screen and (max-width: 375px) {
-    .container {
-        width: 100%;
-        height: 300px;
-    }
-
-    .card-title {
-        padding: 0.5rem;
-    }
-
-    .card-title p {
-        font-size: 1.2rem;
-    }
-
-    .card-title .lokasi p {
-        font-size: 0.8rem;
-    }
-
-    .black-liner {
-        height: 30%;
+    .data-kosong {
+        font-size: 1rem;
     }
 }
 </style>
