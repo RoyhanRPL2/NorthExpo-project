@@ -12,8 +12,8 @@
             <div class="seperate-line"></div>
             <div class="capacity">
                 <div class="online-cap">
-                    <h4>Kuota Online</h4>
-                    <p> {{ restTicketCapacity.sisa_kuota }} Orang</p>
+                    <h4>Kuota Tiket Online</h4>
+                    <p> {{ restTicketCapacity.sisa_kuota }} Tiket</p>
                 </div>
             </div>
             <div class="seperate-line"></div>
