@@ -2,8 +2,8 @@
     <div class="container">
         <div class="top-container">
             <div class="img-wrapper">
-                <img v-if="destination && destination.foto" :src="'https://admin.api.northexpokudus.com/foto/' + destination.foto"
-                    alt="">
+                <img v-if="destination && destination.foto"
+                    :src="'https://admin.api.northexpokudus.com/foto/' + destination.foto" alt="">
             </div>
             <div class="destination-detail">
                 <div class="top-detail">
@@ -20,7 +20,7 @@
                     </div>
                     <div class="price">
                         <h4>Harga Tiket</h4>
-                        <p>Rp{{ formattedHarga(destination ? destination.harga : '') }}/Orang</p>
+                        <p>Rp{{ destination.harga }}/Orang</p>
                     </div>
                 </div>
             </div>
@@ -32,7 +32,7 @@
                 <p>{{ destination ? destination.deskripsi : '' }}</p>
             </div>
             <div class="capacity-container">
-                <h3>Sisa kuota: {{ ticketApi.sisa_kuota }} tiket</h3>
+                <h3>Sisa kuota: {{ TicketRestCapacity.sisa_kuota }} tiket</h3>
             </div>
         </div>
         <div class="bottom-container">
@@ -56,54 +56,88 @@
 import { useRoute } from 'vue-router';
 import { computed, onMounted, ref } from 'vue';
 import axios from 'axios';
+import { eventBus } from '../eventBus.js';
 
 export default {
+    data() {
+        return {
+            id: null,
+            tanggal: '',
+            TicketRestCapacity: {},
+            destination: {},
+        };
+    },
+    created() {
+        this.id = this.$route.params.id;
+        eventBus.on('date', (date) => {
+            this.tanggal = date;
+        });
+
+        const today = new Date();
+        const year = today.getFullYear();
+        const month = String(today.getMonth() + 1).padStart(2, '0');
+        const day = String(today.getDate()).padStart(2, '0');
+        this.tanggal = `${year}-${month}-${day}`;
+    },
     methods: {
         formattedHarga(harga) {
             return harga.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.');
         },
+        async fetchTicketRestCapacity() {
+            try {
+                const response = await axios.get(`https://admin.api.northexpokudus.com/api/sisakuota/${this.id}/tanggal/${this.tanggal}`);
+                this.TicketRestCapacity = response.data.data;
+                console.log(this.TicketRestCapacity);
+            } catch (error) {
+                console.error(error);
+            }
+        },
+        async fetchDestinationData() {
+            try {
+                const response = await axios.get(`https://admin.api.northexpokudus.com/api/destinasi/${this.id}`);
+                this.destination = response.data.data;
+                console.log(this.destination)
+            } catch (error) {
+                console.error(error);
+            }
+        }
+    },
+    watch: {
+        tanggal(newTanggal, oldTanggal) {
+            this.fetchTicketRestCapacity();
+        },
+    },
+    mounted() {
+        this.fetchTicketRestCapacity();
+        this.fetchDestinationData();
     },
     setup() {
-        const route = useRoute();
-        const destinationId = computed(() => route.params.id);
-        const date = computed(() => route.query.date);
-        const destination = ref(null);
-        const ticketApi = ref({});
+        // const route = useRoute();
+        // const destinationId = computed(() => route.params.id);
+        // const date = computed(() => route.query.date);
+        // const destination = ref({});
 
-        // Lakukan logika untuk mengambil data destinasi berdasarkan ID
-        
-        const fetchData = async (id) => {
-            try {
-                const response = await axios.get(`https://admin.api.northexpokudus.com/api/destinasi/${id}`);
-                destination.value = response.data.data; // Simpan data destinasi dalam properti reactive
-                console.warn(destination.value);
-                // Lakukan manipulasi atau pengaturan data sesuai kebutuhan
-            } catch (error) {
-                console.error(error);
-            }
-        };
+        // // Lakukan logika untuk mengambil data destinasi berdasarkan ID
 
-        const fetchTicketData = async (id) => {
-            try {
-                const response = await axios.get(`https://admin.api.northexpokudus.com/api/sisakuota/${id}`);
-                ticketApi.value = response.data.data;
-                console.log(ticketApi.value);
-            } catch (error) {
-                console.error(error);
-            }
-        };
+        // const fetchData = async (id) => {
+        //     try {
+        //         const response = await axios.get(`https://admin.api.northexpokudus.com/api/destinasi/${id}`);
+        //         destination.value = response.data.data; // Simpan data destinasi dalam properti reactive
+        //         console.warn(destination.value);
+        //         // Lakukan manipulasi atau pengaturan data sesuai kebutuhan
+        //     } catch (error) {
+        //         console.error(error);
+        //     }
+        // };
 
-        onMounted(() => {
-            fetchData(destinationId.value);
-            fetchTicketData(route.params.id)
-        });
+        // onMounted(() => {
+        //     fetchData(destinationId.value);
+        // });
 
         return {
-            destinationId,
-            date,
-            fetchData,
-            destination,
-            ticketApi
+            // destinationId,
+            // fetchData,
+            // destination,
         };
     },
 };

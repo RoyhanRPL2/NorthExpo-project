@@ -4,7 +4,7 @@
         <form @submit.prevent="pay()">
             <div class="form-group">
                 <label for="tanggal">Tanggal</label>
-                <input type="date" v-model="tanggal" id="tanggal" :min="minDate">
+                <input type="date" v-model="tanggal" id="tanggal" :min="minDate" @change="emitDateValue">
             </div>
             <div class="form-group">
                 <label for="no_telp">No.Hp</label>
@@ -46,6 +46,7 @@ import { useRoute } from 'vue-router';
 import { computed, onMounted, ref } from 'vue';
 import moment from 'moment-timezone';
 import Swal from 'sweetalert2';
+import { eventBus } from '../eventBus.js';
 
 export default {
     data() {
@@ -62,6 +63,11 @@ export default {
     created() {
         this.id = this.$route.params.id
         this.fetchdata()
+        const today = new Date();
+        const year = today.getFullYear();
+        const month = String(today.getMonth() + 1).padStart(2, '0');
+        const day = String(today.getDate()).padStart(2, '0');
+        this.tanggal = `${year}-${month}-${day}`;
     },
     methods: {
         parseOperatingHours(operatingHours) {
@@ -75,7 +81,8 @@ export default {
             const year = today.getFullYear();
             const month = String(today.getMonth() + 1).padStart(2, '0');
             const day = String(today.getDate()).padStart(2, '0');
-            return `${year}-${month}-${day}`;
+
+            return this.minDate = `${year}-${month}-${day}`;
         },
         async fetchdata() {
             try {
@@ -90,6 +97,9 @@ export default {
             } catch (error) {
                 console.error(error);
             }
+        },
+        emitDateValue() {
+            eventBus.emit('date', this.tanggal);
         },
         async pay() {
             if (!this.tanggal || !this.no_telp || !this.qty) {
