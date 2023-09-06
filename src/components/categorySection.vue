@@ -75,4 +75,58 @@
     color: lightcoral;
     border: 1px solid lightcoral;
 }
+
+@media screen and (max-width: 1024px) {
+    .category {
+        width: 100%;
+        height: 100%;
+        padding: 0 1rem;
+    }
+
+    .category-list {
+        display: flex;
+        justify-content: space-between;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .category {
+        width: 100%;
+        height: 100%;
+        padding: 0 1rem;
+    }
+
+    .category-list {
+        display: flex;
+    }
+
+    .category-item {
+        display: flex;
+        align-items: center;
+        margin-bottom: 1rem;
+        padding: 0.5rem 1rem;
+        border-radius: 0.5rem;
+    }
+}
+
+@media screen and (max-width: 425px) {
+    .category {
+        width: 100%;
+        height: 100%;
+        padding: 0 1rem;
+    }
+
+    .category-list {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .category-item {
+        display: flex;
+        align-items: center;
+        margin-bottom: 1rem;
+        padding: 0.5rem 1rem;
+        border-radius: 0.5rem;
+    }
+}
 </style>
