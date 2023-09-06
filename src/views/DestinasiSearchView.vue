@@ -34,34 +34,30 @@ onMounted(async () => {
     </div>
     <div class="main-container">
         <div v-if="destinations.length > 0" class="main">
-            <div class="container" v-for="destination in destinations" :key="destination.id">
+            <div class="container" v-for="destination in destinations" :key="destination.id"  :style="{ backgroundImage: 'url(https://admin.api.northexpokudus.com/foto/' + destination.foto + ')' }">
                 <router-link :to="{ name: 'detail-destinasi', params: { id: destination.id } }" class="link">
-                    <img :src="'https://admin.api.northexpokudus.com/foto/' + destination.foto" alt="gambar">
+                    <!-- <img :src="'https://admin.api.northexpokudus.com/foto/' + wisata.foto" alt="gambar"> -->
                     <div class="category">
                         <p>{{ destination.kategori.nama }}</p>
                     </div>
-                    <div class="card-title">
-                        <div class="wrapper">
-                            <p id="title">{{ destination.nama }}</p>
-                        </div>
-
-                        <div class="lokasi">
-                            <font-awesome-icon class="icon" icon="fa-solid fa-location-dot" size="xl" />
-                            <div class="loc">
-                                <p>{{ destination.alamat }}</p>
-                            </div>
+                </router-link>
+                <div class="card-title">
+                    <div class="wrapper">
+                        <p id="title">{{ destination.nama }}</p>
+                    </div>
+                    <div class="lokasi">
+                        <font-awesome-icon class="icon" icon="fa-solid fa-location-dot" size="xl" />
+                        <div class="loc">
+                            <p>{{ destination.alamat }}</p>
                         </div>
                     </div>
-                    <div class="black-liner"></div>
-                </router-link>
+                </div>
+                <div class="black-liner"></div>
             </div>
         </div>
         <div v-else>
             <p class="data-kosong">Tidak ada destinasi yang ditemukan.</p>
         </div>
-    </div>
-    <div class="pagination">
-
     </div>
     <footer>
         <footerComponent />
@@ -138,8 +134,8 @@ onMounted(async () => {
 }
 
 .container {
-    width: fit-content;
-    height: fit-content;
+    width: 400px;
+    height: 400px;
     background-size: cover;
     background-position: center;
     position: relative;
@@ -159,57 +155,17 @@ onMounted(async () => {
     height: 100%;
     text-decoration: none;
 }
-.container a {
-    width: 400px;
-    height: 400px;
-    background-size: cover;
-    border-radius: 10px;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    position: relative;
-    overflow: hidden;
-    margin: 1rem;
-}
 
-.container a img {
-    width: 100%;
-    height: 100%;
-    transition: 0.5s all ease-out;
-}
-
-.container a:hover  img {
-    transform: scale(1.15);
-}
-
-.category {
-    width: 100%;
-    display: flex;
-    justify-content: space-between;
-    padding: 0.8rem;
+.container a .category {
     position: absolute;
     top: 0;
-    right: 0;
+    left: 0;
+    padding: 0.8rem;
+    border-radius: 0 10px 0 10px;
+    z-index: 1;
 }
 
-.category button {
-    width: 2rem;
-    height: 2rem;
-    border-radius: 10%;
-    background-color: #61832d;
-    border: none;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    cursor: pointer;
-}
-
-.category button .plus-icon {
-    color: #fff;
-    font-size: 1rem;
-}
-
-.category p {
+.container a .category p {
     font-family: "Poppins", sans-serif;
     color: #fff;
     background-color: #61832d;
@@ -219,14 +175,14 @@ onMounted(async () => {
 
 .card-title {
     width: 100%;
-    height: 25%;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-around;
-    padding: 0.5rem 0.8rem;
+    padding: 1rem;
     position: absolute;
     bottom: 0;
-    z-index: 2;
+    left: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    z-index: 1;
 }
 
 .card-title p {
@@ -247,22 +203,21 @@ onMounted(async () => {
 }
 
 .card-title .lokasi .icon {
-    margin-right: 0.5rem;
     color: #15ACC5;
-    width: 100px;
+    margin-right: 0.5rem;
 }
 
 .card-title .lokasi p {
     font-family: 'Poppins', sans-serif;
     font-size: 1rem;
-    font-weight: 400;
+    font-weight: 300;
     color: #fff;
-    opacity: 0.5;
     background-color: transparent;
     white-space: nowrap;
     transform: translateX(0);
     animation: marqueeLocation 30s linear infinite;
 }
+
 
 .black-liner {
     width: 100%;
@@ -303,72 +258,93 @@ onMounted(async () => {
     }
 }
 
-@media screen and (max-width: 768px) {
+@media screen and (max-width: 870px) {
+    .main-container {
+        padding: 0 2rem;
+    }
+
+    .main {
+        padding: 2rem 2rem;
+    }
+
     .container {
         width: 100%;
         height: 300px;
     }
+}
 
-    .card-title {
-        padding: 0.5rem;
+
+@media screen and (max-width: 768px) {
+    .hero .title-wrapper {
+        top: 50%;
+    }
+
+    .hero .search-wrapper {
+        top: 70%;
+    }
+
+    .main {
+        padding: 2rem 0;
+    }
+
+    .container {
+        width: 85%;
+        height: 300px;
     }
 
     .card-title p {
-        font-size: 1.2rem;
+        font-size: 1.5rem;
     }
 
     .card-title .lokasi p {
         font-size: 0.8rem;
     }
 
-    .black-liner {
-        height: 30%;
+    .data-kosong {
+        font-size: 1rem;
     }
 }
 
 @media screen and (max-width: 425px) {
+    .hero .title-wrapper {
+        width: 100%;
+    }
+
+    .hero .title-wrapper h1 {
+        width: 100%;
+        font-size: 1.7rem;
+    }
+
+    .hero .title-wrapper p {
+        font-size: 1rem;
+    }
+
+    .hero .search-wrapper {
+        top: 70%;
+    }
+
+    .main {
+        padding: 2rem 0;
+    }
+
     .container {
         width: 100%;
         height: 300px;
     }
 
-    .card-title {
-        padding: 0.5rem;
-    }
-
     .card-title p {
-        font-size: 1.2rem;
+        font-size: 1.5rem;
     }
 
     .card-title .lokasi p {
         font-size: 0.8rem;
     }
 
-    .black-liner {
-        height: 30%;
+    .data-kosong {
+        font-size: 1rem;
     }
 }
 
-@media screen and (max-width: 375px) {
-    .container {
-        width: 100%;
-        height: 300px;
-    }
 
-    .card-title {
-        padding: 0.5rem;
-    }
 
-    .card-title p {
-        font-size: 1.2rem;
-    }
-
-    .card-title .lokasi p {
-        font-size: 0.8rem;
-    }
-
-    .black-liner {
-        height: 30%;
-    }
-}
 </style>
