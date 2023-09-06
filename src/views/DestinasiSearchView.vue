@@ -283,12 +283,16 @@ onMounted(async () => {
         top: 70%;
     }
 
+    .main-container {
+        padding: 0 2rem;
+    }
+
     .main {
         padding: 2rem 0;
     }
 
     .container {
-        width: 85%;
+        width: 100%;
         height: 300px;
     }
 
@@ -345,6 +349,47 @@ onMounted(async () => {
     }
 }
 
+@media screen and (max-width: 375px) {
+    .hero .title-wrapper {
+        width: 100%;
+    }
 
+    .hero .title-wrapper h1 {
+        width: 100%;
+        font-size: 1.5rem;
+    }
 
+    .hero .title-wrapper p {
+        font-size: 0.8rem;
+    }
+
+    .hero .search-wrapper {
+        top: 70%;
+    }
+
+    .main-container {
+        padding: 0 1rem;
+    }
+
+    .main {
+        padding: 2rem 0;
+    }
+
+    .container {
+        width: 100%;
+        height: 300px;
+    }
+
+    .card-title p {
+        font-size: 1.5rem;
+    }
+
+    .card-title .lokasi p {
+        font-size: 0.8rem;
+    }
+
+    .data-kosong {
+        font-size: 1rem;
+    }
+}
 </style>
