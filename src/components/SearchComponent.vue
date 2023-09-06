@@ -1,6 +1,5 @@
 <script setup>
 import SearchIcon from './icons/IconSearch.vue'
-// import { ref, computed, onMounted, defineEmits } from 'vue';
 import { ref, defineEmits, onMounted } from 'vue';
 import axios from 'axios';
 import { useRouter } from 'vue-router';
@@ -64,15 +63,15 @@ const selectedRegion = ref('');
 const categories = ref([]);
 const regions = ref([]);
 
-// function performSearch() {
-//     router.push({
-//         path: '/destinasi',
-//         query: {
-//             search: searchValue.value,
-//             kategori: selectedCategory.value,
-//         },
-//     });
-// }
+const getUniqueCategories = (places) => {
+    const categories = places.map((place) => place.kategori.nama);
+    return [...new Set(categories)];
+};
+
+const getUniqueRegions = (places) => {
+    const regions = places.map((place) => place.wilayah.nama);
+    return [...new Set(regions)];
+};
 
 const search = async () => {
     try {
@@ -80,14 +79,16 @@ const search = async () => {
             params: {
                 search: searchValue.value,
                 kategori: selectedCategory.value,
+                wilayah: selectedRegion.value,
             },
         });
 
         router.push({
-            path: '/destinasi/search',
+            path: '/destinasi',
             query: {
                 search: searchValue.value,
                 kategori: selectedCategory.value,
+                wilayah: selectedRegion.value,
             },
         });
 
@@ -101,10 +102,29 @@ const search = async () => {
 onMounted(async () => {
     const response = await axios.get('https://admin.api.northexpokudus.com/api/destinasi');
     const data = response.data.data;
-    data.forEach((item) => {
-        categories.value.push(item.kategori.nama);
-        regions.value.push(item.wilayah.nama);
+    
+    getUniqueCategories(data).forEach((category) => {
+        categories.value.push(category);
     });
+
+    getUniqueRegions(data).forEach((region) => {
+        regions.value.push(region);
+    });
+
+    if (router.currentRoute.value.query.search) {
+        searchValue.value = router.currentRoute.value.query.search;
+        search();
+    }
+
+    if (router.currentRoute.value.query.kategori) {
+        selectedCategory.value = router.currentRoute.value.query.kategori;
+        search();
+    }
+
+    if (router.currentRoute.value.query.wilayah) {
+        selectedRegion.value = router.currentRoute.value.query.wilayah;
+        search();
+    }
 });
 
 </script>

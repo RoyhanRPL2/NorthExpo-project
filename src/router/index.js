@@ -24,14 +24,14 @@ const routes = [
     name: 'tiket',
     component: () => import('../views/TicketPrice.vue')
   },
+  // {
+  //   path: '/destinasi',
+  //   name: 'destinasi',
+  //   component: () => import('../views/DestinasiView.vue')
+  // },
   {
     path: '/destinasi',
     name: 'destinasi',
-    component: () => import('../views/DestinasiView.vue')
-  },
-  {
-    path: '/destinasi/search',
-    name: 'destinasi-search',
     component: () => import('../views/DestinasiSearchView.vue')
   },
   {

@@ -45,6 +45,7 @@
                     <div class="status-item" :style="{ background: getStatusGradient(ticket.status) }">
                         <p>{{ ticket.status }}</p>
                     </div>
+                    
                 </div>
             </div>
         </div>
@@ -163,7 +164,7 @@ export default {
 }
 
 .status .status-preview .card-ticket {
-    width: 600px;
+    width: 700px;
     height: 300px;
     background-color: var(--color-primary-600);
     border-radius: 15px;
