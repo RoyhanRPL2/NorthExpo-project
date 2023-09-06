@@ -120,20 +120,6 @@ export default {
                 return;
             }
 
-            if (this.tanggal === this.getTodayISOString()) {
-                const now = new Date();
-                const currentHour = now.getHours();
-
-                if (currentHour < this.operatingHours.openingTime || currentHour >= this.operatingHours.closingTime) {
-                    Swal.fire({
-                        icon: 'warning',
-                        title: 'Jam Operasional Wisata',
-                        text: 'Maaf, pemesanan tiket hanya tersedia selama jam operasional wisata.',
-                    });
-                    return;
-                }
-            }
-
             try {
                 const getUserInfo = localStorage.getItem('user-info');
                 const userInfo = JSON.parse(getUserInfo);

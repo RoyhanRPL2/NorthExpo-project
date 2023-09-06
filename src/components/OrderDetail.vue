@@ -2,8 +2,7 @@
     <div class="container">
         <div class="top-container">
             <div class="img-wrapper">
-                <img v-if="destination && destination.foto"
-                    :src="'https://admin.api.northexpokudus.com/foto/' + destination.foto" alt="">
+                <img v-if="destination.foto" :src="'https://admin.api.northexpokudus.com/foto/' + destination.foto" alt="">
             </div>
             <div class="destination-detail">
                 <div class="top-detail">
@@ -20,7 +19,7 @@
                     </div>
                     <div class="price">
                         <h4>Harga Tiket</h4>
-                        <p>Rp{{ destination.harga }}/Orang</p>
+                        <p>Rp{{ formattedHarga(destination.harga) }}/Orang</p>
                     </div>
                 </div>
             </div>
@@ -81,7 +80,10 @@ export default {
     },
     methods: {
         formattedHarga(harga) {
-            return harga.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+            if (harga !== null && harga !== undefined) {
+                return harga.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+            }
+            return ''; // Atau nilai default lain jika harga tidak ada
         },
         async fetchTicketRestCapacity() {
             try {
@@ -96,11 +98,11 @@ export default {
             try {
                 const response = await axios.get(`https://admin.api.northexpokudus.com/api/destinasi/${this.id}`);
                 this.destination = response.data.data;
-                console.log(this.destination)
+                console.log(this.destination.harga)
             } catch (error) {
                 console.error(error);
             }
-        }
+        },
     },
     watch: {
         tanggal(newTanggal, oldTanggal) {
@@ -110,35 +112,6 @@ export default {
     mounted() {
         this.fetchTicketRestCapacity();
         this.fetchDestinationData();
-    },
-    setup() {
-        // const route = useRoute();
-        // const destinationId = computed(() => route.params.id);
-        // const date = computed(() => route.query.date);
-        // const destination = ref({});
-
-        // // Lakukan logika untuk mengambil data destinasi berdasarkan ID
-
-        // const fetchData = async (id) => {
-        //     try {
-        //         const response = await axios.get(`https://admin.api.northexpokudus.com/api/destinasi/${id}`);
-        //         destination.value = response.data.data; // Simpan data destinasi dalam properti reactive
-        //         console.warn(destination.value);
-        //         // Lakukan manipulasi atau pengaturan data sesuai kebutuhan
-        //     } catch (error) {
-        //         console.error(error);
-        //     }
-        // };
-
-        // onMounted(() => {
-        //     fetchData(destinationId.value);
-        // });
-
-        return {
-            // destinationId,
-            // fetchData,
-            // destination,
-        };
     },
 };
 </script>
