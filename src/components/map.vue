@@ -86,9 +86,26 @@ onMounted(() => {
     z-index: 1;
     border-radius: 10px;
     box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+    margin: 1rem 0;
 }
 
 .religi-icon {
     fill: red;
+}
+
+@media screen and (max-width: 1024px) {
+    #map {
+        width: 100%;
+        height: 400px;
+        margin-bottom: 2rem;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    #map {
+        width: 100%;
+        height: 400px;
+        margin-bottom: 2rem;
+    }
 }
 </style>
