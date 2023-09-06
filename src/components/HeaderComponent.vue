@@ -68,6 +68,13 @@ const getUserData = async () => {
     }
 };
 
+function toggleNavbar() {
+    const hamMenu = document.querySelector('#hamburger-menu');
+    hamMenu.classList.toggle('active');
+    const nav = document.querySelector('.navigation');
+    nav.classList.toggle('active');
+}
+
 onMounted(() => {
     getUserData();
 });
@@ -86,6 +93,26 @@ onMounted(() => {
                 <li><router-link to="/map" class="underline">Peta Wisata</router-link></li>
             </ul>
         </nav>
+
+        <div id="hamburger-menu">
+            <div id="toggle" @click="toggleNavbar()"></div>
+        </div>
+
+        <div class="navigation">
+            <ul>
+                <li><router-link to="/" class="underline">Beranda</router-link></li>
+                <li><router-link to="/destinasi" class="underline">Destinasi</router-link></li>
+                <li><router-link to="/tiket" class="underline">Informasi Umum</router-link></li>
+                <li><router-link to="/map" class="underline">Peta Wisata</router-link></li>
+                <div v-if="isLoggedIn">
+                    <li><router-link to="/profile" class="underline">Profile</router-link></li>
+                </div>
+                <div v-else>
+                    <li><router-link to="/login" class="underline action">Masuk</router-link></li>
+                    <li><router-link to="/register" class="underline action">Daftar</router-link></li>
+                </div>
+            </ul>
+        </div>
 
         <div class="nav-action">
             <div class="user-profile" v-if="isLoggedIn">
@@ -145,6 +172,7 @@ onMounted(() => {
 .nav-links ul li {
     list-style: none;
     margin: 0 25px;
+    text-align: center;
 }
 
 .nav-links ul li a,
@@ -264,4 +292,149 @@ a:where(:hover, :focus-visible) {
 .nav-action .action button:hover {
     background-color: var(--color-primary-600);
 }
+
+.navbar #hamburger-menu #toggle {
+    position: relative;
+	width: 30px;
+	height: 30px;
+	cursor: pointer;
+    z-index: 100;
+    display: none;
+}
+
+.navbar #hamburger-menu #toggle::before {
+    content: '';
+	position: absolute;
+	top: 10px;
+	width: 100%;
+	height: 3px;
+	background: #000;
+    border-radius: 5px;
+}
+
+.navbar #hamburger-menu #toggle::after {
+    content: '';
+    position: absolute;
+    bottom: 10px;
+    width: 100%;
+    height: 3px;
+    background: #000;
+    border-radius: 5px; 
+}
+
+.navbar #hamburger-menu.active #toggle::before {
+    top: 50%;
+	left: 80%;
+	transform: translate(-50%,-50%) rotate(45deg);
+    transition: .3s;
+}
+
+.navbar #hamburger-menu.active #toggle::after {
+    top: 50%;
+	left: 80%;
+	transform: translate(-50%,-50%) rotate(-45deg);
+    transition: .3s;
+}
+
+.navbar .navigation {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    padding: 80px;
+    background-color: #fff;
+    transform: translateY(-100%);
+    transition: 600ms;
+    z-index: 99;
+    display: none;
+    justify-content: center;
+    align-items: center;
+}
+
+.navbar .navigation.active {
+    transform: translateY(0);
+}
+
+.navigation ul {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.navigation ul li {
+    list-style: none;
+    margin-bottom: 20px;
+}
+
+.navigation ul li a {
+    text-decoration: none;
+    color: var(--color-theme-950);
+    font-size: 32px;
+    font-weight: 700;
+}
+
+.navigation ul li a.action {
+    color: var(--color-theme-400);
+}
+
+/* responsive tablet */
+@media (min-width: 768px) and (max-width: 1024px) {
+    .navbar {
+        padding: 0 50px;
+    }
+
+    .navbar #logo {
+        z-index: 100;
+    }
+
+    .navbar .nav-links {
+        display: none;
+    }
+
+    .nav-action {
+        display: none;
+    }
+
+    .navbar #hamburger-menu #toggle {
+        display: block;
+    }
+
+    .navbar .navigation {
+        display: flex;
+    }
+}
+
+/* responsive handphone */
+@media screen and (max-width: 768px) {
+    .navbar {
+        padding: 0 30px;
+    }
+
+    .navbar #logo {
+        z-index: 100;
+    }
+
+    .navbar .nav-links {
+        display: none;
+    }
+
+    .nav-action {
+        display: none;
+    }
+
+    .navbar #hamburger-menu #toggle {
+        display: block;
+    }
+
+    .navbar .navigation {
+        display: flex;
+        padding: 0 30px 0 0;
+    }
+
+    .navigation ul li a {
+        font-size: 24px;
+    }
+}
+
 </style>

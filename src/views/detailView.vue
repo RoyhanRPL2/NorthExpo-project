@@ -95,7 +95,7 @@
         </div>
 
         <div class="review">
-            <h2>Semua Komentar</h2>
+            <h2>Komentar Pengunjung</h2>
             <div class="review-item" v-for="komentar in komentars" :key="komentar">
                 <div class="user">
                     <img :src="`https://admin.api.northexpokudus.com/assets/img/avatar/` + komentar.user_id.avatar" alt="">
@@ -316,6 +316,7 @@ onMounted(() => {
 .container .img-wrapper .img-list {
     display: flex;
     justify-content: center;
+    gap: 2;
     padding: 1rem 0;
 }
 
@@ -323,8 +324,8 @@ onMounted(() => {
     width: 15%;
     height: 6rem;
     object-fit: cover;
-    margin-right: 0.7rem;
     cursor: pointer;
+    margin: 0 0.5rem;
 }
 
 .container .description-container {
@@ -523,6 +524,13 @@ onMounted(() => {
     padding: 2rem 0;
 }
 
+@media screen and (max-width: 890px) {
+    .container {
+        width: 100%;
+        padding: 5rem 1rem;
+    }
+}
+
 @media screen and (max-width: 768px) {
     .container {
         padding: 5rem 2rem;
@@ -605,7 +613,17 @@ onMounted(() => {
     }
 
     .container .img-wrapper {
-        padding: 2rem 0.5rem;
+        padding: 2rem 0;
+    }
+
+    .container .img-wrapper .img-list {
+        width: 100%;
+        justify-content: space-around;
+        padding: 1rem 0;
+    }
+
+    .container .img-list img {
+        height: 10px;
     }
 
     .container .description-container {
@@ -637,13 +655,45 @@ onMounted(() => {
         height: 20rem;
     }
 
+    .container .img-wrapper .img-list {
+        width: 100%;
+        justify-content: space-evenly;
+        padding: 0 1rem;
+        margin-top: 1rem;
+    }
+
     .container .img-wrapper .img-list img {
         width: 20%;
-        height: 5rem;
+        height: 50px;
+        border-radius: 8px;
     }
 
     .container .review-form .form form button {
         width: 30%;
+    }
+}
+
+@media screen and (max-width: 375px) {
+    .container .header h1 {
+        font-size: 2rem;
+    }
+
+    .container .header .lokasi .location-wrapper p {
+        max-width: 30%;
+    }
+
+    .container .img-wrapper .img-list {
+        padding: 1rem 2rem;
+    }
+
+    .container .img-wrapper .img-list img {
+        width: 25%;
+        height: 50px;
+        border-radius: 8px;
+    }
+
+    .container .review-form .form form button {
+        width: 40%;
     }
 }
 </style>

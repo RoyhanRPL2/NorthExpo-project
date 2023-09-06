@@ -6,8 +6,8 @@
                 <li>
                     <h3>{{ wisata2.nama }}</h3>
                     <!-- create right arrow icon wrapped with router link  -->
-                    <router-link :to="{ name: 'detail-destinasi', params: { id: wisata2.id } }">
-                        <font-awesome-icon icon="fa-solid fa-arrow-right" size="xl"/>
+                    <router-link :to="{ name: 'detail-destinasi', params: { id: wisata2.id } }" class="link">
+                        <font-awesome-icon icon="fa-solid fa-arrow-right icon"/>
                     </router-link>
                     
                 </li>
@@ -19,8 +19,8 @@
             <ul class="restaurant-list" v-for="(wisata3, index) in kuliner" :key="index">
                 <li>
                     <h3>{{ wisata3.nama_warung }}</h3>
-                    <router-link :to="{ name: 'detail-kuliner', params: { id: wisata3.id } }">
-                        <font-awesome-icon icon="fa-solid fa-arrow-right" size="xl"/>
+                    <router-link :to="{ name: 'detail-kuliner', params: { id: wisata3.id } }" class="link">
+                        <font-awesome-icon icon="fa-solid fa-arrow-right icon"/>
                     </router-link>
                 </li>
             </ul>
@@ -156,9 +156,10 @@ export default {
     color: var(--color-theme-950);
 }
 
-@media screen and (max-width: 768px) {
+@media screen and (max-width: 992px) {
     .container {
-        padding: 5rem 2rem;
+        width: 100%;
+        padding: 5rem 4rem;
     }
 
     .container .additional-data {
@@ -180,8 +181,9 @@ export default {
     }
 
     .container .additional-data .separator-line {
-        width: 12rem;
+        width: 100%;
         height: 1px;
+        margin: 1.5rem 0;
     }
 
     .container .additional-data .nearest-restaurant {
@@ -197,9 +199,56 @@ export default {
     }
 }
 
+@media screen and (max-width: 768px) {
+    .container {
+        width: 100%;
+        padding: 5rem 1rem;
+    }
+
+    .container .additional-data {
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .container .additional-data .nearest-destination {
+        width: 100%;
+    }
+
+    .container .additional-data .nearest-destination h2 {
+        font-size: 1.5rem;
+    }
+
+    .container .additional-data .nearest-destination .destination-list li h3 {
+        font-size: 1rem;
+    }
+
+    .container .additional-data .separator-line {
+        width: 100%;
+        height: 1px;
+        margin: 1.5rem 0;
+    }
+
+    .container .additional-data .nearest-restaurant {
+        width: 100%;
+    }
+
+    .container .additional-data .nearest-restaurant h2 {
+        font-size: 1.5rem;
+    }
+
+    .container .additional-data .nearest-restaurant .restaurant-list li h3 {
+        font-size: 1rem;
+    }
+
+    .link .icon {
+        font-size: 2rem;
+    }
+}
+
 @media screen and (max-width: 576px) {
     .container {
-        padding: 5rem 1rem;
+        padding: 5rem 0.5rem;
     }
 
     .container .additional-data .nearest-destination .destination-list li h3 {
@@ -214,6 +263,28 @@ export default {
         width: 100%;
         height: 1px;
         margin: 1rem 0;
+    }
+
+    link .icon {
+        color: var(--color-theme-950);
+    }
+}
+
+@media screen and (max-width: 375px) {
+    .container {
+        padding: 5rem 0.5rem;
+    }
+
+    .container .additional-data .nearest-destination .destination-list li h3 {
+        font-size: 0.8rem;
+    }
+
+    .container .additional-data .nearest-restaurant .restaurant-list li h3 {
+        font-size: 0.8rem;
+    }
+
+    .link .icon {
+        font-size: 0.5rem;
     }
 }
 </style>

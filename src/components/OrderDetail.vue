@@ -2,15 +2,16 @@
     <div class="container">
         <div class="top-container">
             <div class="img-wrapper">
-                <img v-if="destination && destination.foto" :src="'https://admin.api.northexpokudus.com/foto/' + destination.foto"
-                    alt="">
+                <img v-if="destination.foto" :src="'https://admin.api.northexpokudus.com/foto/' + destination.foto" alt="">
             </div>
             <div class="destination-detail">
                 <div class="top-detail">
                     <h2>{{ destination ? destination.nama : '' }}</h2>
                     <div class="lokasi">
                         <font-awesome-icon class="icon" icon="fa-solid fa-location-dot" />
-                        <p>{{ destination ? destination.alamat : '' }}</p>
+                        <div class="location-wrapper">
+                            <p>{{ destination ? destination.alamat : '' }}</p>
+                        </div>
                     </div>
                 </div>
                 <div class="bottom-detail">
@@ -20,7 +21,7 @@
                     </div>
                     <div class="price">
                         <h4>Harga Tiket</h4>
-                        <p>Rp{{ formattedHarga(destination ? destination.harga : '') }}/Orang</p>
+                        <p>Rp{{ formattedHarga(destination.harga) }}/Orang</p>
                     </div>
                 </div>
             </div>
@@ -32,7 +33,9 @@
                 <p>{{ destination ? destination.deskripsi : '' }}</p>
             </div>
             <div class="capacity-container">
-                <h3>Sisa kuota: {{ ticketApi.sisa_kuota }} tiket</h3>
+                <div class="capacity-content">
+                    <h3>Sisa kuota: {{ TicketRestCapacity.sisa_kuota }} tiket</h3>
+                </div>
             </div>
         </div>
         <div class="bottom-container">
@@ -56,55 +59,63 @@
 import { useRoute } from 'vue-router';
 import { computed, onMounted, ref } from 'vue';
 import axios from 'axios';
+import { eventBus } from '../eventBus.js';
 
 export default {
-    methods: {
-        formattedHarga(harga) {
-            return harga.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.');
-        },
+    data() {
+        return {
+            id: null,
+            tanggal: '',
+            TicketRestCapacity: {},
+            destination: {},
+        };
     },
-    setup() {
-        const route = useRoute();
-        const destinationId = computed(() => route.params.id);
-        const date = computed(() => route.query.date);
-        const destination = ref(null);
-        const ticketApi = ref({});
-
-        // Lakukan logika untuk mengambil data destinasi berdasarkan ID
-        
-        const fetchData = async (id) => {
-            try {
-                const response = await axios.get(`https://admin.api.northexpokudus.com/api/destinasi/${id}`);
-                destination.value = response.data.data; // Simpan data destinasi dalam properti reactive
-                console.warn(destination.value);
-                // Lakukan manipulasi atau pengaturan data sesuai kebutuhan
-            } catch (error) {
-                console.error(error);
-            }
-        };
-
-        const fetchTicketData = async (id) => {
-            try {
-                const response = await axios.get(`https://admin.api.northexpokudus.com/api/sisakuota/${id}`);
-                ticketApi.value = response.data.data;
-                console.log(ticketApi.value);
-            } catch (error) {
-                console.error(error);
-            }
-        };
-
-        onMounted(() => {
-            fetchData(destinationId.value);
-            fetchTicketData(route.params.id)
+    created() {
+        this.id = this.$route.params.id;
+        eventBus.on('date', (date) => {
+            this.tanggal = date;
         });
 
-        return {
-            destinationId,
-            date,
-            fetchData,
-            destination,
-            ticketApi
-        };
+        const today = new Date();
+        const year = today.getFullYear();
+        const month = String(today.getMonth() + 1).padStart(2, '0');
+        const day = String(today.getDate()).padStart(2, '0');
+        this.tanggal = `${year}-${month}-${day}`;
+    },
+    methods: {
+        formattedHarga(harga) {
+            if (harga !== null && harga !== undefined) {
+                return harga.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+            }
+            return ''; // Atau nilai default lain jika harga tidak ada
+        },
+        async fetchTicketRestCapacity() {
+            try {
+                const response = await axios.get(`https://admin.api.northexpokudus.com/api/sisakuota/${this.id}/tanggal/${this.tanggal}`);
+                this.TicketRestCapacity = response.data.data;
+                console.log(this.TicketRestCapacity);
+            } catch (error) {
+                console.error(error);
+            }
+        },
+        async fetchDestinationData() {
+            try {
+                const response = await axios.get(`https://admin.api.northexpokudus.com/api/destinasi/${this.id}`);
+                this.destination = response.data.data;
+                console.log(this.destination.harga)
+            } catch (error) {
+                console.error(error);
+            }
+        },
+    },
+    watch: {
+        tanggal(newTanggal, oldTanggal) {
+            this.fetchTicketRestCapacity();
+        },
+    },
+    mounted() {
+        this.fetchTicketRestCapacity();
+        this.fetchDestinationData();
     },
 };
 </script>
@@ -227,18 +238,27 @@ export default {
 }
 
 .capacity-container {
-    width: 30%;
-    height: 90px;
+    width: 25%;
+    height: 100px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 1rem;
+}
+
+.capacity-container .capacity-content {
+    width: 100%;
     display: flex;
     justify-content: center;
     align-items: center;
     background-color: var(--color-primary-700);
-    border-radius: 10px;
+    border-radius: 8px;
+    padding: 1rem;
 }
 
-.capacity-container h3 {
-    width: 40%;
-    font-size: 1.1rem;
+.capacity-content h3 {
+    width: 50%;
+    font-size: 1rem;
     font-weight: 700;
     color: var(--color-primary-50);
     text-align: center;
@@ -271,5 +291,243 @@ export default {
 
 .information-text .warn-icon {
     color: var(--color-primary-600);
+}
+
+@media screen and (max-width: 992px) {
+
+    .capacity-container {
+        height: 70px;
+    }
+    .capacity-container .capacity-content h4, .capacity-container .capacity-content p {
+        font-size: 12px;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .container {
+        width: 100%;
+    }
+
+    .top-container {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .img-wrapper {
+        width: 100%;
+    }
+
+    .destination-detail {
+        width: 100%;
+        margin-top: 1rem;
+        padding: 0;
+    }
+
+    .top-detail {
+        width: 100%;
+    }
+
+    .top-detail h2 {
+        text-align: center;
+        font-size: 2rem;
+    }
+
+    .top-detail .lokasi {
+        width: 100%;
+        margin-top: 0.5rem;
+        display: flex;
+        justify-content: center;
+    }
+
+    .top-detail .lokasi .icon {
+        display: none;
+        margin-right: 0.5rem;
+    }
+
+    .top-detail .lokasi .location-wrapper {
+        width: 100%;
+        overflow: hidden;
+        justify-content: center;
+    }
+
+    .top-detail .lokasi .location-wrapper p {
+        font-size: 0.9rem;
+        /* white-space: nowrap;
+        transform: translateX(0);
+        animation: marqueeLocation 30s linear infinite; */
+        text-align: center;
+    }
+
+    @keyframes marqueeLocation {
+        0% {
+            transform: translateX(0);
+        }
+
+        10% {
+            transform: translateX(0);
+        }
+
+        60% {
+            transform: translateX(calc(-100% - 200px));
+        }
+
+        70% {
+            transform: translateX(calc(-100% - 200px));
+        }
+
+        100% {
+            transform: translateX(0);
+        }
+    }
+
+    .bottom-detail {
+        width: 100%;
+        gap: 2rem;
+        justify-content: center;
+    }
+
+    .bottom-detail .serve-time {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .bottom-detail .price {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .bottom-detail h4 {
+        font-size: 0.9rem;
+    }
+
+    .bottom-detail p {
+        font-size: 0.9rem;
+    }
+
+    .center-container {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .description-container {
+        width: 100%;
+        padding: 1rem 0;
+    }
+
+    .description-container h2 {
+        font-size: 1.2rem;
+    }
+
+    .description-container p {
+        font-size: 0.9rem;
+    }
+
+    .capacity-container {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-top: 1rem;
+    }
+
+    .capacity-container .capacity-content {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-color: var(--color-primary-700);
+        border-radius: 8px;
+        padding: 1rem;
+    }
+
+    .bottom-container {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .information-text {
+        width: 100%;
+        margin: 0.3rem 0;
+    }
+
+    .information-text p {
+        font-size: 0.9rem;
+    }
+}
+
+@media screen and (max-width: 576px) {
+    .container {
+        width: 100%;
+    }
+
+    .top-container {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .img-wrapper {
+        width: 100%;
+    }
+
+    .destination-detail {
+        width: 100%;
+        margin-top: 1rem;
+        padding: 0;
+    }
+
+    .top-detail {
+        width: 100%;
+    }
+
+    .top-detail h2 {
+        text-align: center;
+        font-size: 1.5rem;
+    }
+
+    .top-detail .lokasi {
+        width: 100%;
+        margin-top: 0.5rem;
+        display: flex;
+        justify-content: center;
+    }
+
+    .top-detail .lokasi .icon {
+        display: none;
+        margin-right: 0.5rem;
+    }
+
+    .top-detail .lokasi .location-wrapper p {
+        font-size: 0.9rem;
+        /* white-space: nowrap;
+        transform: translateX(0);
+        animation: marqueeLocation 30s linear infinite; */
+        text-align: center;
+    }
+
+    .bottom-detail {
+        width: 100%;
+        gap: 2rem;
+        flex-direction: column;
+    }
+
+    .bottom-detail .serve-time,.price {
+        padding: 1rem;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        background-color: var(--color-primary-600);
+        border-radius: 8px;
+    }
+
+    .bottom-detail .serve-time h4,.price h4, .bottom-detail .serve-time p,.price p {
+        color: #fff;
+    }
+
+
 }
 </style>
