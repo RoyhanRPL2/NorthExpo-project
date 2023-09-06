@@ -4,7 +4,7 @@
         <form @submit.prevent="pay()">
             <div class="form-group">
                 <label for="tanggal">Tanggal</label>
-                <input type="date" v-model="tanggal" id="tanggal" :min="minDate">
+                <input type="date" v-model="tanggal" id="tanggal" :min="minDate" @change="emitDateValue">
             </div>
             <div class="form-group">
                 <label for="no_telp">No.Hp</label>
@@ -46,6 +46,7 @@ import { useRoute } from 'vue-router';
 import { computed, onMounted, ref } from 'vue';
 import moment from 'moment-timezone';
 import Swal from 'sweetalert2';
+import { eventBus } from '../eventBus.js';
 
 export default {
     data() {
@@ -62,6 +63,11 @@ export default {
     created() {
         this.id = this.$route.params.id
         this.fetchdata()
+        const today = new Date();
+        const year = today.getFullYear();
+        const month = String(today.getMonth() + 1).padStart(2, '0');
+        const day = String(today.getDate()).padStart(2, '0');
+        this.tanggal = `${year}-${month}-${day}`;
     },
     methods: {
         parseOperatingHours(operatingHours) {
@@ -75,7 +81,8 @@ export default {
             const year = today.getFullYear();
             const month = String(today.getMonth() + 1).padStart(2, '0');
             const day = String(today.getDate()).padStart(2, '0');
-            return `${year}-${month}-${day}`;
+
+            return this.minDate = `${year}-${month}-${day}`;
         },
         async fetchdata() {
             try {
@@ -90,6 +97,9 @@ export default {
             } catch (error) {
                 console.error(error);
             }
+        },
+        emitDateValue() {
+            eventBus.emit('date', this.tanggal);
         },
         async pay() {
             if (!this.tanggal || !this.no_telp || !this.qty) {
@@ -108,20 +118,6 @@ export default {
                     text: 'Harap setujui syarat dan ketentuan sebelum melanjutkan.',
                 });
                 return;
-            }
-
-            if (this.tanggal === this.getTodayISOString()) {
-                const now = new Date();
-                const currentHour = now.getHours();
-
-                if (currentHour < this.operatingHours.openingTime || currentHour >= this.operatingHours.closingTime) {
-                    Swal.fire({
-                        icon: 'warning',
-                        title: 'Jam Operasional Wisata',
-                        text: 'Maaf, pemesanan tiket hanya tersedia selama jam operasional wisata.',
-                    });
-                    return;
-                }
             }
 
             try {
@@ -378,5 +374,109 @@ export default {
     font-size: 1rem;
     font-weight: 700;
     cursor: pointer;
+}
+
+.ticket-form-container .button-container button:hover {
+    background-color: var(--color-primary-600);
+}
+
+@media screen and (max-width: 992px) {
+    .ticket-form-container {
+        width: 50%;
+    }
+
+    .ticket-form-container .payment-method-container {
+        flex-direction: column;
+    }
+
+    .ticket-form-container .payment-method-item {
+        width: 100%;
+        margin-bottom: 1rem;
+    }
+
+    .ticket-form-container .payment-method-item:last-child {
+        margin-bottom: 0;
+    }
+
+    .ticket-form-container .button-container button {
+        width: 100%;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .ticket-form-container {
+        width: 100%;
+    }
+
+    .ticket-form-container .payment-method-container {
+        flex-direction: column;
+    }
+
+    .ticket-form-container .payment-method-item {
+        width: 100%;
+        margin-bottom: 1rem;
+    }
+
+    .ticket-form-container .payment-method-item:last-child {
+        margin-bottom: 0;
+    }
+
+    .ticket-form-container .button-container button {
+        width: 100%;
+    }
+}
+
+@media screen and (max-width: 576px) {
+    .ticket-form-container {
+        padding: 1rem;
+    }
+
+    .ticket-form-container .payment-method-container {
+        padding: 0;
+    }
+
+    .ticket-form-container .payment-method-item {
+        padding: 0;
+    }
+
+    .ticket-form-container .payment-method-item .bill-icon {
+        font-size: 1.5rem;
+    }
+
+    .ticket-form-container .payment-method-item .qris-icon {
+        width: 40%;
+    }
+
+    .ticket-form-container .payment-method-item h3 {
+        font-size: 0.8rem;
+    }
+
+    .ticket-form-container .payment-method-item p {
+        font-size: 0.7rem;
+    }
+
+    .ticket-form-container .term-condition .first-term p {
+        font-size: 0.8rem;
+    }
+
+    .ticket-form-container .term-condition .first-term ul {
+        padding: 1rem;
+    }
+
+    .ticket-form-container .term-condition .first-term ul li {
+        font-size: 0.8rem;
+    }
+
+    .ticket-form-container .term-condition .second-term p {
+        font-size: 0.8rem;
+    }
+
+    .ticket-form-container .confirm-text p {
+        font-size: 0.8rem;
+    }
+
+    .ticket-form-container .button-container button {
+        font-size: 1rem;
+    }
 }
 </style>

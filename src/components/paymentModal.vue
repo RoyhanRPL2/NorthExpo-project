@@ -20,7 +20,7 @@
         </li>
         <li>
           <h4>Harga</h4>
-          <p>{{ formattedHarga(data.destinasi.harga) }}</p>
+          <p>Rp{{ formattedHarga(data.destinasi.harga) }}</p>
         </li>
         <li>
           <h4>Jumlah Orang</h4>
@@ -28,7 +28,7 @@
         </li>
         <li>
           <h4>Total</h4>
-          <p>{{ data.payment.total }}</p>
+          <p>Rp{{ formattedHarga(data.payment.total) }}</p>
         </li>
       </ul>
       <button @click="payWithMidtrans" class="btn btn-primary">Pay Now</button>
