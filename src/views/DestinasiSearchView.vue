@@ -347,6 +347,11 @@ onMounted(async () => {
     .data-kosong {
         font-size: 1rem;
     }
+
+    .main {
+        padding: 2rem 0;
+    }
+
 }
 
 @media screen and (max-width: 375px) {
@@ -376,7 +381,7 @@ onMounted(async () => {
     }
 
     .container {
-        width: 100%;
+        width: fit-content;
         height: 300px;
     }
 

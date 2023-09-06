@@ -5,17 +5,15 @@
             <p>{{ apiData.nama }}</p>
             <div class="lokasi">
                 <font-awesome-icon class="icon" icon="fa-solid fa-location-dot" />
-                <p>{{ apiData.alamat }}</p>
+                <div class="location-wrapper">
+                    <p>{{ apiData.alamat }}</p>
+                </div>
             </div>
             <div class="seperate-line"></div>
             <div class="capacity">
                 <div class="online-cap">
-                    <h4>Kuota Online</h4>
-                    <p> {{ ticketApi.kuota }} Orang</p>
-                </div>
-                <div class="rest-capacity">
-                    <h4>Sisa Kuota</h4>
-                    <p> {{ ticketApi.sisa_kuota }} Orang</p>
+                    <h4>Kuota Tiket Online</h4>
+                    <p> {{ restTicketCapacity.sisa_kuota }} Tiket</p>
                 </div>
             </div>
             <div class="seperate-line"></div>
@@ -55,6 +53,7 @@ export default {
             isLoginModalOpen: false,
             userTicketStatus: false,
             userTicket: {},
+            restTicketCapacity: {},
         }
     },
     methods: {
@@ -67,19 +66,6 @@ export default {
             if (token) {
                 if (userInfo && userInfo.user) {
                     const userId = userInfo.user.id;
-
-                    // if (this.userTicketStatus) {
-                    //     // Tampilkan pesan pop-up bahwa harus menyelesaikan pembayaran tiket dengan status pending terlebih dahulu
-                    //     Swal.fire({ // Use Swal.fire for error messages
-                    //         icon: 'warning',
-                    //         title: 'Oops...',
-                    //         text: 'Selesaikan pembayaran tiket terlebih dahulu!',
-                    //     });
-                    //     this.$router.push({ name: 'payment', params: { id: userId } });
-                    // } else {
-                    //     // Pengguna sudah login, lakukan aksi untuk memesan tiket (contoh: arahkan ke halaman pemesanan tiket)
-                    //     this.$router.push({ name: 'ticket', params: { id: this.$route.params.id } });
-                    // }
                     if (this.userTicketStatus) {
                         Swal.fire({
                             icon: 'warning',
@@ -132,16 +118,37 @@ export default {
             } else {
                 console.log("User info is not available");
             }
+        },
+        fetchRestTiketCapacity() {
+            const id = this.$route.params.id;
 
+            const date = new Date();
+
+            let currentDay = String(date.getDate()).padStart(2, '0');
+
+            let currentMonth = String(date.getMonth() + 1).padStart(2, "0");
+
+            let currentYear = date.getFullYear();
+
+            let currentDate = `${currentYear}-${currentMonth}-${currentDay}`;
+
+            console.log("The current date is " + currentDate);
+
+            axios.get(`https://admin.api.northexpokudus.com/api/sisakuota/${id}/tanggal/${currentDate}`)
+                .then(res => {
+                    this.restTicketCapacity = res.data.data;
+                    console.log(this.restTicketCapacity);
+                })
+                .catch(err => console.log(err))
         },
     },
     mounted() {
         this.fetchUserTicket();
+        this.fetchRestTiketCapacity();
     },
     setup() {
         const route = useRoute();
         const store = useStore();
-        const ticketApi = ref({});
 
         const apiData = computed(() => {
             return store.getters.getApiData;
@@ -159,33 +166,30 @@ export default {
             return selectedDate.value ? dayjs(selectedDate.value).format('D MMMM YYYY') : '';
         });
 
-        const fetchTicketData = async (id) => {
-            try {
-                const response = await axios.get(`https://admin.api.northexpokudus.com/api/sisakuota/${id}`);
-                ticketApi.value = response.data.data;
-                console.log(ticketApi.value);
-            } catch (error) {
-                console.error(error);
-            }
-        };
+        // const fetchTicketData = async (id) => {
+        //     try {
+        //         const response = await axios.get(`https://admin.api.northexpokudus.com/api/sisakuota/${id}`);
+        //         ticketApi.value = response.data.data;
+        //         console.log(ticketApi.value);
+        //     } catch (error) {
+        //         console.error(error);
+        //     }
+        // };
 
-        dayjs.locale('id');
-        const dates = [];
-        for (let i = 0; i < 7; i++) {
-            dates.push(dayjs().add(i, 'day'));
-        }
+        // dayjs.locale('id');
+        // const dates = [];
+        // for (let i = 0; i < 7; i++) {
+        //     dates.push(dayjs().add(i, 'day'));
+        // }
 
         onMounted(() => {
             fetchData(route.params.id);
-            fetchTicketData(route.params.id)
         });
 
         return {
             apiData,
-            dates,
             selectedDate,
             selectedDateFormatted,
-            ticketApi,
         };
     },
 };
@@ -241,19 +245,29 @@ export default {
 .select-container .order-detail .lokasi {
     display: flex;
     align-items: center;
-    margin: 0.5rem 0;
 }
+
+.select-container .order-detail .lokasi .location-wrapper {
+    overflow: hidden;
+}
+
+.select-container .order-detail .lokasi .location-wrapper p {
+    font-size: 1rem;
+    color: var(--color-theme-950);
+    font-weight: normal;
+    margin: 0.5rem 0;
+    max-width: 20%;
+    white-space: nowrap;
+    transform: translateX(0);
+    animation: marqueeLocation 30s linear infinite;
+}
+
+
 
 .select-container .order-detail .lokasi .icon {
     color: var(--color-primary-500);
     font-size: 1.5rem;
     margin-right: 0.5rem;
-}
-
-.select-container .order-detail .lokasi p {
-    font-size: 1rem;
-    color: var(--color-theme-950);
-    font-weight: normal;
 }
 
 .select-container .order-detail .seperate-line {
@@ -308,6 +322,9 @@ export default {
 }
 
 .select-container .order-detail .capacity .online-cap {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
     text-align: left;
 }
 
@@ -452,5 +469,37 @@ export default {
 .select-container .order-detail .modal .modal-content .close-button:hover {
     cursor: pointer;
     background-color: var(--color-theme-900);
+}
+
+.select-container .order-detail .modal .modal-content .close-button:active {
+    background-color: var(--color-theme-800);
+}
+
+@media screen and (max-width: 768px) {
+    .select-container .order-detail .modal .modal-content {
+        width: 50%;
+    }
+
+    .select-container .order-detail .modal .modal-content .warn-icon {
+        font-size: 3rem;
+    }
+}
+
+@media screen and (max-width: 576px) {
+    .select-container .order-detail .modal .modal-content {
+        width: 75%;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .select-container .order-detail .modal .modal-content {
+        width: 90%;
+    }
+}
+
+@media screen and (max-width: 360px) {
+    .select-container .order-detail .modal .modal-content {
+        width: 100%;
+    }
 }
 </style>
