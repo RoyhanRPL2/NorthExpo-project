@@ -33,4 +33,18 @@ export default {
     padding: 6rem 2rem;
 }
 
+@media (max-width: 768px) {
+    .container {
+        align-items: center;
+        flex-direction: column;
+        gap: 2rem;
+    }
+}
+
+@media (max-width: 425px) {
+    .container {
+        padding: 6rem 1rem;
+    }
+}
+
 </style>

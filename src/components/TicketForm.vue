@@ -375,4 +375,108 @@ export default {
     font-weight: 700;
     cursor: pointer;
 }
+
+.ticket-form-container .button-container button:hover {
+    background-color: var(--color-primary-600);
+}
+
+@media screen and (max-width: 992px) {
+    .ticket-form-container {
+        width: 50%;
+    }
+
+    .ticket-form-container .payment-method-container {
+        flex-direction: column;
+    }
+
+    .ticket-form-container .payment-method-item {
+        width: 100%;
+        margin-bottom: 1rem;
+    }
+
+    .ticket-form-container .payment-method-item:last-child {
+        margin-bottom: 0;
+    }
+
+    .ticket-form-container .button-container button {
+        width: 100%;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .ticket-form-container {
+        width: 100%;
+    }
+
+    .ticket-form-container .payment-method-container {
+        flex-direction: column;
+    }
+
+    .ticket-form-container .payment-method-item {
+        width: 100%;
+        margin-bottom: 1rem;
+    }
+
+    .ticket-form-container .payment-method-item:last-child {
+        margin-bottom: 0;
+    }
+
+    .ticket-form-container .button-container button {
+        width: 100%;
+    }
+}
+
+@media screen and (max-width: 576px) {
+    .ticket-form-container {
+        padding: 1rem;
+    }
+
+    .ticket-form-container .payment-method-container {
+        padding: 0;
+    }
+
+    .ticket-form-container .payment-method-item {
+        padding: 0;
+    }
+
+    .ticket-form-container .payment-method-item .bill-icon {
+        font-size: 1.5rem;
+    }
+
+    .ticket-form-container .payment-method-item .qris-icon {
+        width: 40%;
+    }
+
+    .ticket-form-container .payment-method-item h3 {
+        font-size: 0.8rem;
+    }
+
+    .ticket-form-container .payment-method-item p {
+        font-size: 0.7rem;
+    }
+
+    .ticket-form-container .term-condition .first-term p {
+        font-size: 0.8rem;
+    }
+
+    .ticket-form-container .term-condition .first-term ul {
+        padding: 1rem;
+    }
+
+    .ticket-form-container .term-condition .first-term ul li {
+        font-size: 0.8rem;
+    }
+
+    .ticket-form-container .term-condition .second-term p {
+        font-size: 0.8rem;
+    }
+
+    .ticket-form-container .confirm-text p {
+        font-size: 0.8rem;
+    }
+
+    .ticket-form-container .button-container button {
+        font-size: 1rem;
+    }
+}
 </style>
