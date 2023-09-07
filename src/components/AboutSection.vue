@@ -13,7 +13,7 @@
                     untuk perjalanan yang lebih menyenangkan.</p>
             </div>
 
-            <div>
+            <div id="tujuan-kami">
                 <h6>Tujuan Kami</h6>
                 <p>Tujuan kami adalah mempromosikan keindahan dan keunikan wilayah utara kota Kudus kepada wisatawan lokal
                     dan membantu memperkuat industri pariwisata di daerah tersebut.</p>
@@ -105,5 +105,44 @@
     line-height: 1.3;
     color: var(--color-theme-950);
     text-align: justify;
+}
+
+@media (min-width: 768px) and (max-width: 1024px) {
+
+}
+
+@media screen and (max-width: 768px) {
+    .about-container {
+        padding: 50px 40px;
+        height: fit-content;
+    }
+
+    .about-container .about-title h1 {
+        font-size: 26px;
+        margin-bottom: 0px;
+    }
+
+    .about-container a {
+        display: none;
+    }
+
+    .about-container .description {
+        flex-direction: column;
+    }
+
+    .description div {
+        width: 100%;
+        padding: 0;
+    }
+
+    .description #tujuan-kami {
+        display: none;
+    }
+
+    .description div p {
+        font-size: 18px;
+        /* text-align: center; */
+        color: var(--color-theme-800);
+    }
 }
 </style>

@@ -227,7 +227,8 @@ onMounted(async () => {
 
     .destination-title p {
         text-align: center;
-        -webkit-line-clamp: 3;
+        -webkit-line-clamp: 2;
+        color: rgba(255, 255, 255, 0.5);
     }
 
     .destination-title a {

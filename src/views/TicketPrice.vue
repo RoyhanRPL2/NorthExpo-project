@@ -6,7 +6,7 @@ import axios from 'axios'
 
 let destinasi = ref([])
 function formattedHarga(harga) {
-    return harga.to.replace(/\B(?=(\d{3})+(?!\d))/g, '.')
+    return harga.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.')
 }
 
 onMounted(async () => {
