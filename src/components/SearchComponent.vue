@@ -251,4 +251,28 @@ ul li {
     font-weight: 400;
     display: none;
 }
+
+/* responsive tablet */
+@media (min-width: 768px) and (max-width: 1024px) {
+
+}
+
+@media screen and (max-width: 768px) {
+    .search-container .line {
+        display: none;
+    }
+
+    #category-filter {
+        display: none;
+    }
+
+    #region-filter {
+        display: none;
+    }
+
+    .search-container .search input {
+        width: 100%;
+        padding: 10px 30px;
+    }
+}
 </style>
