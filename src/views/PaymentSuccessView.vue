@@ -73,4 +73,28 @@
     font-weight: 700;
     cursor: pointer;
 }
+
+.success-card-content button:hover {
+    background-color: var(--color-primary-600);
+}
+
+.success-card-content button:focus {
+    outline: none;
+}
+
+.success-card-content button:active {
+    background-color: var(--color-primary-700);
+}
+
+@media screen and (max-width: 768px) {
+    .success-card-content {
+        width: 80%;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .success-card-content {
+        width: 90%;
+    }
+}
 </style>

@@ -38,6 +38,9 @@
     </div>
 
   </div>
+  <footer>
+    <FooterComponent />
+  </footer>
 </template>
   
 <script>
@@ -45,10 +48,12 @@ import axios from 'axios'
 import { RouterLink } from 'vue-router'
 import HeaderComponent from '../components/HeaderComponent.vue'
 import Swal from 'sweetalert2';
+import FooterComponent from '../components/footer.vue'
 export default {
   name: 'Pembayaran',
   components: {
-    HeaderComponent
+    HeaderComponent,
+    FooterComponent
   },
   data() {
     return {
@@ -194,5 +199,27 @@ export default {
 .payment-detail-card button.back .text {
   color: black;
   text-decoration: none;
+}
+
+@media screen and (max-width: 768px) {
+  .container {
+    padding: 2rem 0;
+  }
+
+  .payment-detail-card {
+    width: 90%;
+  }
+}
+
+@media screen and (max-width: 576px) {
+  .payment-detail-card {
+    padding: 1rem;
+  }
+}
+
+@media screen and (max-width: 400px) {
+  .payment-detail-card {
+    padding: 1rem;
+  }
 }
 </style>

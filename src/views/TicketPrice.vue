@@ -1,8 +1,8 @@
 <script setup>
 import HeaderComponent from '../components/HeaderComponent.vue'
-import FooterComponent from '../components/footer.vue'
 import { ref, onMounted } from 'vue'
 import axios from 'axios'
+import FooterComponent from '../components/footer.vue'
 
 let destinasi = ref([])
 function formattedHarga(harga) {
