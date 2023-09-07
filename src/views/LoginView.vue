@@ -54,16 +54,13 @@ export default {
     methods: {
         async Login() {
             try {
-                const userDataInfo = localStorage.getItem('user-info');
-                const userInfo = JSON.parse(userDataInfo);
-                console.log(userInfo.user.authenticated);
                 let result = await axios.post('https://admin.api.northexpokudus.com/api/auth/login', {
                     email: this.email,
                     password: this.password,
                 });
                 console.log(result);
                 if (result.status == 200 && result.data) {
-                    if (userInfo.user.authenticated === "verified" || result.status == 200) {
+                    if (result.data.user.authenticated === "verified" || result.status == 200 && result.data) {
                         Swal.mixin({
                             toast: true,
                             position: 'bottom-end',
