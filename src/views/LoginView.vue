@@ -47,49 +47,65 @@ export default {
         return {
             email: '',
             password: '',
+            isAuthenticated: '',
             passwordVisible: false,
         }
     },
     methods: {
         async Login() {
             try {
+                const userDataInfo = localStorage.getItem('user-info');
+                const userInfo = JSON.parse(userDataInfo);
+                console.log(userInfo.user.authenticated);
                 let result = await axios.post('https://admin.api.northexpokudus.com/api/auth/login', {
                     email: this.email,
                     password: this.password,
                 });
-                console.warn(result);
+                console.log(result);
                 if (result.status == 200 && result.data) {
-                    Swal.mixin({ // Integrate Swal.mixin here
-                        toast: true,
-                        position: 'bottom-end',
-                        showConfirmButton: false,
-                        timer: 4000,
-                        timerProgressBar: true,
-                        didOpen: (toast) => {
-                            toast.addEventListener('mouseenter', Swal.stopTimer);
-                            toast.addEventListener('mouseleave', Swal.resumeTimer);
-                        },
-                    }).fire({
-                        icon: 'success',
-                        title: 'Login Berhasil',
-                    });
+                    if (userInfo.user.authenticated === "verified" || result.status == 200) {
+                        Swal.mixin({
+                            toast: true,
+                            position: 'bottom-end',
+                            showConfirmButton: false,
+                            timer: 4000,
+                            timerProgressBar: true,
+                            didOpen: (toast) => {
+                                toast.addEventListener('mouseenter', Swal.stopTimer);
+                                toast.addEventListener('mouseleave', Swal.resumeTimer);
+                            },
+                        }).fire({
+                            icon: 'success',
+                            title: 'Login Berhasil',
+                        });
 
-                    localStorage.setItem('user-info', JSON.stringify(result.data));
-                    localStorage.setItem('token', result.data.token);
-                    this.$router.push('/');
+                        localStorage.setItem('user-info', JSON.stringify(result.data));
+                        localStorage.setItem('token', result.data.token);
+                        this.$router.push('/');
+                    } 
                 } else {
-                    Swal.fire({ // Use Swal.fire for error messages
+                    Swal.fire({
                         icon: 'error',
                         title: 'Oops...',
                         text: 'Email atau Password Salah. Coba Kembali!',
                     });
                 }
             } catch (e) {
-                Swal.fire({ // Use Swal.fire for error messages
-                    icon: 'error',
-                    title: 'Oops...',
-                    text: 'Email atau Password Salah. Coba Kembali!',
-                });
+                if (e.response && e.response.status === 401) {
+                    // Tampilkan pesan jika status code adalah 401
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Oops...',
+                        text: 'Email belum terverifikasi. Silahkan cek email Anda!',
+                    });
+                } else {
+                    // Tampilkan pesan kesalahan default
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Oops...',
+                        text: 'Email atau Password Salah. Coba Kembali!',
+                    });
+                }
             }
         },
         togglePasswordVisible() {
