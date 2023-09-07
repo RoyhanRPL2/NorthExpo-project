@@ -102,7 +102,7 @@ onMounted(async () => {
     position: absolute;
     top: 0;
     left: 0;
-    width: 100%;
+    width: 100vw;
     height: 100vh;
     background-color: black;
 }
@@ -178,6 +178,61 @@ onMounted(async () => {
 
 .destination-title a:hover {
     background-color: var(--color-primary-700);
+}
+
+/* responsive tablet */
+@media (min-width: 768px) and (max-width: 1024px) {
+    .container {
+        padding: 0 50px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .destination-title {
+        max-width: 80%;
+        text-align: center;
+    }
+
+    .destination-title h1 {
+        text-overflow: initial;
+        display: block;
+    }
+
+    .destination-title p {
+        text-align: center;
+        -webkit-line-clamp: 3;
+    }
+}
+
+/* responsive handphone */
+@media screen and (max-width: 768px) {
+    .container {
+        padding: 0 30px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .destination-title {
+        max-width: 100%;
+        text-align: center;
+    }
+
+    .destination-title h1 {
+        font-size: 35px;
+        text-overflow: initial;
+        display: block;
+    }
+
+    .destination-title p {
+        text-align: center;
+        -webkit-line-clamp: 3;
+    }
+
+    .destination-title a {
+        background-color: var(--color-primary-600);
+    }
 }
 
 @keyframes fadeIn {

@@ -265,6 +265,20 @@ onMounted(async () => {
     width: 100px;
 }
 
+/* responsive tablet */
+@media (min-width: 768px) and (max-width: 1024px) {
+    .card-container {
+        display: none;
+    }
+}
+
+/* responsive handphone */
+@media screen and (max-width: 768px) {
+    .card-container {
+        display: none;
+    }
+}
+
 @keyframes marqueeLocation {
     0% {
         transform: translateX(0);
