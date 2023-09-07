@@ -6,7 +6,7 @@ import FooterComponent from '../components/footer.vue'
 
 let destinasi = ref([])
 function formattedHarga(harga) {
-    return harga.to.replace(/\B(?=(\d{3})+(?!\d))/g, '.')
+    return harga.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.')
 }
 
 onMounted(async () => {
