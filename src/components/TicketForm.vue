@@ -4,15 +4,15 @@
         <form @submit.prevent="pay()">
             <div class="form-group">
                 <label for="tanggal">Tanggal</label>
-                <input type="date" v-model="tanggal" id="tanggal" :min="minDate" @change="emitDateValue">
+                <input type="date" v-model="tanggal" id="tanggal" :min="minDate" @change="onDataChange">
             </div>
             <div class="form-group">
                 <label for="no_telp">No.Hp</label>
                 <input type="text" v-model="no_telp" id="no_telp">
             </div>
-            <div class="form-group">
+            <div class="form-group">    
                 <label for="qty">Jumlah Orang</label>
-                <input type="number" v-model="qty" min="1" id="qty">
+                <input type="number" v-model="qty" min="1" id="qty" :max="restCapacity.sisa_kuota">
                 <p>*jumlah orang dalam rombongan</p>
             </div>
             <div class="term-condition">
@@ -57,7 +57,8 @@ export default {
             tanggal: '',
             isAgreed: false,
             harga: null,
-            minDate: this.getTodayISOString()
+            minDate: this.getTodayISOString(),
+            restCapacity: '',
         }
     },
     created() {
@@ -90,6 +91,9 @@ export default {
                 this.harga = response.data.data.harga; // Set the 'harga' value from the fetched destination data
                 console.log(this.harga)
 
+                this.destination = response.data.data;
+                console.log(this.destination)
+
                 const operatingHours = response.data.data.operasional;
                 const { openingTime, closingTime } = this.parseOperatingHours(operatingHours);
 
@@ -98,8 +102,22 @@ export default {
                 console.error(error);
             }
         },
+        async TicketRestCapacity() {
+            try {
+                const response = await axios.get(`https://admin.api.northexpokudus.com/api/sisakuota/${this.id}/tanggal/${this.tanggal}`)
+                this.restCapacity = response.data.data;
+                console.log(this.restCapacity)
+            } catch (error) {
+                console.error(error);
+            }
+        },
         emitDateValue() {
             eventBus.emit('date', this.tanggal);
+            this.TicketRestCapacity();
+        },
+        onDataChange() {
+            this.TicketRestCapacity();
+            this.emitDateValue();
         },
         async pay() {
             if (!this.tanggal || !this.no_telp || !this.qty) {
@@ -174,7 +192,10 @@ export default {
             }
             console.log(this.harga)
         }
-    }
+    },
+    mounted() {
+        this.TicketRestCapacity()
+    },
 }
 </script>
 
