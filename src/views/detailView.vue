@@ -158,7 +158,7 @@ const route = useRoute();
 async function getKomentars() {
     axios.get(`https://admin.api.northexpokudus.com/api/destinasi/komentar/${route.params.id}`)
         .then(response => {
-            komentars.value = response.data.data;
+            komentars.value = JSON.parse(JSON.stringify(response.data.data));
             console.log(komentars.value);
         })
         .catch(error => {
