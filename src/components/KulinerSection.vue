@@ -58,4 +58,23 @@ import cardCulinary from '../components/cardCulinary.vue'
     max-width: 600px;
     text-align: center;
 }
+
+@media (min-width: 768px) and (max-width: 1024px) {
+
+}
+
+@media screen and (max-width: 768px) {
+    .container {
+        padding: 50px 0px;
+    }
+
+    .container .culinary-title {
+        padding: 0 40px;
+    }
+
+    .container .culinary-title h1 {
+        font-size: 26px;
+        margin-bottom: 0px;
+    }
+}
 </style>

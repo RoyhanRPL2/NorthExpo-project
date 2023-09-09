@@ -75,6 +75,8 @@ export default {
     justify-content: center;
     align-items: center;
     padding-bottom: 50px;
+    padding-left: 20px;
+    padding-right: 20px;
     background: linear-gradient(0deg, rgba(0, 0, 0, 0.8) 0%, rgba(0, 0, 0, 0) 100%);
 }
 
@@ -82,11 +84,34 @@ export default {
     color: var(--color-theme-50);
     font-size: 26px;
     font-weight: 600;
+    text-align: center;
 }
 
 .card-title p {
     color: var(--color-theme-50);
     font-size: 16px;
     font-weight: 300;
+    text-align: center;
+}
+
+
+@media screen and (max-width: 768px) {
+    .container-card {
+        width: 100%;
+        height: 300px;
+    }
+
+    .card-title h1 {
+        line-height: 1;
+        margin-bottom: 10px
+    }
+
+    .card-title p {
+        line-height: 1.3;
+    }
+
+    .container-card .card-title {
+        height: fit-content;
+    }
 }
 </style>
