@@ -168,47 +168,58 @@ async function getKomentars() {
 
 // post komentars
 async function postKomentar() {
-    const getUserInfo = localStorage.getItem('user-info');
-    const userInfo = JSON.parse(getUserInfo);
+    try {
+        console.log(komentar.value);
+        const getUserInfo = localStorage.getItem('user-info');
+        const userInfo = JSON.parse(getUserInfo);
 
-    const token = userInfo.token;
+        const token = userInfo.token;
 
-    const config = {
-        headers: { Authorization: "Bearer " + token }
-    };
-    console.log(config);
-    const data = {
-        komentar: komentar.value
-    };
-    axios.post(`https://admin.api.northexpokudus.com/api/destinasi/komentar/${route.params.id}`,
-        data, config
-    )
-        .then(response => {
-            console.log(response.data);
-            this.komentar = '';
-            this.getKomentars();
-            Swal.mixin({ // Integrate Swal.mixin here
-                toast: true,
-                position: 'bottom-end',
-                showConfirmButton: false,
-                timer: 4000,
-                timerProgressBar: true,
-                background: 'var(--color-success-500)',
-                iconColor: '#fff',
-                color: '#fff',
-                didOpen: (toast) => {
-                    toast.addEventListener('mouseenter', Swal.stopTimer);
-                    toast.addEventListener('mouseleave', Swal.resumeTimer);
-                },
-            }).fire({
-                icon: 'success',
-                title: 'Komentar Berhasil Dikirim.',
-            });
-        })
-        .catch(error => {
-            console.log(error.response.data);
+        const config = {
+            headers: { Authorization: "Bearer " + token }
+        };
+
+        const comment = {
+            komentar: komentar.value,
+        };
+
+        const response = await axios.post(`https://admin.api.northexpokudus.com/api/destinasi/komentar/${route.params.id}`, comment, config);
+
+        console.log(response.data);
+
+        komentar.value = '';
+
+        getKomentars();
+
+        Swal.mixin({
+            toast: true,
+            position: 'bottom-end',
+            showConfirmButton: false,
+            timer: 4000,
+            timerProgressBar: true,
+            background: 'var(--color-success-500)',
+            iconColor: '#fff',
+            color: '#fff',
+            didOpen: (toast) => {
+                toast.addEventListener('mouseenter', Swal.stopTimer);
+                toast.addEventListener('mouseleave', Swal.resumeTimer);
+            },
+        }).fire({
+            icon: 'success',
+            title: 'Komentar Berhasil Dikirim.',
         });
+    } catch (error) {
+        console.error(error);
+
+        if (error.response && error.response.data && error.response.data.data) {
+            // Tangani error dari server dengan benar
+            console.log(error.response.data.data);
+        } else {
+            console.error('error api yang tidak diharapkan');
+        }
+    }
 }
+
 
 async function getDestinasi() {
     axios.get(`https://admin.api.northexpokudus.com/api/destinasi/${route.params.id}`)
