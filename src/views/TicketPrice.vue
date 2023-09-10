@@ -223,4 +223,35 @@ onMounted(async () => {
     filter: blur(85px);
     z-index: -1;
 }
+
+@media (min-width: 768px) and (max-width: 1024px) {
+
+}
+
+@media screen and (max-width: 768px) {
+    .container {
+        position: relative;
+        padding-top: 120px;
+        height: fit-content;
+        margin-bottom: 50px;
+    }
+
+    .container .title-wrapper {
+        position: relative;
+        max-width: 100%;
+        padding: 0 30px;
+        transform: translate(0, 0);
+        left: 0;
+    }
+
+    .container .title-wrapper h1 {
+        font-size: 1.9rem;
+    }
+
+    .card-container {
+        padding: 0 20px;
+        gap: 50px 50px;
+        margin-bottom: 50px;
+    }
+}
 </style>
