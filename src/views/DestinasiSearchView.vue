@@ -397,4 +397,13 @@ onMounted(async () => {
         font-size: 1rem;
     }
 }
+
+@media screen and (max-width: 768px) {
+    .hero .search-wrapper {
+        padding: 0 25px;
+        margin: 20px 0;
+        left: 0%;
+        transform: translate(0%, -50%);
+    }
+}
 </style>
