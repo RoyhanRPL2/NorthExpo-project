@@ -54,7 +54,7 @@ onMounted(async () => {
             <div class="detail-kuliner">
                 <div class="detail-title">
                     <h1>{{ kuliner.data.nama_kuliner }}</h1>
-                    <div>
+                    <div class="detail-info">
                         <p>{{ kuliner.data.nama_warung }}</p>
                         <p id="jam-operasional">{{ kuliner.data.operasional }}</p>
                     </div>
@@ -212,5 +212,78 @@ onMounted(async () => {
     transition: .5s;
     margin: 0 10px;
     border-radius: 10px;
+}
+
+@media screen and (max-width: 768px) {
+    .container {
+        padding: 130px 30px;
+    }
+
+    .container .detail-container {
+        flex-direction: column-reverse;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+    }
+
+    .detail-content {
+        padding-left: 0;
+        width: 100%;
+    }
+
+    .detail-content img {
+        width: 100%;
+    }
+
+    .detail-container .detail-kuliner {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .detail-title h1 {
+        font-size: 36px;
+        font-weight: 800;
+        line-height: 1.3;
+        color: var(--color-theme-950);
+        margin-bottom: 20px;
+        margin-top: 50px;
+        text-align: center;
+    }
+
+    .detail-title .detail-info {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .detail-title .detail-info p {
+        font-size: 18px;
+        font-weight: 500;
+        line-height: normal;
+        color: var(--color-theme-950);
+        margin-bottom: 20px;
+        text-align: center;
+    }
+
+    .grid-container {
+        width: 100%;
+    }
+
+    .grid-container .big-image {
+        height: 200px;
+    }
+    
+    .grid-container .small-images {
+        height: 80px;
+        margin-top: 10px;
+    }
+
+    .small-images img {
+        margin: 0 5px;
+    }
 }
 </style>
