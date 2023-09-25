@@ -4,7 +4,7 @@
         <DetailUserProfile/>
     </div>
     <div v-else-if="activeTab === 'statusTiket'">
-        <h1>Riwayat Tiket</h1>
+        <h1 id="title-ticket-history">Riwayat Tiket</h1>
         <ProfileTicketStatus/>
     </div>
 </div>
@@ -43,5 +43,15 @@ export default {
     font-size: 24px;
     font-weight: 600;
     color: var(--color-theme-950);
+}
+
+@media screen and (max-width: 768px) {
+    .content {
+        padding: 15px;
+    }
+
+    .content #title-ticket-history {
+        display: none;
+    }
 }
 </style>

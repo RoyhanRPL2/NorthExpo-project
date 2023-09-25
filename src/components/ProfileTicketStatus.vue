@@ -367,4 +367,8 @@ export default {
     color: var(--color-theme-950);
     text-transform: capitalize;
 } */
+
+@media screen and (max-width: 768px) {
+    /* ngoding responsive tiket disini */
+}
 </style>

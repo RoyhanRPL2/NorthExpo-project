@@ -60,4 +60,14 @@ export default {
     width: 100%;
     height: 100%;
 }
+
+@media screen and (max-width: 768px) {
+    .profile-container {
+        padding: 50px 20px;
+    }
+
+    .profile-container .container {
+        flex-direction: column;
+    }
+}
 </style>
