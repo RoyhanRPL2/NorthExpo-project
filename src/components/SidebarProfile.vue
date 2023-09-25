@@ -84,4 +84,31 @@ export default {
 .sidebar-container .btn-logout .icon {
     margin-left: 10px;
 }
+
+@media screen and (max-width: 768px) {
+    .sidebar-container h3 {
+        display: none;
+    }
+
+    .sidebar-container {
+        width: 100%;
+        height: fit-content;
+        margin-bottom: 50px;
+    }
+
+    .sidebar-container .sidebar {
+        margin-top: 0;
+        margin-right: 0;
+        width: 100%;
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .sidebar-container .sidebar .tab {
+        margin-bottom: 0px;
+        margin-right: 10px;
+    }
+}
 </style>

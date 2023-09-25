@@ -121,9 +121,39 @@ onMounted(() => {
     border: none;
     border-radius: 10px;
     color: var(--color-theme-50);
-    font-size: 16px;
+    font-size: 16px; 
     font-weight: 500;
     cursor: pointer;
     transition: all 0.3s ease-in-out;
+}
+
+@media screen and (max-width: 768px) {
+    .detail-profile .profile {
+        flex-direction: column;
+        justify-content: center;
+        padding: 0;
+        height: fit-content;
+        text-align: center;
+        margin-top: -30px;
+    }
+
+    .detail-profile .profile .user {
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .profile .user img {
+        margin-right: 0;
+        margin-bottom: 20px;
+    }
+
+    .user .username h1 {
+        font-size: 24px;
+    }
+
+    .profile .edit-profile button {
+        margin-top: 20px;
+    }
 }
 </style>
